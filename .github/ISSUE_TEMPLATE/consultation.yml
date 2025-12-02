@@ -1,0 +1,62 @@
+name: Consultation / Office Hours
+description: Request hands-on help, office hours, or technical support
+title: "[CONSULTATION] "
+labels: ["consultation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Want to schedule time for hands-on help or technical support? Tell us about your problem and what you'd like to achieve.
+
+  - type: input
+    id: email
+    attributes:
+      label: Hertie email
+      description: Your @hertie-school.org or @students.hertie-school.org email
+      placeholder: firstname.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Describe your problem or goal
+      description: What are you trying to accomplish? What's blocking you?
+      placeholder: |
+        I'm working on my thesis and need help setting up a deep learning pipeline...
+        I keep running into memory errors when training my model...
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: What would you like to achieve in the consultation?
+      description: What does success look like? What do you want to walk away with?
+      placeholder: |
+        I'd like to understand how to properly allocate GPU memory...
+        I want to get my training script running end-to-end...
+    validations:
+      required: true
+
+  - type: textarea
+    id: availability
+    attributes:
+      label: Availability preferences
+      description: When are you generally available for a consultation?
+      placeholder: |
+        Tuesdays and Thursdays after 2pm work best...
+        I'm flexible, any time this week...
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Relevant code, files, or context
+      description: Any additional info that would help prepare for the consultation
+      placeholder: |
+        My code is at github.com/...
+        I'm using PyTorch with the following setup...
+    validations:
+      required: false

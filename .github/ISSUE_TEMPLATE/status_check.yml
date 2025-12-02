@@ -1,0 +1,50 @@
+name: Status Check
+description: Report a potential server issue or ask if something is down
+title: "[STATUS] "
+labels: ["status"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Think the server might be down or experiencing issues? Let us know what you're seeing.
+
+  - type: input
+    id: email
+    attributes:
+      label: Hertie email
+      description: Your @hertie-school.org or @students.hertie-school.org email
+      placeholder: firstname.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: What are you experiencing?
+      description: Describe what's happening or not working
+      placeholder: |
+        I can't SSH into the server...
+        The server is responding very slowly...
+        I'm getting connection refused errors...
+    validations:
+      required: true
+
+  - type: input
+    id: when
+    attributes:
+      label: When did this start?
+      description: Approximate time you first noticed the issue
+      placeholder: e.g., About 30 minutes ago, around 2pm
+    validations:
+      required: false
+
+  - type: textarea
+    id: observations
+    attributes:
+      label: What do you observe?
+      description: Any error messages, symptoms, or other details
+      placeholder: |
+        Error: Connection timed out...
+        The login prompt appears but hangs after entering password...
+    validations:
+      required: false

@@ -1,0 +1,49 @@
+name: Access Request
+description: Request software installation, group access, or permissions
+title: "[ACCESS] "
+labels: ["access-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Need software installed, group access, or additional permissions? Let us know!
+
+  - type: input
+    id: email
+    attributes:
+      label: Hertie email
+      description: Your @hertie-school.org or @students.hertie-school.org email
+      placeholder: firstname.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: textarea
+    id: request
+    attributes:
+      label: What do you need?
+      description: Be specific - software name + version, group name, folder access, etc.
+      placeholder: |
+        e.g., "Please install PyTorch 2.0 with CUDA support"
+        e.g., "I need access to the shared-data group"
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why do you need this?
+      description: Context helps prioritise and suggest alternatives if needed
+      placeholder: I'm working on a project that requires...
+    validations:
+      required: false
+
+  - type: textarea
+    id: instructions
+    attributes:
+      label: Any installation instructions or links?
+      description: If requesting software, include official docs or install commands if you have them
+      placeholder: |
+        https://pytorch.org/get-started/locally/
+        pip install torch torchvision
+    validations:
+      required: false

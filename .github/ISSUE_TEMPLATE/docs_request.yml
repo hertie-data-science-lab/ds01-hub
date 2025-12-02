@@ -1,0 +1,47 @@
+name: Documentation Request
+description: Request a guide or documentation for something
+title: "[DOCS] "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Need documentation or a guide for something? Let us know what would help!
+
+  - type: input
+    id: email
+    attributes:
+      label: Hertie email
+      description: Your @hertie-school.org or @students.hertie-school.org email
+      placeholder: firstname.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: What documentation do you need?
+      description: What topic or task would you like documented?
+      placeholder: |
+        How to set up a Python virtual environment on ds01...
+        Guide for running Jupyter notebooks with GPU support...
+    validations:
+      required: true
+
+  - type: textarea
+    id: searched
+    attributes:
+      label: What have you searched for?
+      description: Where have you looked so far?
+      placeholder: I searched the docs for... / I looked in the wiki for...
+    validations:
+      required: false
+
+  - type: textarea
+    id: usecase
+    attributes:
+      label: Your use case
+      description: What are you trying to accomplish? This helps us write better docs.
+      placeholder: I'm trying to... / I need this for my thesis work on...
+    validations:
+      required: false

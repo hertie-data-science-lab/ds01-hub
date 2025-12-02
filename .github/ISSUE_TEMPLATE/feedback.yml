@@ -1,0 +1,47 @@
+name: Feedback / Suggestion
+description: Share ideas to improve ds01 infrastructure
+title: "[FEEDBACK] "
+labels: ["feedback", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to improve ds01? We'd love to hear it! Big or small, all suggestions are welcome.
+
+  - type: input
+    id: email
+    attributes:
+      label: Hertie email
+      description: Your @hertie-school.org or @students.hertie-school.org email
+      placeholder: firstname.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Your suggestion or idea
+      description: What would you like to see improved or added?
+      placeholder: |
+        It would be great if we had...
+        I think it would help to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why would this help?
+      description: How would this improve your experience or workflow?
+      placeholder: This would save time when... / This would make it easier to...
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+      description: Any workarounds or alternatives you've thought about?
+      placeholder: Currently I work around this by...
+    validations:
+      required: false

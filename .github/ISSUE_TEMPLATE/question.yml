@@ -1,0 +1,45 @@
+name: Question
+description: Ask a question about using the server
+title: "[QUESTION] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question about using ds01? We're happy to help!
+
+  - type: input
+    id: email
+    attributes:
+      label: Hertie email
+      description: Your @hertie-school.org or @students.hertie-school.org email
+      placeholder: firstname.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: What are you trying to figure out?
+      placeholder: How do I...
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried so far?
+      description: Any commands, docs, or approaches you've already attempted
+      placeholder: I tried looking at... / I ran the command...
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Any relevant context
+      description: What are you working on? What's your end goal?
+      placeholder: I'm trying to run a deep learning model for my thesis...
+    validations:
+      required: false

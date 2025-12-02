@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 📧 Office Hours / Technical Support
+  - name: Urgent / Emergency
     url: mailto:h.baker@hertie-school.org
-    about: For hands-on help, complex troubleshooting, or in-depth discussions, email me directly instead of opening an issue.
+    about: For urgent issues affecting your ability to work, email directly instead of opening an issue.

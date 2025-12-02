@@ -1,0 +1,54 @@
+name: Teams notification
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Teams notification
+        run: |
+          # Extract first label or default to "Issue"
+          LABEL=$(echo '${{ toJson(github.event.issue.labels) }}' | jq -r '.[0].name // "Issue"')
+
+          curl -H "Content-Type: application/json" -d '{
+            "@type": "MessageCard",
+            "@context": "http://schema.org/extensions",
+            "themeColor": "0076D7",
+            "summary": "New issue in ds01-hub",
+            "sections": [{
+              "activityTitle": "[${{ github.event.issue.title }}](${{ github.event.issue.html_url }})",
+              "facts": [{
+                "name": "Type",
+                "value": "'"${LABEL}"'"
+              }, {
+                "name": "Opened by",
+                "value": "${{ github.event.issue.user.login }}"
+              }],
+              "markdown": true
+            }],
+            "potentialAction": [{
+              "@type": "OpenUri",
+              "name": "View Issue",
+              "targets": [{
+                "os": "default",
+                "uri": "${{ github.event.issue.html_url }}"
+              }]
+            }]
+          }' ${{ secrets.TEAMS_WEBHOOK_URL }}
+
+# ============================================================
+# SETUP INSTRUCTIONS FOR TEAMS WEBHOOK
+# ============================================================
+# 1. In Microsoft Teams, go to the channel where you want notifications
+# 2. Click the "..." menu > Connectors > Incoming Webhook
+# 3. Name it "ds01-hub" and click Create
+# 4. Copy the webhook URL
+# 5. In GitHub repo: Settings > Secrets and variables > Actions
+# 6. Click "New repository secret"
+# 7. Name: TEAMS_WEBHOOK_URL
+# 8. Value: paste the webhook URL
+# 9. Click "Add secret"
+# ============================================================

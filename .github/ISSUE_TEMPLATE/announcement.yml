@@ -1,0 +1,69 @@
+name: "[ADMIN] Announcement"
+description: Post maintenance notices, downtime, or updates (admin use)
+title: "[ANNOUNCEMENT] "
+labels: ["announcement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Note:** This template is for admin use to post maintenance notices, scheduled downtime, or important updates. Users can subscribe to this repo to receive notifications.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Announcement type
+      description: What type of announcement is this?
+      options:
+        - Scheduled Maintenance
+        - Unplanned Outage
+        - Service Update
+        - New Feature
+        - General Notice
+    validations:
+      required: true
+
+  - type: input
+    id: timing
+    attributes:
+      label: When?
+      description: Date/time or duration of the maintenance/outage
+      placeholder: e.g., Dec 5, 2024, 6pm-8pm CET
+    validations:
+      required: true
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact level
+      description: How will this affect users?
+      options:
+        - "Full outage - server unavailable"
+        - "Partial outage - some services affected"
+        - "Degraded performance - slower than usual"
+        - "No impact - informational only"
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What's happening and what users need to know
+      placeholder: |
+        We will be performing maintenance on...
+        Expected impact: ...
+        What you need to do: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: updates
+    attributes:
+      label: Updates
+      description: Space for posting updates as the situation develops (edit this section)
+      placeholder: |
+        - [Initial post] Maintenance scheduled...
+        - [Update 1] Work in progress...
+        - [Resolved] Maintenance complete, all systems normal
+    validations:
+      required: false

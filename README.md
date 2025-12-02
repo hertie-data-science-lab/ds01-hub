@@ -6,21 +6,18 @@ Issue tracker for the Hertie Data Science Lab server (ds01).
 
 Use this repo to report:
 
-- **Bugs** — something is broken, erroring, or not working as expected
-- **Access requests** — you need software installed, access to a group, or similar
-- **Questions** — you're stuck and need guidance on how to do something on the server
+- **Bugs** — something is broken, erroring, or not working as expected - major or minor,
+- **Access requests** — you need additional resources (GPU-time, number of MIGs etc), access to a group, or similar,
+- **Feedback & Suggestions** - ds01 infra is iteratively developing, if you have suggestions for how we could improve the server or offer new functionality, we want to hear from you,
+- **Questions** — you're stuck and need guidance on how to do something on the server*
 
-## What this is NOT for
-
-This is **not** for general technical support or office hours. If you need hands-on help, troubleshooting a complex issue, or want to discuss something in depth, please email me directly:
-
-📧 **h.baker@hertie-school.org**
+*This is **not** for general technical support or office hours. If you need hands-on help, troubleshooting a complex issue, or want to discuss something in depth, please email me directly: **h.baker@hertie-school.org**
 
 ## How to file a good issue
 
 1. **Click "New Issue"** and choose the appropriate template
-2. **Fill in all required fields** — especially your Hertie email so I can follow up
-3. **Paste terminal output, don't screenshot** — use code blocks like this:
+2. **Fill in all required fields** — especially your Hertie email so we  can follow up
+3. **Paste terminal output** — use code blocks like this:
 
    ````
    ```
@@ -34,4 +31,4 @@ This is **not** for general technical support or office hours. If you need hands
 
 ## Response times
 
-I check issues regularly but this is not a 24/7 helpdesk. For urgent issues affecting your ability to work, email me directly.
+We check issues regularly but this is not a 24/7 helpdesk. For urgent issues affecting your ability to work, email me directly.

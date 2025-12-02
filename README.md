@@ -15,13 +15,15 @@ The one-stop support hub for the Hertie Data Science Lab server (ds01).
 ---
 
 ### Docs dir structure
+```
 docs/
 ├── getting-started/   Start here
 ├── guides/            How to do things (practical)
-├── background/        Why things work (theory, skippable)
+├── background/        Why things work (theory, skippable for those that just want to get working on their thesis)
 ├── reference/         Command documentation
 ├── troubleshooting/   Fix problems
-└── advanced/          Power user topics
+└── advanced/          Advanced user topics (greater control, greater complexity)
+```
 
 ### How to raise an issue
 Click **"New Issue"** to:

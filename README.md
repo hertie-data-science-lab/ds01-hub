@@ -1,6 +1,6 @@
 # ds01-hub
 
-One-stop support hub for the Hertie Data Science Lab server (ds01).
+The one-stop support hub for the Hertie Data Science Lab server (ds01).
 
 ---
 
@@ -9,6 +9,10 @@ One-stop support hub for the Hertie Data Science Lab server (ds01).
 ---
 
 ## What you can do here
+1) click `docs` dir to view latest user-facing docs (NB: all the information in these docs is also provided at-point-of-use within ds01's CLI ecosystem; just type `help` to get started, or add `--guided` flat to a command for a guided in-terminal walthrough).
+2) click the `issues` tab to raise an issue to DSL (see below).
+
+---
 
 Click **"New Issue"** to:
 

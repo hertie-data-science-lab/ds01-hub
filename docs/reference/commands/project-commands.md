@@ -20,7 +20,7 @@ readme-create my-project
 
 ## project-init
 
-**Complete project initialization** (Tier 4 wizard)
+**Complete project initialization** (L4 wizard)
 
 ```bash
 project-init [project-name] [OPTIONS]
@@ -50,7 +50,7 @@ project-init my-research    # Specify name
 
 ## dir-create
 
-**Create workspace directory** (Tier 2 atomic)
+**Create workspace directory** (L2 atomic)
 
 ```bash
 dir-create <project-name>
@@ -75,7 +75,7 @@ Creates standard directory structure:
 
 ## git-init
 
-**Initialize Git repository** (Tier 2 atomic)
+**Initialize Git repository** (L2 atomic)
 
 ```bash
 git-init <project-name>
@@ -98,7 +98,7 @@ git-init my-project
 
 ## readme-create
 
-**Generate README.md** (Tier 2 atomic)
+**Generate README.md** (L2 atomic)
 
 ```bash
 readme-create <project-name>

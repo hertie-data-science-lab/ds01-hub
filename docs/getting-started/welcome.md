@@ -210,11 +210,12 @@ Containers are isolated - you can't break the system or affect others. Worst cas
 
 ## About DS01's Design
 
-DS01 is built on a modular, tiered architecture:
-- **Tier 1**: Base system (AIME ML Containers) - 150+ pre-built images
-- **Tier 2**: Atomic commands - Single-purpose, composable tools
-- **Tier 3**: Orchestrators - Common workflows (deploy, retire)
-- **Tier 4**: Wizards - Complete onboarding (user-setup, project-init)
+DS01 is built on a modular, layered architecture:
+- **L0**: Docker - Foundational container runtime
+- **L1**: MLC (AIME ML Containers) - 150+ pre-built images (hidden)
+- **L2**: Atomic commands - Single-purpose, composable tools
+- **L3**: Orchestrators - Common workflows (deploy, retire)
+- **L4**: Wizards - Complete onboarding (user-setup, project-init)
 
 This design means:
 - **Beginner-friendly**: Guided modes and wizards

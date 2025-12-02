@@ -24,7 +24,7 @@ image-delete my-project
 
 ## image-create
 
-**Build custom Docker image** (Tier 2 atomic)
+**Build custom Docker image** (L2 atomic)
 
 ```bash
 image-create [project-name] [OPTIONS]
@@ -56,7 +56,7 @@ image-create my-project --framework pytorch
 
 ## image-list
 
-**List your Docker images** (Tier 2 atomic)
+**List your Docker images** (L2 atomic)
 
 ```bash
 image-list [--all]
@@ -78,7 +78,7 @@ ds01-alice/experiment   latest   7.9GB    1 week ago
 
 ## image-update
 
-**Rebuild existing image** (Tier 2 atomic)
+**Rebuild existing image** (L2 atomic)
 
 ```bash
 image-update <project-name> [OPTIONS]
@@ -106,7 +106,7 @@ image-update my-project --no-cache   # Force complete rebuild
 
 ## image-delete
 
-**Remove Docker image** (Tier 2 atomic)
+**Remove Docker image** (L2 atomic)
 
 ```bash
 image-delete <project-name> [OPTIONS]

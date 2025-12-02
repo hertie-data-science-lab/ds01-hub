@@ -7,33 +7,33 @@ Complete reference for all DS01 commands with examples and options.
 ## Quick Index
 
 **Container Lifecycle:**
-- [container-deploy](#container-deploy) - Create and start container (Tier 3)
-- [container-retire](#container-retire) - Stop and remove container (Tier 3)
-- [container-create](#container-create) - Create container only (Tier 2)
-- [container-start](#container-start) - Start container in background (Tier 2)
-- [container-run](#container-run) - Start and enter container (Tier 2)
-- [container-stop](#container-stop) - Stop container (Tier 2)
-- [container-remove](#container-remove) - Remove container (Tier 2)
-- [container-list](#container-list) - List containers (Tier 2)
-- [container-stats](#container-stats) - Resource usage (Tier 2)
-- [container-exit](#container-exit) - Exit container (Tier 2)
+- [container-deploy](#container-deploy) - Create and start container (L3)
+- [container-retire](#container-retire) - Stop and remove container (L3)
+- [container-create](#container-create) - Create container only (L2)
+- [container-start](#container-start) - Start container in background (L2)
+- [container-run](#container-run) - Start and enter container (L2)
+- [container-stop](#container-stop) - Stop container (L2)
+- [container-remove](#container-remove) - Remove container (L2)
+- [container-list](#container-list) - List containers (L2)
+- [container-stats](#container-stats) - Resource usage (L2)
+- [container-exit](#container-exit) - Exit container (L2)
 
 **Image Management:**
-- [image-create](#image-create) - Build custom image (Tier 2)
-- [image-list](#image-list) - List images (Tier 2)
-- [image-update](#image-update) - Rebuild image (Tier 2)
-- [image-delete](#image-delete) - Remove image (Tier 2)
+- [image-create](#image-create) - Build custom image (L2)
+- [image-list](#image-list) - List images (L2)
+- [image-update](#image-update) - Rebuild image (L2)
+- [image-delete](#image-delete) - Remove image (L2)
 
 **Project Setup:**
-- [project-init](#project-init) - Complete project initialization (Tier 4)
-- [dir-create](#dir-create) - Create workspace directory (Tier 2)
-- [git-init](#git-init) - Initialize Git repository (Tier 2)
-- [readme-create](#readme-create) - Generate README (Tier 2)
+- [project-init](#project-init) - Complete project initialization (L4)
+- [dir-create](#dir-create) - Create workspace directory (L2)
+- [git-init](#git-init) - Initialize Git repository (L2)
+- [readme-create](#readme-create) - Generate README (L2)
 
 **User Setup:**
-- [user-setup](#user-setup) - Complete onboarding wizard (Tier 4)
-- [ssh-setup](#ssh-setup) - Configure SSH keys (Tier 2)
-- [vscode-setup](#vscode-setup) - Configure VSCode Remote (Tier 2)
+- [user-setup](#user-setup) - Complete onboarding wizard (L4)
+- [ssh-setup](#ssh-setup) - Configure SSH keys (L2)
+- [vscode-setup](#vscode-setup) - Configure VSCode Remote (L2)
 
 **System:**
 - [ds01-dashboard](#ds01-dashboard) - System status dashboard
@@ -44,7 +44,7 @@ Complete reference for all DS01 commands with examples and options.
 
 ### container-deploy
 
-**Create and start a container** (Tier 3 orchestrator)
+**Create and start a container** (L3 orchestrator)
 
 **Syntax:**
 ```bash
@@ -97,7 +97,7 @@ container-run my-project  # or container-start
 
 ### container-retire
 
-**Stop and remove a container, free GPU** (Tier 3 orchestrator)
+**Stop and remove a container, free GPU** (L3 orchestrator)
 
 **Syntax:**
 ```bash
@@ -138,7 +138,7 @@ container-remove my-project
 
 ### container-create
 
-**Create a container with GPU allocation** (Tier 2 atomic)
+**Create a container with GPU allocation** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -177,7 +177,7 @@ container-create my-project --image ds01-$(whoami)/custom:latest
 
 ### container-start
 
-**Start container in background** (Tier 2 atomic)
+**Start container in background** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -204,7 +204,7 @@ container-list
 
 ### container-run
 
-**Start (if stopped) and enter container** (Tier 2 atomic)
+**Start (if stopped) and enter container** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -231,7 +231,7 @@ user@my-project:/workspace$
 
 ### container-stop
 
-**Stop a running container** (Tier 2 atomic)
+**Stop a running container** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -258,7 +258,7 @@ container-stop my-project
 
 ### container-remove
 
-**Remove container and free GPU** (Tier 2 atomic)
+**Remove container and free GPU** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -288,7 +288,7 @@ container-remove my-project --force
 
 ### container-list
 
-**List your containers** (Tier 2 atomic)
+**List your containers** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -322,7 +322,7 @@ container-list --all
 
 ### container-stats
 
-**Show resource usage** (Tier 2 atomic)
+**Show resource usage** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -354,7 +354,7 @@ container-stats my-project
 
 ### image-create
 
-**Build custom Docker image** (Tier 2 atomic)
+**Build custom Docker image** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -388,7 +388,7 @@ image-create my-project --framework pytorch
 
 ### image-list
 
-**List your Docker images** (Tier 2 atomic)
+**List your Docker images** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -413,7 +413,7 @@ image-list
 
 ### image-update
 
-**Rebuild existing image** (Tier 2 atomic)
+**Rebuild existing image** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -447,7 +447,7 @@ image-update my-project --no-cache
 
 ### image-delete
 
-**Remove Docker image** (Tier 2 atomic)
+**Remove Docker image** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -475,7 +475,7 @@ image-delete my-project --force
 
 ### project-init
 
-**Complete project initialization** (Tier 4 workflow)
+**Complete project initialization** (L4 wizard)
 
 **Syntax:**
 ```bash
@@ -508,7 +508,7 @@ project-init my-research
 
 ### dir-create
 
-**Create workspace directory** (Tier 2 atomic)
+**Create workspace directory** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -527,7 +527,7 @@ dir-create my-project
 
 ### git-init
 
-**Initialize Git repository** (Tier 2 atomic)
+**Initialize Git repository** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -547,7 +547,7 @@ git-init my-project
 
 ### readme-create
 
-**Generate README.md** (Tier 2 atomic)
+**Generate README.md** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -569,7 +569,7 @@ readme-create my-project
 
 ### user-setup
 
-**Complete onboarding wizard** (Tier 4 workflow)
+**Complete onboarding wizard** (L4 wizard)
 
 **Syntax:**
 ```bash
@@ -597,7 +597,7 @@ user-setup
 
 ### ssh-setup
 
-**Configure SSH keys** (Tier 2 atomic)
+**Configure SSH keys** (L2 atomic)
 
 **Syntax:**
 ```bash
@@ -627,7 +627,7 @@ ssh-setup --key-type ed25519 --no-passphrase
 
 ### vscode-setup
 
-**Configure VSCode Remote** (Tier 2 atomic)
+**Configure VSCode Remote** (L2 atomic)
 
 **Syntax:**
 ```bash

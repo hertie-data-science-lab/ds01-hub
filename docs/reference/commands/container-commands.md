@@ -24,7 +24,7 @@ container-stats
 
 ## container-deploy
 
-**Create and start a container** (Tier 3 orchestrator)
+**Create and start a container** (L3 orchestrator)
 
 ```bash
 container-deploy <project-name> [OPTIONS]
@@ -57,7 +57,7 @@ container-deploy my-project --gpu 2      # Multiple GPUs
 
 ## container-retire
 
-**Stop and remove a container, free GPU** (Tier 3 orchestrator)
+**Stop and remove a container, free GPU** (L3 orchestrator)
 
 ```bash
 container-retire <project-name> [OPTIONS]
@@ -85,7 +85,7 @@ container-retire my-project --images  # Also remove image
 
 ## container-create
 
-**Create container with GPU allocation** (Tier 2 atomic)
+**Create container with GPU allocation** (L2 atomic)
 
 ```bash
 container-create <project-name> [OPTIONS]
@@ -110,7 +110,7 @@ container-create my-project --gpu 2    # Multiple GPUs
 
 ## container-start
 
-**Start container in background** (Tier 2 atomic)
+**Start container in background** (L2 atomic)
 
 ```bash
 container-start <project-name>
@@ -128,7 +128,7 @@ Container runs in background. Use `container-run` to enter.
 
 ## container-run
 
-**Start (if stopped) and enter container** (Tier 2 atomic)
+**Start (if stopped) and enter container** (L2 atomic)
 
 ```bash
 container-run <project-name>
@@ -147,7 +147,7 @@ Exit with `exit` or Ctrl+D. Container keeps running after you exit.
 
 ## container-stop
 
-**Stop a running container** (Tier 2 atomic)
+**Stop a running container** (L2 atomic)
 
 ```bash
 container-stop <project-name>
@@ -166,7 +166,7 @@ Container stopped but not removed. GPU held for configured duration.
 
 ## container-remove
 
-**Remove container and free GPU** (Tier 2 atomic)
+**Remove container and free GPU** (L2 atomic)
 
 ```bash
 container-remove <project-name> [--force]
@@ -188,7 +188,7 @@ Workspace files remain safe.
 
 ## container-list
 
-**List your containers** (Tier 2 atomic)
+**List your containers** (L2 atomic)
 
 ```bash
 container-list [--all]
@@ -210,7 +210,7 @@ experiment-1    Running     0:2     45m
 
 ## container-stats
 
-**Show resource usage** (Tier 2 atomic)
+**Show resource usage** (L2 atomic)
 
 ```bash
 container-stats [project-name]

@@ -53,7 +53,7 @@ ds01-dashboard --watch   # Live monitoring
 
 ## user-setup
 
-**Complete onboarding wizard** (Tier 4 wizard)
+**Complete onboarding wizard** (L4 wizard)
 
 ```bash
 user-setup
@@ -98,7 +98,7 @@ Containers: 2 / 3
 
 ## ssh-setup
 
-**Configure SSH keys** (Tier 2 atomic)
+**Configure SSH keys** (L2 atomic)
 
 ```bash
 ssh-setup [OPTIONS]
@@ -125,7 +125,7 @@ ssh-setup --key-type ed25519           # Specify key type
 
 ## vscode-setup
 
-**Configure VSCode Remote** (Tier 2 atomic)
+**Configure VSCode Remote** (L2 atomic)
 
 ```bash
 vscode-setup

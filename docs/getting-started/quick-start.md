@@ -164,18 +164,18 @@ ds01-dashboard                          # System-wide view
 
 ## Architecture Overview
 
-### Tiered Command System
+### Layered Command System
 
-**Tier 3: Orchestrators (Most Common)**
+**L3: Orchestrators (Most Common)**
 - `container-deploy` = create + start
 - `container-retire` = stop + remove
 
-**Tier 2: Atomic Commands (Manual Control)**
+**L2: Atomic Commands (Manual Control)**
 - `container-{create|start|run|stop|remove}`
 - `image-{create|list|update|delete}`
 - `{dir|git|readme}-{create|init}`
 
-**Tier 4: Workflows (Onboarding)**
+**L4: Wizards (Onboarding)**
 - `user-setup` = complete onboarding wizard
 - `project-init` = create workspace + image + container
 

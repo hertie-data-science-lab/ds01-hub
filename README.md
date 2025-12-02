@@ -36,6 +36,15 @@ Click **"New Issue"** to:
 
 4. **Be specific** — what were you trying to do? What command did you run? What happened?
 
+## Discussions
+
+Have a question that might help others? Want to share tips or chat with other ds01 users? Check out the **Discussions** tab!
+
+- **Announcements** — subscribe to get notified about maintenance and updates
+- **Q&A** — ask questions that might benefit the community
+- **Ideas** — suggest features or improvements
+- **General** — chat with other ds01 users
+
 ## Response times
 
 We check issues regularly but this is not a 24/7 helpdesk. For urgent issues affecting your ability to work, email directly: **h.baker@hertie-school.org**

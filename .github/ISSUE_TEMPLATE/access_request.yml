@@ -1,5 +1,5 @@
 name: Access Request
-description: Request software installation, group access, or permissions
+description: Request additional resources (GPUs/MIGs/CPUs/Mem/PID-limits), group access, or permissions
 title: "[ACCESS] "
 labels: ["access-request"]
 body:

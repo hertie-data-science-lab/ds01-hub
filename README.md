@@ -1,6 +1,6 @@
 # ds01-hub
 
-Your one-stop support hub for the Hertie Data Science Lab server (ds01).
+One-stop support hub for the Hertie Data Science Lab server (ds01).
 
 ---
 

@@ -1,0 +1,80 @@
+name: Bug Report
+description: Report something that's broken or not working
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill in the details below.
+
+  - type: input
+    id: email
+    attributes:
+      label: Hertie email
+      description: Your @hertie-school.org or @students.hertie-school.org email
+      placeholder: firstname.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the problem
+      description: What's happening? What did you expect to happen?
+      placeholder: Tell us what went wrong...
+    validations:
+      required: true
+
+  - type: textarea
+    id: error
+    attributes:
+      label: Error message / output
+      description: Paste the FULL error message or terminal output. No screenshots please.
+      render: shell
+      placeholder: |
+        Paste your error output here...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: gpu
+    attributes:
+      label: GPU (if relevant)
+      description: Which GPU were you using?
+      options:
+        - "Not applicable"
+        - "GPU 0"
+        - "GPU 1"
+        - "GPU 2"
+        - "GPU 3"
+    validations:
+      required: false
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Command you ran (if relevant)
+      description: What command triggered this error?
+      render: bash
+      placeholder: |
+        python train.py --epochs 10
+    validations:
+      required: false
+
+  - type: input
+    id: when
+    attributes:
+      label: When did this happen?
+      description: Approximate date/time (helps identify if related to other issues)
+      placeholder: e.g., Dec 2, 2024 around 3pm
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Any other context
+      description: Anything else that might help diagnose the problem
+    validations:
+      required: false

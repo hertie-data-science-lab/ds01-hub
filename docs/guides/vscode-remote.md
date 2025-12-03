@@ -55,12 +55,65 @@ Host ds01-container
 - Install "Dev Containers" extension
 - Use attach to running container
 
+## Running Notebooks in VS Code
+
+### Selecting a Kernel
+
+When opening a notebook, VS Code prompts you to select a kernel:
+
+1. Click "Select Kernel" or the kernel indicator in the top-right
+2. Choose "Python Environments"
+3. Select `/usr/bin/python` (Python 3.10.12)
+
+> **Note:** You may see both `/usr/bin/python` and `/bin/python` listed - they're identical (symlinks). Either works.
+
+### Container as Your Python Environment
+
+**DS01 containers replace virtual environments.** The container provides complete isolation:
+
+| Traditional Setup | DS01 Approach |
+|-------------------|---------------|
+| Create venv/conda env | Container provides isolation |
+| `pip install` in venv | Packages installed at image build time |
+| Activate environment | Just select the container's Python |
+
+**You don't need to:**
+- Create virtual environments inside containers
+- Worry about environment activation
+- Manage multiple Python versions
+
+### Installing Additional Packages
+
+**At image build time (recommended):**
+- Use `image-create` to include packages in your image
+- Packages persist across container restarts
+
+**At runtime (temporary experiments):**
+```python
+# In notebook cell - use %pip (Jupyter magic), not !pip
+%pip install package-name
+```
+
+> **Why `%pip`?** The `%pip` magic ensures the running kernel can find newly installed packages. Using `!pip` may require a kernel restart.
+
+### Troubleshooting Notebooks
+
+**"Module not found" after pip install:**
+- If you used `!pip install`, restart the kernel
+- Better: use `%pip install` next time
+
+**Kernel won't connect:**
+- Reload VS Code window: `Ctrl+Shift+P` → "Developer: Reload Window"
+- Check Jupyter output: `Ctrl+Shift+P` → "Jupyter: Show Output"
+
+---
+
 ## Tips
 
 ### Python Extension
 
 - Install Python extension on remote
-- Select interpreter: `/opt/conda/bin/python`
+- Select interpreter: `/usr/bin/python`
 
 ### Git Integration
 

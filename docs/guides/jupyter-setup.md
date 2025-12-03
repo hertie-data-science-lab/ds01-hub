@@ -1,10 +1,21 @@
 # Jupyter Setup
 
-Running Jupyter Lab in DS01 containers with SSH tunnels.
+Running Jupyter Lab in DS01 containers.
+
+## Two Ways to Use Jupyter
+
+| Method | Best For | Setup |
+|--------|----------|-------|
+| **VS Code Notebooks** | Quick editing, integrated workflow | Just open `.ipynb`, select kernel |
+| **Browser Jupyter Lab** | Full Jupyter UI, extensions | Start server, SSH tunnel |
+
+**Using VS Code?** See [VS Code Remote Guide](vscode-remote.md#running-notebooks-in-vs-code) - no server setup needed.
+
+**Want browser-based Jupyter?** Continue below.
 
 ---
 
-## Quick Start
+## Quick Start (Browser Jupyter Lab)
 
 ```bash
 # 1. Deploy container

@@ -1,12 +1,12 @@
 name: Documentation Request
-description: Request a guide or documentation for something
+description: Request new documentation or report outdated docs
 title: "[DOCS] "
 labels: ["documentation"]
 body:
   - type: markdown
     attributes:
       value: |
-        Need documentation or a guide for something? Let us know what would help!
+        Need new documentation, or found something outdated? Let us know!
 
   - type: input
     id: email
@@ -17,14 +17,25 @@ body:
     validations:
       required: true
 
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: Request type
+      description: Are you requesting new docs or reporting an issue with existing docs?
+      options:
+        - New documentation
+        - Outdated or incorrect documentation
+    validations:
+      required: true
+
   - type: textarea
     id: topic
     attributes:
-      label: What documentation do you need?
-      description: What topic or task would you like documented?
+      label: What documentation do you need or what is outdated?
+      description: Describe the topic you need documented, or link to the outdated docs
       placeholder: |
-        How to set up a Python virtual environment on ds01...
-        Guide for running Jupyter notebooks with GPU support...
+        For new docs: How to set up a Python virtual environment on ds01...
+        For outdated docs: The guide at docs/setup.md says to use Python 3.8 but we now use 3.11...
     validations:
       required: true
 

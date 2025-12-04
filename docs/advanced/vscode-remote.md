@@ -1,24 +1,15 @@
-# VSCode Remote Development
+# VS Code Remote Development
 
-Setting up VSCode for remote development on DS01.
+## Quick Start
 
-## Prerequisites
+1. Install **Remote - SSH** extension in VS Code
+2. Connect to DS01: `Cmd+Shift+P` → "Remote-SSH: Connect to Host" → `ds01`
+3. Open folder: File → Open Folder → `/home/your-username/workspace/project`
 
-- VS Code installed locally
-- Remote-SSH extension
-- SSH key configured
+## SSH Configuration
 
-## Setup
+Add to `~/.ssh/config` on your laptop:
 
-### 1. Install Extension
-
-- Open VS Code
-- Extensions → Search "Remote - SSH"
-- Install "Remote - SSH" by Microsoft
-
-### 2. Configure SSH
-
-Add to `~/.ssh/config` (on your laptop):
 ```
 Host ds01
     HostName ds01-server.edu
@@ -26,53 +17,49 @@ Host ds01
     IdentityFile ~/.ssh/id_ed25519
 ```
 
-### 3. Connect
-
-- VS Code: Command Palette (Cmd+Shift+P or Ctrl+Shift+P)
-- "Remote-SSH: Connect to Host"
-- Select "ds01"
-
-### 4. Open Workspace
-
-- File → Open Folder
-- Navigate to `/home/your-username/workspace/my-project`
-
 ## Working with Containers
 
-**Option 1: SSH into container**
+### Dev Containers Extension (Recommended)
 
-Add to `~/.ssh/config`:
+1. Connect to DS01 via Remote-SSH first
+2. Install "Dev Containers" extension
+3. Command Palette → "Dev Containers: Attach to Running Container"
+4. Select your container
+5. VS Code reopens attached to the container
+
+Now `code .` in the integrated terminal works normally.
+
+## Running Notebooks in VS Code
+
+When working inside containers:
+
+**Kernel Selection:**
+- Select the container's Python: `/usr/bin/python`
+- The kernel uses packages installed in the container
+
+**Installing Packages at Runtime:**
+```python
+# Use %pip (not !pip) for reliable installs
+%pip install pandas matplotlib
 ```
-Host ds01-container
-    HostName ds01-server.edu
-    User your-username
-    RemoteCommand docker exec -it my-project._.your-username bash
-    RequestTTY yes
-```
 
-**Option 2: Dev Containers extension**
-
-- Install "Dev Containers" extension
-- Use attach to running container
+**Troubleshooting:**
+- "Kernel not found": Ensure you're attached to the container, not the host
+- Packages not importing: Restart kernel after `%pip install`
 
 ## Tips
 
-### Python Extension
+### Port Forwarding
 
-- Install Python extension on remote
-- Select interpreter: `/opt/conda/bin/python`
+- Jupyter running in container? VS Code auto-forwards ports
+- Or manually: Ports tab → Forward Port
 
 ### Git Integration
 
-- Works automatically if SSH keys set up
+- Works automatically if SSH keys are set up
 - Can commit/push from VS Code
 
-### Port Forwarding
+## See Also
 
-- Jupyter running? VS Code auto-forwards ports
-- Or manually: Ports tab → Forward Port
-
-## Next Steps
-
-→ [SSH Setup](ssh-setup.md)
-→ [Daily Usage Patterns](../guides/daily-workflow.md)
+- [SSH Setup](ssh-setup.md)
+- [Daily Workflow](../guides/daily-workflow.md)

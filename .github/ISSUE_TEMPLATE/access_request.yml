@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Need software installed, group access, or additional permissions? Let us know!
+        Need additional compute resources, software installed, group access, or additional permissions? Let us know!
 
   - type: input
     id: email
@@ -14,6 +14,22 @@ body:
       label: Hertie email
       description: Your @hertie-school.org or @students.hertie-school.org email
       placeholder: firstname.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: Type of request
+      description: What category does your request fall under?
+      options:
+        - "GPU / MIG allocation"
+        - "CPU / Memory increase"
+        - "PID limit increase"
+        - "Software installation"
+        - "Group access"
+        - "Folder / file permissions"
+        - "Other"
     validations:
       required: true
 

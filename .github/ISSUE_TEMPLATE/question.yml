@@ -17,6 +17,22 @@ body:
     validations:
       required: true
 
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      description: What area is your question about?
+      options:
+        - "Getting started / SSH"
+        - "GPUs / CUDA"
+        - "Software / packages"
+        - "Storage / files"
+        - "Containers / Docker"
+        - "Jobs / scheduling"
+        - "Other"
+    validations:
+      required: false
+
   - type: textarea
     id: question
     attributes:

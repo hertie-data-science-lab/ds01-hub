@@ -30,7 +30,7 @@ body:
     id: error
     attributes:
       label: Error message / output
-      description: Paste the FULL error message or terminal output. No screenshots please.
+      description: Paste the full error message or terminal output.
       render: shell
       placeholder: |
         Paste your error output here...

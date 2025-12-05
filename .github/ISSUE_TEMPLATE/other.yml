@@ -1,0 +1,35 @@
+name: Other
+description: Something that doesn't fit the other categories
+title: "[OTHER] "
+labels: ["other"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Couldn't find a category that fits? No problem — tell us what's on your mind.
+
+  - type: input
+    id: email
+    attributes:
+      label: Hertie email
+      description: Your @hertie-school.org or @students.hertie-school.org email
+      placeholder: firstname.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: What's this about?
+      description: Describe your issue, request, or topic
+      placeholder: Tell us what you need...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Any additional context
+      description: Anything else that might be helpful
+    validations:
+      required: false

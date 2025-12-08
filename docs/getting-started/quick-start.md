@@ -107,8 +107,11 @@ image-delete <project>
 
 ### Project Management
 ```bash
-# Complete project initialization
-project-init                            # dir + git + image + container
+# Create new project (wizard)
+project init                            # dir + git + Dockerfile + requirements
+
+# Launch existing project (smart - builds image if needed)
+project launch <project>                # Check image + build if needed + deploy
 
 # Individual steps
 dir-create <project>                    # Create workspace directory
@@ -177,7 +180,8 @@ ds01-dashboard                          # System-wide view
 
 **L4: Wizards (Onboarding)**
 - `user-setup` = complete onboarding wizard
-- `project-init` = create workspace + image + container
+- `project init` = create workspace + Dockerfile + requirements
+- `project launch` = check image + build if needed + deploy container
 
 ### File Locations
 ```
@@ -197,8 +201,9 @@ ds01-dashboard                          # System-wide view
 
 ### Starting a New Project
 ```bash
-# Quick: All-in-one wizard
-project-init
+# Recommended: Two-step workflow
+project init my-thesis          # Creates project structure + Dockerfile
+project launch my-thesis        # Builds image (if needed) + deploys container
 
 # Manual: Step-by-step
 mkdir -p ~/workspace/my-research
@@ -211,7 +216,7 @@ container-deploy my-research --open
 ### Daily Usage
 ```bash
 # Morning
-container-deploy active-project --open
+project launch active-project --open
 cd /workspace
 git pull
 
@@ -221,7 +226,7 @@ jupyter lab --ip=0.0.0.0        # If using Jupyter
 
 # Evening
 exit                            # Exit container
-container-retire active-project # Free GPU
+container retire active-project # Free GPU
 ```
 
 ### Long Training Jobs
@@ -411,8 +416,12 @@ image-create
 
 ```bash
 # Daily workflow
-container-deploy project --open          # Start working
-container-retire project                 # Done for the day
+project launch my-project --open         # Start working (smart)
+container retire my-project              # Done for the day
+
+# Project management
+project init my-project                  # Create new project
+project launch my-project                # Launch existing project
 
 # Container management
 container-list                           # View containers

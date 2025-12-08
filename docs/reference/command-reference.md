@@ -25,7 +25,8 @@ Complete reference for all DS01 commands with examples and options.
 - [image-delete](#image-delete) - Remove image (L2)
 
 **Project Setup:**
-- [project-init](#project-init) - Complete project initialization (L4)
+- [project-init](#project-init) - Create new project (L4)
+- [project-launch](#project-launch) - Launch container for existing project (L4)
 - [dir-create](#dir-create) - Create workspace directory (L2)
 - [git-init](#git-init) - Initialize Git repository (L2)
 - [readme-create](#readme-create) - Generate README (L2)
@@ -506,6 +507,49 @@ project-init my-research
 
 ---
 
+### project-launch
+
+**Launch container for existing project** (L4 wizard)
+
+**Syntax:**
+```bash
+project-launch [project-name] [OPTIONS]
+```
+
+**Options:**
+- `--guided` - Educational mode
+- `--open` - Start and enter terminal (skip prompt)
+- `--background` - Start in background (skip prompt)
+- `--rebuild` - Force rebuild image even if exists
+- `--help` - Show help
+
+**Examples:**
+```bash
+# Interactive mode (select from project list)
+project-launch
+
+# Launch specific project
+project-launch my-thesis
+
+# Launch and enter terminal
+project-launch my-thesis --open
+
+# Force image rebuild
+project-launch my-thesis --rebuild
+```
+
+**What it does:**
+1. Shows menu of projects in `~/workspace/` (if no name given)
+2. Checks if Docker image exists for project
+3. If no image: runs `image-create` automatically
+4. Runs `container-deploy` to start container
+
+**Key difference from container-deploy:**
+- `project-launch` = Smart (handles image creation automatically)
+- `container-deploy` = Direct (requires image to exist)
+
+---
+
 ### dir-create
 
 **Create workspace directory** (L2 atomic)
@@ -687,13 +731,16 @@ ds01-dashboard --watch
 # First time setup
 user-setup
 
+# Create a new project (one-time)
+project init my-thesis --type=cv
+
 # Daily workflow
-container-deploy my-project --open
+project launch my-thesis --open
 # Work...
 exit
-container-retire my-project
+container retire my-thesis
 
-# Build custom environment
+# Build custom environment (manual)
 image-create my-project
 container-deploy my-project --open
 
@@ -856,8 +903,13 @@ alias clist='container-list'
 
 **Most Common Commands:**
 ```bash
-# Container lifecycle
-container-deploy <project> --open   # Create + start + enter
+# Project workflow (recommended)
+project init <project>              # Create new project
+project launch <project> --open     # Launch project (builds image if needed)
+container retire <project>          # Stop + remove + free GPU
+
+# Container lifecycle (direct)
+container-deploy <project> --open   # Create + start + enter (requires image)
 container-retire <project>          # Stop + remove + free GPU
 container-list                      # View containers
 container-stats                     # Resource usage

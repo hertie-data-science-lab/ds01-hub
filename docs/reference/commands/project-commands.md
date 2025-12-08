@@ -7,13 +7,31 @@ Commands for project initialization and setup.
 ## Quick Reference
 
 ```bash
-# Complete project setup (wizard)
-project-init my-project
+# Create new project (wizard)
+project init my-project
+
+# Launch existing project (smart - builds image if needed)
+project launch my-project
 
 # Individual steps
 dir-create my-project
 git-init my-project
 readme-create my-project
+```
+
+---
+
+## Recommended Workflow
+
+```bash
+# One-time: Create project
+project init my-thesis --type=cv
+
+# Daily: Launch project
+project launch my-thesis
+
+# When done: Retire container
+container retire my-thesis
 ```
 
 ---
@@ -45,6 +63,41 @@ project-init my-research    # Specify name
 5. `container-deploy` - Deploys first container
 
 **Equivalent to running all steps individually.**
+
+---
+
+## project-launch
+
+**Launch container for existing project** (L4 wizard)
+
+```bash
+project-launch [project-name] [OPTIONS]
+```
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--guided` | Educational mode |
+| `--open` | Start and enter terminal |
+| `--background` | Start in background |
+| `--rebuild` | Force rebuild image |
+
+**Examples:**
+```bash
+project-launch              # Interactive (select from list)
+project-launch my-thesis    # Launch specific project
+project-launch my-thesis --open  # Launch and enter
+```
+
+**What it does:**
+1. Shows menu of projects in `~/workspace/` (if no name given)
+2. Checks if Docker image exists
+3. If no image: runs `image-create` automatically
+4. Runs `container-deploy` to start container
+
+**Key difference from container-deploy:**
+- `project-launch` = Smart (handles image creation automatically)
+- `container-deploy` = Direct (requires image to exist)
 
 ---
 

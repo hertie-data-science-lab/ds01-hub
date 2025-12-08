@@ -4,6 +4,24 @@ Commands for container lifecycle management.
 
 ---
 
+## Getting Help
+
+All container commands support these flags:
+
+| Flag | Purpose |
+|------|---------|
+| `--help` | Quick reference (usage, main options) |
+| `--info` | Full reference (all options, examples) |
+| `--concepts` | Pre-run education (what is a container?) |
+| `--guided` | Interactive learning (explanations during) |
+
+```bash
+container-deploy --concepts   # Learn before deploying
+container-stop --info         # See all stop options
+```
+
+---
+
 ## Quick Reference
 
 ```bash
@@ -221,6 +239,75 @@ container-stats [project-name]
 CONTAINER      CPU %   MEM USAGE/LIMIT     MEM %   GPU MEM
 my-project     245%    12.5GB / 64GB       19.5%   18.2GB
 ```
+
+---
+
+## container-attach
+
+**Attach to running container** (L2 atomic)
+
+```bash
+container-attach <project-name>
+```
+
+Similar to `container-run` but doesn't start the container if it's stopped.
+
+**Example:**
+```bash
+container-attach my-project
+# Now inside container
+user@my-project:/workspace$
+```
+
+Exit with `exit` or Ctrl+D. Container keeps running after you exit.
+
+**Use when:** You want to enter a container that's already running, without auto-starting stopped containers.
+
+---
+
+## container-pause
+
+**Pause container processes** (L2 atomic)
+
+```bash
+container-pause <project-name>
+```
+
+Freezes all processes in the container without stopping it. The container remains in memory but uses no CPU.
+
+**Example:**
+```bash
+container-pause my-project
+# Container paused - processes frozen
+
+container-start my-project
+# Container unpaused - processes resume
+```
+
+**Use when:** Temporarily freeing CPU for other work while keeping container state in memory.
+
+---
+
+## container-exit
+
+**Information about exiting containers**
+
+```bash
+container-exit [--guided]
+```
+
+Displays information about how to exit containers. This is an informational command, not an action.
+
+**Key points:**
+- Type `exit` or press Ctrl+D to leave a container
+- The container **keeps running** after you exit
+- Your processes continue in the background
+- Use `container-retire` to fully stop and free GPU
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--guided` | Show detailed explanations |
 
 ---
 

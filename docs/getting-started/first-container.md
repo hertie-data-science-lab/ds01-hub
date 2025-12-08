@@ -123,6 +123,25 @@ Your workspace files survive both states.
 
 ---
 
+## Getting Help
+
+Every command has built-in help:
+
+```bash
+<command> --help        # Quick reference
+<command> --info        # Full reference (all options)
+<command> --concepts    # Learn concepts before running
+<command> --guided      # Step-by-step with explanations
+```
+
+**Example:** If you're new to images:
+```bash
+image-create --concepts   # Understand what images are
+image-create --guided     # Create with explanations
+```
+
+---
+
 ## Want to Learn More?
 
 **Understand why:**

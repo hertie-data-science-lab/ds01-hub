@@ -8,7 +8,7 @@ Commands for system status, user setup, and configuration.
 
 ```bash
 # System dashboard
-ds01-dashboard
+dashboard                # Or: ds01-dashboard
 
 # First-time setup
 user-setup
@@ -19,6 +19,10 @@ check-limits
 # SSH and VSCode setup
 ssh-setup
 vscode-setup
+
+# Help and info
+help                     # List all commands
+version                  # Show version
 ```
 
 ---
@@ -48,6 +52,37 @@ ds01-dashboard --watch   # Live monitoring
 - System resource usage
 - Active containers
 - User quotas
+
+---
+
+## dashboard
+
+**User-friendly system dashboard** (alias for ds01-dashboard)
+
+```bash
+dashboard [OPTIONS]
+```
+
+Same as `ds01-dashboard` but shorter to type.
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--watch`, `-w` | Continuous monitoring (2s refresh) |
+| `--full` | Show all sections expanded |
+| `--json` | JSON output for scripting |
+| `gpu` | GPU/MIG utilization only |
+| `system` | System resources only |
+| `containers` | Container list only |
+| `users` | Per-user breakdown |
+
+**Examples:**
+```bash
+dashboard              # Default view
+dashboard --watch      # Live monitoring
+dashboard gpu          # GPU section only
+dashboard users        # User resource summary
+```
 
 ---
 
@@ -180,6 +215,63 @@ ds01-health-check
 - Network connectivity
 
 **Use when:** Troubleshooting system issues
+
+---
+
+## gpu-queue
+
+**GPU queue management**
+
+```bash
+gpu-queue [subcommand] [args]
+```
+
+**Subcommands:**
+| Command | Description |
+|---------|-------------|
+| `position <user>` | Check queue position for user |
+| `status` | View overall queue status |
+| `list` | List all queued requests |
+
+**Examples:**
+```bash
+gpu-queue position $USER   # Check your queue position
+gpu-queue status           # View queue status
+```
+
+**Use when:** All GPUs are allocated and you're waiting for availability.
+
+---
+
+## help
+
+**Show all available commands**
+
+```bash
+help
+```
+
+Lists all DS01 commands organized by category (containers, images, system, etc.).
+
+**Alias:** `commands` (identical functionality)
+
+**Example:**
+```bash
+help
+# Shows categorized list of all DS01 commands
+```
+
+---
+
+## version
+
+**Show DS01 version information**
+
+```bash
+version
+```
+
+Displays the current DS01 infrastructure version and build information.
 
 ---
 

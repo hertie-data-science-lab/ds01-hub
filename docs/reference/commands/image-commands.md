@@ -4,6 +4,24 @@ Commands for Docker image management.
 
 ---
 
+## Getting Help
+
+All image commands support these flags:
+
+| Flag | Purpose |
+|------|---------|
+| `--help` | Quick reference (usage, main options) |
+| `--info` | Full reference (all options, examples) |
+| `--concepts` | Pre-run education (what is an image?) |
+| `--guided` | Interactive learning (explanations during) |
+
+```bash
+image-create --concepts   # Learn about images before creating
+image-update --info       # See all update options
+```
+
+---
+
 ## Quick Reference
 
 ```bash
@@ -124,6 +142,38 @@ image-delete my-project --force
 ```
 
 **Note:** Containers using this image must be removed first (or use --force)
+
+---
+
+## image-install
+
+**Install packages to existing image** (L2 atomic)
+
+```bash
+image-install <project-name> <package> [packages...]
+```
+
+Quickly add packages to an existing image without manually editing the Dockerfile.
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `-r <file>` | Install from requirements.txt |
+
+**Examples:**
+```bash
+image-install my-project pandas numpy scipy
+image-install my-project -r requirements.txt
+```
+
+**What it does:**
+1. Adds packages to the Dockerfile
+2. Rebuilds the image
+3. Preserves existing packages
+
+**Use when:** You need to add a few packages quickly. For major changes, edit the Dockerfile directly.
+
+**Note:** Faster than manually editing Dockerfile + running `image-update`.
 
 ---
 

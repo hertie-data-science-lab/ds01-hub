@@ -50,7 +50,7 @@ Custom image definitions. Edit these to change your environment.
 /opt/ds01-infra/                    # DS01 installation
 ├── scripts/user/                   # User commands
 ├── config/resource-limits.yaml     # System limits
-└── docs/                          # Documentation
+└── docs-user/                     # User documentation
 
 /var/lib/ds01/                      # State files
 ├── gpu-state.json                  # GPU allocations

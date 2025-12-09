@@ -176,7 +176,7 @@ The DS01 documentation is modular - you don't need to read everything linearly. 
    - Priority allocation
    - Systemd cgroups
 
-3. [GPU Computing](../background/gpu-computing.md) (35 min)
+3.  (35 min)
    - Why GPUs for ML?
    - MIG partitioning (A100)
    - GPU monitoring
@@ -197,7 +197,7 @@ The DS01 documentation is modular - you don't need to read everything linearly. 
    - Priority tiers
 
 #### Best Practices
-7. [Best Practices](../advanced/best-practices.md) (30 min)
+7.  (30 min)
    - Resource efficiency
    - Being a good citizen
    - Performance tips
@@ -270,7 +270,7 @@ The DS01 documentation is modular - you don't need to read everything linearly. 
 15. [Dockerfile Guide](../advanced/dockerfile-guide.md)
 16. [SSH Setup](../advanced/ssh-setup.md)
 17. [VSCode Remote](../advanced/vscode-remote.md)
-18. [Best Practices](../advanced/best-practices.md)
+18. 
 
 #### Phase 5: Reference (As needed)
 19. [Command Reference](../reference/command-reference.md)
@@ -326,7 +326,7 @@ python -c "import transformers; print(transformers.__version__)"
 **Problem:** Monitor GPU usage and understand MIG allocation.
 
 **Resources:**
-- [GPU Computing](../background/gpu-computing.md)
+- 
 - [Working with GPUs](../guides/gpu-usage.md)
 
 **Validation:** Can explain your GPU allocation and monitor usage.
@@ -380,7 +380,7 @@ python -c "import transformers; print(transformers.__version__)"
    - Reproducibility
    - Version control
 
-5. [Best Practices](../advanced/best-practices.md) (45 min)
+5.  (45 min)
    - Security considerations
    - Performance optimization
    - Cost-efficient workflows

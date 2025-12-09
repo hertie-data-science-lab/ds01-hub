@@ -66,5 +66,5 @@ with autocast():
 
 ## Next Steps
 
-→ [GPU Computing Fundamentals](../background/gpu-computing.md)
-→ [Best Practices](../advanced/best-practices.md)
+→ [Custom Environments](custom-environments.md)
+→ [Dockerfile Best Practices](../advanced/dockerfile-best-practices.md)

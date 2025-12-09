@@ -654,7 +654,7 @@ container-retire research
 → [VSCode Remote](../advanced/vscode-remote.md)
 
 **Optimization:**
-→ [Best Practices](../advanced/best-practices.md)
+→ 
 
 ---
 

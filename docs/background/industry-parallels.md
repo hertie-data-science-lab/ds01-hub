@@ -691,7 +691,7 @@ spec:
 **Next Steps:**
 
 → [Ephemeral Containers](ephemeral-containers.md) - Understand the philosophy
-→ [Best Practices](../advanced/best-practices.md) - Production-ready habits
+→  - Production-ready habits
 → [Daily Usage Patterns](../guides/daily-workflow.md) - Put skills into practice
 
 ---

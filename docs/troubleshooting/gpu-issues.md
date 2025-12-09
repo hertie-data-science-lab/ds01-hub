@@ -237,4 +237,4 @@ No devices found
 
 - [Container Issues](container-issues.md)
 - [GPU Usage Guide](../guides/gpu-usage.md)
-- [GPU Computing Background](../background/gpu-computing.md)
+- 

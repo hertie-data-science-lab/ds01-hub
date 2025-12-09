@@ -895,7 +895,7 @@ alias clist='container-list'
 → [Troubleshooting Guide](troubleshooting.md)
 
 **Best practices:**
-→ [Best Practices](../advanced/best-practices.md)
+→ 
 
 ---
 

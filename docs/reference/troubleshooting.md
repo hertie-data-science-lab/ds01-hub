@@ -835,7 +835,7 @@ Permission denied (publickey)
 → [Workspaces & Persistence](../background/workspaces-and-persistence.md)
 
 **Learn best practices:**
-→ [Best Practices](../advanced/best-practices.md)
+→ 
 → [Daily Usage Patterns](../guides/daily-workflow.md)
 
 **Command reference:**

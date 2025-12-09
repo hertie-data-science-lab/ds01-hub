@@ -718,7 +718,7 @@ ls -a                       # Shows .bashrc
 → [Daily Usage Patterns](../guides/daily-workflow.md)
 
 **Advanced topics:**
-→ [Best Practices](../advanced/best-practices.md)
+→ 
 
 ---
 

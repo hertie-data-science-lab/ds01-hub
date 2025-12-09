@@ -295,7 +295,7 @@ The setup wizard showed instructions. Lost them?
 
 **Fix:**
 ```bash
-/opt/ds01-infra/scripts/user/shell-setup
+/opt/ds01-infra/scripts/user/helpers/shell-setup
 source ~/.bashrc
 ```
 

@@ -138,7 +138,7 @@ bash: container-deploy: command not found
 
 2. **Use full path:**
    ```bash
-   /opt/ds01-infra/scripts/user/container-deploy my-project
+   /opt/ds01-infra/scripts/user/orchestrators/container-deploy my-project
    ```
 
 3. **Fix PATH:**

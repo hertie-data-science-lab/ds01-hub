@@ -316,7 +316,7 @@ project launch my-project --background
 ### Commands not found
 
 ```bash
-/opt/ds01-infra/scripts/user/shell-setup
+/opt/ds01-infra/scripts/user/helpers/shell-setup
 source ~/.bashrc
 ```
 

@@ -70,7 +70,7 @@ container-deploy my-project pytorch  # Specify base image
 container-deploy my-project --open   # Create and enter
 container-deploy my-project --background  # Start in background
 container-deploy my-project --cpu-only    # No GPU
-container-deploy my-project --project=NAME   # Mount different workspace
+container-deploy my-project -w /path/to/dir   # Custom workspace
 container-deploy my-project --dry-run     # Show what would happen
 
 # Stop + remove + free GPU

@@ -452,7 +452,7 @@ Ready to level up?
 
 **Solution:** Commands may not be in your PATH. Try:
 ```bash
-/opt/ds01-infra/scripts/user/user-setup.sh
+/opt/ds01-infra/scripts/user/wizards/user-setup
 ```
 
 Or ask admin to run:

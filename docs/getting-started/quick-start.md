@@ -403,7 +403,7 @@ image-create
 ### Advanced Topics
 - [Dockerfile Guide](../advanced/dockerfile-guide.md) - Efficient image building
 - [VSCode Remote](../advanced/vscode-remote.md) - Remote development setup
-- [Best Practices](../advanced/best-practices.md) - Performance and security
+-  - Performance and security
 
 ### Complete Reference
 - [Command Reference](../reference/command-reference.md) - All commands with options

@@ -441,7 +441,7 @@ Understand the philosophy and design:
 
 Ready to level up?
 - [VSCode Remote Setup](../advanced/vscode-remote.md) - Develop locally with remote compute
-- [Best Practices](../advanced/best-practices.md) - Performance and security tips
+-  - Performance and security tips
 - [Dockerfile Guide](../advanced/dockerfile-guide.md) - Advanced image building
 
 ---

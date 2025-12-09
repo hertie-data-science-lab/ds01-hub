@@ -7,11 +7,25 @@ GPU-enabled container infrastructure for data science and machine learning.
 ## Get Started in 5 Minutes
 
 ```bash
-container-deploy my-project --open   # Start working
-exit && container-retire my-project  # Done for the day
+# First time only
+user-setup                    # Interactive setup wizard
+
+# Create and launch a project
+project init                  # Create project (interactive)
+project launch                # Start working (interactive)
+
+# ... work ...
+
+exit
+container retire              # Done for the day (interactive)
 ```
 
 **That's it.** Your files in `/workspace` are always saved.
+
+New to containers? Add `--guided` to any command for step-by-step explanations.
+
+> **Prefer containers?** Use `container-deploy` for more direct control.
+> See [Quick Reference](quick-reference.md) for both approaches.
 
 → [First Container Guide](getting-started/first-container.md) for step-by-step
 → [Quick Reference](quick-reference.md) for all commands
@@ -105,17 +119,22 @@ Find your problem:
 ## Essential Commands
 
 ```bash
-# Container lifecycle
-container-deploy my-project --open   # Create + start + enter
-container-retire my-project          # Stop + remove + free GPU
-container-list                       # View your containers
+# Project workflow (recommended)
+user-setup                    # First-time setup
+project init                  # Create new project
+project launch                # Start working
+
+# Container workflow (more control)
+container-deploy              # Create + start container
+container-retire              # Stop + remove + free GPU
 
 # Images
-image-create                         # Build custom image
+image-create                  # Build custom image
 
 # Status
-ds01-dashboard                       # System overview
-check-limits                         # Your quotas
+container-list                # Your containers
+dashboard                     # System overview
+check-limits                  # Your quotas
 ```
 
 For all options: `<command> --help` or `<command> --guided`

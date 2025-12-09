@@ -6,13 +6,56 @@ One-page cheat sheet for DS01 commands.
 
 ## Daily Workflow
 
+### Project-Oriented (Recommended)
+
+Familiar if you're used to local Python/Jupyter development.
+
 ```bash
-# Morning: Start working
+# First time
+user-setup                           # Complete setup wizard
+
+# New project
+project init my-thesis --type=cv     # Create project
+project launch my-thesis --open      # Start working
+
+# Resume work
+project launch my-thesis --open
+
+# Done for the day
+exit
+container retire my-thesis
+```
+
+### Container-Oriented (More Control)
+
+Cloud-native style, closer to Docker/Kubernetes.
+
+```bash
+# Deploy container directly
 container-deploy my-project --open
 
-# Evening: Done for the day
+# Done for the day
 exit
 container-retire my-project
+```
+
+---
+
+## Project Commands
+
+```bash
+# Create new project
+project init [name]                  # Interactive if no name
+project init my-project              # Named project
+project init my-project --type=cv    # With template (ml/cv/nlp/rl/audio/ts/llm/custom)
+project init --guided                # With explanations
+
+# Launch project (builds image if needed)
+project launch [name]                # Interactive if no name
+project launch my-project            # Named project
+project launch my-project --open     # Launch and enter terminal
+project launch my-project --background  # Start in background
+project launch my-project --rebuild  # Force image rebuild
 ```
 
 ---
@@ -20,24 +63,32 @@ container-retire my-project
 ## Container Commands
 
 ```bash
-# Create + start (recommended)
-container-deploy my-project --open      # Create and enter
-container-deploy my-project --background # Start in background
+# Create + start (orchestrator)
+container-deploy [name] [image]      # Interactive if no args
+container-deploy my-project          # Default base image
+container-deploy my-project pytorch  # Specify base image
+container-deploy my-project --open   # Create and enter
+container-deploy my-project --background  # Start in background
+container-deploy my-project --cpu-only    # No GPU
+container-deploy my-project --project=NAME   # Mount different workspace
+container-deploy my-project --dry-run     # Show what would happen
 
-# Stop + remove (free GPU)
-container-retire my-project
+# Stop + remove + free GPU
+container-retire [name]              # Interactive if no name
+container-retire my-project          # Named container
+container-retire my-project --force  # Skip confirmation
 
 # Status
-container-list                          # Your containers
-container-stats                         # Resource usage
+container-list                       # Your containers
+container-list --all                 # Include stopped
+container-stats                      # Resource usage
 
-# Individual steps
-container-create my-project             # Create only
-container-start my-project              # Start background
-container-run my-project                # Start and enter
-container-attach my-project             # Attach to running
-container-stop my-project               # Stop only
-container-remove my-project             # Remove only
+# Individual steps (atomic - for power users)
+container-run my-project             # Start + enter
+container-attach my-project          # Enter running container
+container-start my-project           # Start in background
+container-stop my-project            # Stop only
+container-remove my-project          # Remove only
 ```
 
 ---
@@ -45,28 +96,13 @@ container-remove my-project             # Remove only
 ## Image Commands
 
 ```bash
-# Build custom image
-image-create my-project
+image-create [name]                  # Interactive wizard
+image-create my-project              # Named image
+image-create my-project --base=pytorch  # Specify base
 
-# Manage images
-image-list                              # Your images
-image-update my-project                 # Rebuild
-image-install my-project pandas numpy   # Add packages
-image-delete my-project                 # Remove
-```
-
----
-
-## Project Setup
-
-```bash
-# Complete wizard
-project-init my-project
-
-# Individual steps
-dir-create my-project                   # Create directory
-git-init my-project                     # Initialize git
-readme-create my-project                # Generate README
+image-list                           # Your images
+image-update my-project              # Rebuild after Dockerfile changes
+image-delete my-project              # Remove image
 ```
 
 ---
@@ -74,10 +110,12 @@ readme-create my-project                # Generate README
 ## System Status
 
 ```bash
-dashboard                               # System overview (or: ds01-dashboard)
-check-limits                            # Your quotas
-help                                    # List all commands
-version                                 # Show version
+dashboard                    # System overview
+dashboard gpu                # GPU/MIG utilization
+dashboard cpu                # CPU by user
+dashboard --watch            # Live monitoring (2s refresh)
+dashboard --full             # All sections expanded
+check-limits                 # Your quotas and usage
 ```
 
 ---
@@ -95,7 +133,7 @@ python
 True
 
 # Files location
-/workspace/                             # Your persistent files
+/workspace/                  # Your persistent files
 ```
 
 ---
@@ -103,10 +141,10 @@ True
 ## File Locations
 
 ```
-Host                          Container
-----                          ---------
-~/workspace/my-project/   →   /workspace/
-~/dockerfiles/            →   (build context)
+Host                                   Container
+----                                   ---------
+~/workspace/my-project/            ->  /workspace/
+~/workspace/my-project/Dockerfile      (image build source)
 ```
 
 ---
@@ -115,18 +153,18 @@ Host                          Container
 
 Every command supports 4 help modes:
 
-```bash
-<command> --help        # Quick reference (usage, main options)
-<command> --info        # Full reference (all options, examples)
-<command> --concepts    # Pre-run education (what is X?)
-<command> --guided      # Interactive learning (explanations during)
-```
+| Flag | Type | Purpose |
+|------|------|---------|
+| `--help`, `-h` | Reference | Quick reference (usage, main options) |
+| `--info` | Reference | Full reference (all options, examples) |
+| `--concepts` | Education | Pre-run learning (what is X?) |
+| `--guided` | Education | Interactive learning (explanations during) |
 
 **Examples:**
 ```bash
-image-create --concepts   # Learn about images before creating one
-container-deploy --info   # See all deploy options
-container-stop --help     # Quick reminder of stop syntax
+project init --concepts       # Learn about projects before creating one
+container-deploy --info       # See all deploy options
+image-create --guided         # Step-by-step with explanations
 ```
 
 ---
@@ -142,11 +180,11 @@ container-deploy exp-2 --background
 docker logs my-project._.$(whoami)
 
 # Enter running container
-container-run my-project
+container-attach my-project
 
-# Fix GPU issue
+# Recreate with fresh image
 container-retire my-project
-container-deploy my-project --gpu 1
+project launch my-project --rebuild
 ```
 
 ---
@@ -156,14 +194,14 @@ container-deploy my-project --gpu 1
 ```bash
 # Check status
 container-list
-ds01-dashboard
+dashboard
 
 # View logs
 docker logs my-project._.$(whoami)
 
 # Recreate (fixes most issues)
 container-retire my-project
-container-deploy my-project
+project launch my-project
 ```
 
 ---

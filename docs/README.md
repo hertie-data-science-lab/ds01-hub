@@ -4,7 +4,7 @@ Hertie Data Science Lab's GPU-enabled container infrastructure for data science 
 
 ---
 
-## Get Started in 5 Minutes
+## Get Started in <30 Minutes
 
 ```bash
 # First time only
@@ -16,17 +16,16 @@ project launch --guided       # Start working in containerised env
 
 # ... work (via attached terminal, or attach IDE) ...
 
-exit                          # Type command inside container (via attached terminal) -> prompted to retire container to free up resources
+exit                  
 ```
 
 **That's it.** Your files in `/workspace` are always saved (persistent volumes).
 
 New to containers? Add `--guided` to any command for step-by-step explanations.
 
-> **Prefer containers?** Use `image create` > `container-deploy` > `container retire` for more direct control.
-> See [Quick Reference](quick-reference.md) for both approaches.
+> *See [quickstart](quickstart.md) for setup overview.*
 
-Refs:
+Further refs:
 - → [First Container Guide](getting-started/first-container.md) for step-by-step
 - → [Quick Reference](quick-reference.md) for all commands
 

@@ -1,6 +1,6 @@
-# DS01 Documentation
+# DS01 User Documentation
 
-GPU-enabled container infrastructure for data science and machine learning.
+Hertie Data Science Lab's GPU-enabled container infrastructure for data science and machine learning.
 
 ---
 
@@ -11,24 +11,24 @@ GPU-enabled container infrastructure for data science and machine learning.
 user-setup                    # Interactive setup wizard
 
 # Create and launch a project
-project init                  # Create project (interactive)
-project launch                # Start working (interactive)
+project init --guided         # Create project dir & setup 
+project launch --guided       # Start working in containerised env
 
-# ... work ...
+# ... work (via attached terminal, or attach IDE) ...
 
-exit
-container retire              # Done for the day (interactive)
+exit                          # Type command inside container (via attached terminal) -> prompted to retire container to free up resources
 ```
 
-**That's it.** Your files in `/workspace` are always saved.
+**That's it.** Your files in `/workspace` are always saved (persistent volumes).
 
 New to containers? Add `--guided` to any command for step-by-step explanations.
 
-> **Prefer containers?** Use `container-deploy` for more direct control.
+> **Prefer containers?** Use `image create` > `container-deploy` > `container retire` for more direct control.
 > See [Quick Reference](quick-reference.md) for both approaches.
 
-→ [First Container Guide](getting-started/first-container.md) for step-by-step
-→ [Quick Reference](quick-reference.md) for all commands
+Refs:
+- → [First Container Guide](getting-started/first-container.md) for step-by-step
+- → [Quick Reference](quick-reference.md) for all commands
 
 ---
 
@@ -41,6 +41,7 @@ docs/
 ├── background/        Why things work (theory, skippable)
 ├── reference/         Command documentation
 ├── troubleshooting/   Fix problems
+├── intermediate/      Granular control over workflow
 └── advanced/          Power user topics
 ```
 
@@ -50,7 +51,7 @@ docs/
 
 Step-by-step instructions for common tasks:
 
-- [Daily Workflow](guides/daily-workflow.md) - Morning startup, work, evening cleanup
+- [Daily Workflow](guides/daily-workflow.md) - This is the core workflow
 - [Custom Images](guides/custom-images.md) - Install your own packages
 - [GPU Usage](guides/gpu-usage.md) - Request, monitor, release GPUs
 - [Long-Running Jobs](guides/long-running-jobs.md) - Overnight training
@@ -63,7 +64,7 @@ Step-by-step instructions for common tasks:
 
 ## Background Knowledge
 
-*Optional but valuable* - understand why DS01 works this way:
+*Optional but useful to familiarise yourself with cloud-computing concepts*:
 
 - [Servers & HPC](background/servers-and-hpc.md) - Shared computing environments
 - [Containers & Docker](background/containers-and-docker.md) - Why containers exist
@@ -137,15 +138,19 @@ dashboard                     # System overview
 check-limits                  # Your quotas
 ```
 
-For all options: `<command> --help` or `<command> --guided`
+For all options: 
+- `<command> --help` - for basic usage
+- `<command> --info` - comprehensive usage documentaation
+- `<command> --concepts` - pre-run explanation of key concepts involved
+- `<command> --guided` - guided mode: detailed walkthough output at point-of-use
 
 ---
 
 ## Getting Help
 
 1. Check [Troubleshooting](troubleshooting/)
-2. Run `ds01-health-check`
-3. Contact your system administrator
+2. Run `commands` or add `--guided` flag to any command
+3. Raise an issue ticket in ds01-hub repo
 
 ---
 

@@ -104,6 +104,19 @@ exit
 container retire experiment
 ```
 
+#### Workspace Mounting with `container deploy`
+
+The `/workspace` path inside your container depends on how you launch:
+
+| Command | `/workspace` maps to |
+|---------|---------------------|
+| `project launch my-proj` | `~/workspace/my-proj/` |
+| `container deploy my-proj --project=my-proj` | `~/workspace/my-proj/` |
+| `container deploy my-proj` (no flags) | `~/workspace/` (root) |
+| `container deploy my-proj --workspace=~/custom/path` | `~/custom/path/` |
+
+**Recommendation:** Use `project launch` or `--project=NAME` to keep each container's workspace isolated to its project directory.
+
 ---
 
 ### Long-Running Training (Overnight)

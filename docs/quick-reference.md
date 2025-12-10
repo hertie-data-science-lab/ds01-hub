@@ -12,7 +12,7 @@ Familiar if you're used to local Python/Jupyter development.
 
 ```bash
 # First time
-user-setup                           # Complete setup wizard
+user setup                           # Complete setup wizard
 
 # New project
 project init my-thesis --type=cv     # Create project
@@ -21,9 +21,8 @@ project launch my-thesis --open      # Start working
 # Resume work
 project launch my-thesis --open
 
-# Done for the day
+# Done 
 exit
-container retire my-thesis
 ```
 
 ### Container-Oriented (More Control)
@@ -34,9 +33,20 @@ Cloud-native style, closer to Docker/Kubernetes.
 # Deploy container directly
 container-deploy my-project --open
 
-# Done for the day
+# Done
 exit
 container-retire my-project
+```
+
+---
+
+## Help Commands
+```bash
+# List available aliases
+commands                            # lists all commands
+
+# Return to workspace 
+home                                # = cd /home/<user-id>/
 ```
 
 ---
@@ -73,6 +83,8 @@ container-deploy my-project --cpu-only    # No GPU
 container-deploy my-project -w /path/to/dir   # Custom workspace
 container-deploy my-project --dry-run     # Show what would happen
 
+container-attach my-project          # Enter running container
+
 # Stop + remove + free GPU
 container-retire [name]              # Interactive if no name
 container-retire my-project          # Named container
@@ -83,10 +95,10 @@ container-list                       # Your containers
 container-list --all                 # Include stopped
 container-stats                      # Resource usage
 
-# Individual steps (atomic - for power users)
-container-run my-project             # Start + enter
-container-attach my-project          # Enter running container
+# Individual steps (atomic - for advanced users)
+container-create my-project          # Create container (& allocate resources)
 container-start my-project           # Start in background
+container-run my-project             # Start + enter
 container-stop my-project            # Stop only
 container-remove my-project          # Remove only
 ```

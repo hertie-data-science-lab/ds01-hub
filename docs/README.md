@@ -6,24 +6,30 @@ Hertie Data Science Lab's GPU-enabled container infrastructure for data science 
 
 ## Get Started in <30 Minutes
 
-```bash
-# First time only
-user-setup                    # Interactive setup wizard
+**Never used DS01 before?** Run this once:
 
+```bash
+user setup
+```
+This walks you through everything: SSH keys, your first project, and connecting from your laptop.
+
+**Already set up?** Your daily workflow is simple:
+
+```bash
 # Create and launch a project
 project init --guided         # Create project dir & setup 
 project launch --guided       # Start working in containerised env
 
-# ... work (via attached terminal, or attach IDE) ...
+# ... Work on your code, train models ...
 
 exit                  
 ```
 
-**That's it.** Your files in `/workspace` are always saved (persistent volumes).
+**That's it. Your files in `/workspace` are persistent** - containers are temporary, your work is permanent.
 
-New to containers? Add `--guided` to any command for step-by-step explanations.
+> *See [quickstart](quickstart.md) for setup walkthrough.*
 
-> *See [quickstart](quickstart.md) for setup overview.*
+New to ds01? Add `--guided` to any command for step-by-step explanations.
 
 Further refs:
 - → [First Container Guide](getting-started/first-container.md) for step-by-step
@@ -120,24 +126,28 @@ Find your problem:
 
 ```bash
 # Project workflow (recommended)
-user-setup                    # First-time setup
+user setup                    # First-time setup
 project init                  # Create new project
 project launch                # Start working
 
 # Container workflow (more control)
-container-deploy              # Create + start container
-container-retire              # Stop + remove + free GPU
+container deploy              # Create + start container
+container retire              # Stop + remove + free GPU
 
 # Images
-image-create                  # Build custom image
+image create                  # Build custom image
+image update                  # Add/remove pkgs, rebuild custom image
 
 # Status
-container-list                # Your containers
+container list                # Your containers
 dashboard                     # System overview
 check-limits                  # Your quotas
+
+# Alias list
+commands                      # Full list of available ds01 CLIs
 ```
 
-For all options: 
+For all commands: 
 - `<command> --help` - for basic usage
 - `<command> --info` - comprehensive usage documentaation
 - `<command> --concepts` - pre-run explanation of key concepts involved
@@ -154,4 +164,5 @@ For all options:
 ---
 
 *New to servers and containers?* Start with [Prerequisites](getting-started/prerequisites.md)
+
 *Experienced user?* Jump to [Quick Reference](quick-reference.md)

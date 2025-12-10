@@ -1,4 +1,4 @@
-# 5-Minute Quickstart
+# 30-Minute Quickstart
 
 Get from zero to working in <30 minutes.
 
@@ -104,10 +104,9 @@ Once installed: Cmd + Shift + P to open the Command Pallete, and type `Dev Conta
 
 *NB: this ^^^ is all walked through by `user setup` CLI.*
 
-
 ## Step 4: Exit and Retire Container
 
-When done working:
+When done with the current job:
 
 ```bash
 # Exit the container
@@ -122,24 +121,26 @@ container retire my-project
 
 ---
 
-## Future Routine
+## Routine
 
-In cloud computing platforms such as Hertie's DS01, **containers should be treated as ephemeral**. 
-- You deploy containers when you need to run a computationally-expensive job.
-- By setting up git with a GitHub remote in `project-init`, you are able to quickly push and pull work to/from the server and back to your personal computer (better practice than manually downloading/uploading files!)
-- This way, your files (code, models, logs, but also Dockerfile for reproducible environment) are version controlled and accessible from any computer.
+In cloud computing platforms (such as DS01) **containers are ephemeral, files are persistent**. 
+- Deploy containers to run computationally-expensive jobs. Retire them when done.
+- Regularly push/pull work between server-local computer: 
+    - Configure a GitHub remote (automated in `project-init`) → quickly move files to/from the server/local computer 
+    - Git workflow is better practice than manually downloading/uploading files to ds01!
+    - Your files (code, models, logs, Dockerfiles) are version controlled and accessible from any computer.
+    - You can work on computationally-cheap tasks locally, without the need for a GPU.
 
-**Containers (and to some extent images) should be considered disposable; dockerfiles and mounted directories are where your project progress is stored.**
+**Containers = disposable; Images/dockerfiles = persistent; `~/workspace` = where your project progress is stored.**
 
 
 ```bash
 # To run a specific job
 project launch my-project 
 
-# Work...
+# ... Work...
 
 # When job completed
-exit
 container retire my-project
 ```
 
@@ -147,44 +148,130 @@ That's it!
 
 ---
 
-## Next Steps
+## Essential Commands
 
-→ [Understand the daily workflow](getting-started/daily-workflow.md)
+```bash
+# Getting started
+user setup              # First-time setup GUI (run once)
+project init            # Project setup GUI (run for each new project)
 
-→ [Create additional projects](guides/creating-projects.md)
+# Daily workflow
+# Project-oriented (default)
+project launch          # Start working (incl: image-create > container-deploy)
+exit                    # Run inside container-attached terminal
 
-→ [Set up Jupyter notebooks](guides/jupyter-notebooks.md)
+# Container-oriented (more control)
+image create            # Define a custom Dockerfile & build exectuable image
+image update            # Update existing Dockerfile& rebuild executable image
+container deploy        # Deploy container from existing image
+container retire        # Destroys container instance & frees GPU
 
-→ [Connect VS Code](guides/vscode-remote.md)
+# Status
+dashboard               # System status, GPU availability
+check-limits            # Your current resource quotas
+
+# Help
+commands                # Full list of what you can do
+home                    # Return to your workspace (`/home/<user-id/>)
+```
 
 ---
 
 ## Getting Help
 
-Every command has built-in help:
+### Built-in help system:
+- `<command> --help` - Quick reference
+- `<command> --info` - Comprehensive reference
+- `<command> --concepts` - Explain concepts before running
+- `<command> --guided` - Interactive mode with explanations
 
+**Commands without arguments = interactive mode**
 ```bash
-<command> --help        # Quick reference
-<command> --info        # Comprehensive reference
-<command> --concepts    # Learn before running
-<command> --guided      # Step-by-step mode
+# These all open friendly GUIs
+project init
+container deploy
+image create
 ```
 
-**Show all available commands:**
+**Additionally, use `--guided` while learning**
 ```bash
-commands
+# Explains each step as it happens
+project init --guided
+container deploy --guided
 ```
 
-**Check system status:**
+**Examples:**
 ```bash
-dashboard
+# New to containers? Learn first, then run
+image-create --concepts
+image-create --guided
+
+# Just need syntax? Quick reference
+container-deploy --help
+
+# Want to learn how to skip interactive GUI? Understand full sub0command/flag structure
+container-deploy --info
 ```
 
-**See your resource limits:**
-```bash
-check-limits
-```
+### Otherwise
+1. Check [Troubleshooting](troubleshooting/)
+2. Raise an issue ticket in [ds01-hub repo](https://github.com/hertie-data-science-lab/ds01-hub/issues)
 
-Further Refs:
-- → [First Container Guide](getting-started/first-container.md) for step-by-step
-- → [Quick Reference](quick-reference.md) for all commands
+---
+
+## Cloud Computing Basic Concepts
+
+**Containers = Temporary Work Sessions**
+- Like turning on a laptop when you arrive, turning it off when you leave
+- Create them when you need to do computationally-intensive work, remove them when you're done
+- GPUs are allocated when container starts, freed when you retire it
+
+**Workspaces = Your Permanent Storage**
+- Everything in `~/workspace/` survives container removal
+- Save your code, data, models (checkpoints & logs) here - they're always safe
+- Think of it like files on your local computer
+
+**Images = Recipes for Environments**
+- Define what software is installed (PyTorch, pandas, etc.)
+- Stored in Dockerfiles - version controlled, shareable, reproducible envs
+- Dockerfiles are Single Source of Truth (STT) → stored in project dir & git repo
+- Raw Dockerfiles > built into exectuable image files > deployed as container instances 
+- Rebuild containers from Dockerfiles anytime
+
+**Why this model?**
+- **Efficient**: GPUs freed immediately for others
+- **Reproducible**: Same environment every time
+- **Cloud-native**: Same workflow as AWS/GCP/Kubernetes
+- **Flexible**: Multiple projects with different environments
+
+→ [Learn more about containers](concepts/containers-and-images.md) *(optional)*
+
+---
+
+## Next Steps
+
+See [full index](index.md) or jump right in.
+
+**I want to...**
+
+→ [Set up DS01 for the first time](getting-started/first-time.md) - Run `user setup`
+
+→ [First Container Guide](getting-started/first-container.md) for step-by-step
+
+→ [Understand the daily workflow](getting-started/daily-workflow.md) - Deploying & retiring containerised compute environments with ease
+
+→ [Create additional projects](guides/creating-projects.md) - `project init`
+
+→ [Build a custom environment](guides/custom-environments.md) - Add packages to your Dockerfile
+
+→ [Set up Jupyter notebooks](guides/jupyter-notebooks.md) - JupyterLab setup
+
+→ [Connect VS Code](guides/vscode-remote.md) - Connect your IDE
+
+→ [Fix a problem](troubleshooting/) - Common errors and solutions
+
+---
+
+## Further Refs:
+
+[Quick Reference](quick-reference.md) for all commands

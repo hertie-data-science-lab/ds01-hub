@@ -1,7 +1,5 @@
 # Common Errors
 
-Solutions for files, permissions, network, and other common issues.
-
 ---
 
 ## File Issues
@@ -73,6 +71,8 @@ No space left on device
 
 **Solutions:**
 
+Best to notify DSL admin by raising an issue ticket in [ds01-hub repo](https://github.com/hertie-data-science-lab/ds01-hub/issues). Most user permissions are restricted so you will not be able to do a full clean of docker/disk except from those files related to you (limited). 
+
 1. **Check usage:**
    ```bash
    # Workspace
@@ -113,12 +113,8 @@ Permission denied while trying to connect to the Docker daemon socket
 ```bash
 # Check groups
 groups | grep docker
-
-# If not in docker group, ask admin:
-# sudo usermod -aG docker your-username
-# Then log out and back in
 ```
-
+If not in docker group, ask DSL admin to add you
 ---
 
 ### Commands Not Found {#commands-not-found}
@@ -171,7 +167,7 @@ bash: container-deploy: command not found
 3. **Set up SSH tunnel:**
    ```bash
    # On your laptop
-   ssh -L 8888:localhost:8888 user@ds01-server
+   ssh -L 8888:localhost:8888 <user-id>@ds01
 
    # Then access: http://localhost:8888
    ```
@@ -179,33 +175,6 @@ bash: container-deploy: command not found
 4. **Start Jupyter correctly:**
    ```bash
    jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
-   ```
-
----
-
-### Can't Download Datasets
-
-**Symptoms:**
-```bash
-$ wget https://example.com/data.zip
-Connection refused
-```
-
-**Solutions:**
-
-1. **Check network from container:**
-   ```bash
-   ping google.com
-   curl https://google.com
-   ```
-
-2. **Try alternative download:**
-   ```bash
-   # Instead of wget
-   curl -O https://example.com/data.zip
-
-   # Or Python
-   python -c "import urllib.request; urllib.request.urlretrieve('url', 'file')"
    ```
 
 ---
@@ -277,55 +246,6 @@ Permission denied (publickey)
 | `Image not found` | Image doesn't exist | Build image first |
 | `Network unreachable` | Network issue | Check network, retry |
 | `Quota exceeded` | Hit disk quota | Clean up old files |
-
----
-
-## Emergency Recovery
-
-### "I Lost All My Work!"
-
-**Don't panic. Check:**
-
-1. **Workspace (most likely safe):**
-   ```bash
-   ls ~/workspace/my-project/
-   ```
-
-2. **Git (if you pushed):**
-   ```bash
-   cd ~/workspace/my-project
-   git log
-   git pull
-   ```
-
-3. **Previous checkpoints:**
-   ```bash
-   ls ~/workspace/my-project/models/
-   ```
-
----
-
-### "System Seems Broken"
-
-**Steps:**
-
-1. **Check system status:**
-   ```bash
-   ds01-dashboard
-   ```
-
-2. **Check your account:**
-   ```bash
-   groups
-   df -h
-   ```
-
-3. **Try minimal operation:**
-   ```bash
-   docker ps
-   ```
-
-4. **Contact administrator** with details
 
 ---
 

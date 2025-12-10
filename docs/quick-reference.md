@@ -15,7 +15,7 @@ Familiar if you're used to local Python/Jupyter development.
 user setup                           # Complete setup wizard
 
 # New project
-project init my-thesis --type=cv     # Create project
+project init my-thesis --type=llm    # Create project
 project launch my-thesis --open      # Start working
 
 # Resume work
@@ -31,10 +31,12 @@ Cloud-native style, closer to Docker/Kubernetes.
 
 ```bash
 # Deploy container directly
-container-deploy my-project --open
+container-deploy my-project --background
+
+# Attach terminal 
+container-attach my-project
 
 # Done
-exit
 container-retire my-project
 ```
 
@@ -83,12 +85,11 @@ container-deploy my-project --cpu-only    # No GPU
 container-deploy my-project -w /path/to/dir   # Custom workspace
 container-deploy my-project --dry-run     # Show what would happen
 
-container-attach my-project          # Enter running container
-
 # Stop + remove + free GPU
 container-retire [name]              # Interactive if no name
 container-retire my-project          # Named container
 container-retire my-project --force  # Skip confirmation
+container-retire my-project --save-packages # saves current pkgs to image (but not to Dockerfile!)
 
 # Status
 container-list                       # Your containers
@@ -99,6 +100,7 @@ container-stats                      # Resource usage
 container-create my-project          # Create container (& allocate resources)
 container-start my-project           # Start in background
 container-run my-project             # Start + enter
+container-attach my-project          # Enter running container
 container-stop my-project            # Stop only
 container-remove my-project          # Remove only
 ```

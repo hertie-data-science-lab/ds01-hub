@@ -6,33 +6,38 @@ What you need before using DS01.
 
 ## Required
 
-### 1. DS01 Account
-- Provided by your administrator
+### 1. Hertie Email Account
 - Username and password for SSH access
 
 ### 2. SSH Client
-- **macOS/Linux:** Built-in terminal
+- **macOS:** Built-in terminal
 - **Windows:** PowerShell, WSL, or PuTTY
 
 ### 3. Docker Group Membership
-Your administrator should have added you to the `docker` group.
+DSL administrator (currently Henry Baker) needs to have added you to the `docker` group.
 
 **Check:**
 ```bash
 groups | grep docker
 ```
 
-If `docker` not shown, contact your administrator.
+If `docker` not shown, contact DSL administrator.
 
 ---
 
 ## Connecting
 
 ```bash
-ssh your-username@ds01-server
+ssh <student-id>@students.hertie-school.org@10.1.23.20
 ```
 
-Replace `ds01-server` with the actual server address provided by your administrator.
+You may see:
+```
+The authenticity of host 'ds01-server' can't be established.
+Are you sure you want to continue connecting (yes/no)?
+```
+
+Type `yes` and press Enter.
 
 ---
 
@@ -65,7 +70,7 @@ check-limits
 ## Troubleshooting
 
 ### "Permission denied" for Docker
-Not in docker group. Contact administrator.
+Not in docker group. Contact DSL administrator.
 
 ### Commands not found
 ```bash
@@ -76,10 +81,10 @@ source ~/.bashrc
 ### Can't connect via SSH
 - Check server address
 - Check username
-- Check network (VPN if required)
+- Check network (VPN is required off-campus)
 
 ---
 
 ## Next Steps
 
-→ [First Container](first-container.md) - Deploy in 5 minutes
+→ [First Container](first-container.md) - Deploy in <30 minutes

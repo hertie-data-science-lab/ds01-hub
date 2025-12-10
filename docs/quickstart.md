@@ -81,6 +81,9 @@ python -c "import torch; print(torch.cuda.is_available())"
 # Navigate to your workspace (if not already)
 cd /workspace
 
+# If you have a remote repo you wish to clone (otherwise project-init configures for you)
+git clone your-repo
+
 # Start running scripts in your project directory!
 ```
 *NB: `/workspace` inside the container is your project directory on the host (`~/workspace/<project-name>/`). This is a bind mount; your files persist even after retiring the container.* 

@@ -32,7 +32,7 @@ Error: No GPUs available for allocation
    container-retire old-project
    ```
 
-4. **Contact admin** if GPUs show available but allocation fails
+4. **Contact DSL admin** if GPUs show available but allocation fails
 
 ---
 
@@ -80,38 +80,6 @@ RuntimeError: CUDA out of memory. Tried to allocate X.XX GiB
    ```python
    print(torch.cuda.memory_summary())
    ```
-
----
-
-## nvidia-smi Not Found {#nvidia-smi-not-found}
-
-**Symptoms:**
-```bash
-$ nvidia-smi
-bash: nvidia-smi: command not found
-```
-
-**Cause:** Not inside container, or container not started with GPU
-
-**Solutions:**
-
-1. **Enter container:**
-   ```bash
-   container-run my-project
-   nvidia-smi  # Should work now
-   ```
-
-2. **Check GPU allocation:**
-   ```bash
-   docker inspect my-project._.$(whoami) | grep -i gpu
-   ```
-
-3. **Recreate with GPU:**
-   ```bash
-   container-retire my-project
-   container-deploy my-project --gpu 1
-   ```
-
 ---
 
 ## GPU Not Detected by Framework {#framework-detection}
@@ -237,4 +205,3 @@ No devices found
 
 - [Container Issues](container-issues.md)
 - [GPU Usage Guide](../guides/gpu-usage.md)
-- 

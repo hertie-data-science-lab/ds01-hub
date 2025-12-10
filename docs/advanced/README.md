@@ -6,20 +6,21 @@
 
 ## Who This Is For
 
-**You're ready for advanced docs if:**
-- ✓ You're comfortable in terminal (vim, tmux, bash scripting)
-- ✓ You've used Docker before
-- ✓ You prefer CLI tools over IDE/GUI
-- ✓ You want direct container access
-- ✓ You're building batch job pipelines
-- ✓ You need non-interactive workflows
+**You're ready for advanced docs if: you**
+- are comfortable in terminal (vim, tmux, bash scripting)
+- have used Docker before
+- prefer CLI tools over IDE/GUI
+- want direct container access
+- building batch job pipelines
+- need non-interactive workflows
+- need custom container configuration
 
 **Not there yet?**
 - [Getting Started](../getting-started/) - Basics
 - [Intermediate](../intermediate/) - Atomic commands, scripting
 
 **This section assumes:**
-- Strong Linux/bash knowledge
+- Linux/bash knowledge
 - Docker familiarity
 - Terminal-first mindset
 
@@ -66,7 +67,7 @@ tail -f ~/workspace/my-project/output.log
 
 → [Batch Jobs Guide](batch-jobs.md)
 
-### 3. Build Optimization
+### 3. Build Optimisation
 
 **Faster, smaller images:**
 
@@ -99,10 +100,10 @@ tail -f ~/workspace/my-project/output.log
 **Important: Direct Docker commands still subject to DS01 enforcement.**
 
 **What's enforced:**
-- ✓ Resource limits (CPU, memory, GPU)
-- ✓ Systemd cgroup placement (`ds01-<group>-<user>.slice`)
-- ✓ GPU allocation tracking
-- ✓ Container labeling (DS01_USER, DS01_MANAGED)
+- Resource limits (CPU, memory, GPU)
+- Systemd cgroup placement (`ds01-<group>-<user>.slice`)
+- GPU allocation tracking
+- Container labeling (DS01_USER, DS01_MANAGED)
 
 **What's not enforced:**
 - ✗ Interactive wizards/menus
@@ -155,32 +156,10 @@ tail -f ~/workspace/my-project/output.log
    - [ ] Understand ephemeral model
    - [ ] Know atomic commands
 
-**Need to level up?**
+**If not, see:**
 - Docker: [Official Docker Docs](https://docs.docker.com)
 - Linux: [Linux Basics](../background/linux-basics.md)
 - DS01: [Intermediate Guide](../intermediate/)
-
----
-
-## When to Use Advanced Techniques
-
-### Use Docker Direct When:
-- DS01 commands don't cover your use case
-- You need custom container configuration
-- You're submitting non-interactive batch jobs
-- You want industry-standard commands
-
-### Use Terminal Workflows When:
-- You work primarily via SSH
-- You prefer vim/tmux over IDE
-- You're on a headless server
-- You want maximum efficiency
-
-### Use Batch Jobs When:
-- Training runs for days
-- You don't need interactive access
-- You want to submit and forget
-- You're running parameter sweeps
 
 ---
 

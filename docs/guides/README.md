@@ -9,8 +9,7 @@ Step-by-step instructions for common tasks. Each guide includes:
 
 ## Daily Operations
 
-- [Daily Workflow](daily-workflow.md) - Morning startup, work session, evening cleanup
-- [Creating Projects](creating-projects.md) - Set up new project workspaces
+- [Creating Projects](creating-projects.md) 
 
 ## Environment & Images
 

@@ -1,7 +1,5 @@
 # 30-Minute Quickstart
 
-Get from zero to working in <30 minutes.
-
 ---
 
 ## Step 1: Connect via SSH
@@ -18,10 +16,6 @@ If you don't have SSH keys set up, you'll be prompted for your usual Hertie Micr
 
 ## Step 2: Run First-Time Setup
 
-**Time:** ~20 minutes (incl initial image cache build)
-
-**Interactive:** Just answer the prompts - it walks you through everything.
-
 Once connected, run:
 
 ```bash
@@ -37,7 +31,7 @@ This interactive GUI will:
 Then run:
 
 ```bash
-project-init
+project-init --guided
 ```
 This interactive GUI will: 
 - Create your first project workspace 
@@ -52,7 +46,7 @@ This interactive GUI will:
 Then run:
 
 ```bash
-project-launch
+project-launch --guided
 ```
 
 This interactive GUI will: 
@@ -61,7 +55,9 @@ This interactive GUI will:
 - Deploy a container instance of the image onto a GPU/MIG
 - Either attach the terminal to running container, or start in background
 
-**Now you are have a fully deployed container!**
+---
+
+**You have successfully deployed a container!**
 
 ---
 
@@ -87,7 +83,7 @@ cd /workspace
 
 # Start running scripts in your project directory!
 ```
-*NB: `/workspace` inside the container is your project directory on the host (`~/workspace/<project-name>/`). This is a bind mount; files you save here persist even after retiring the container.* 
+*NB: `/workspace` inside the container is your project directory on the host (`~/workspace/<project-name>/`). This is a bind mount; your files persist even after retiring the container.* 
 
 ---
 
@@ -109,42 +105,47 @@ Once installed: Cmd + Shift + P to open the Command Pallete, and type `Dev Conta
 When done with the current job:
 
 ```bash
-# Exit the container
+# To exit the container from inside an attached terminal:
 exit
-# This will prompt to retire container (freeing GPU for others) or keep it running in background
 
-# If you keep it running, but later are finished with it:
-container retire my-project
+# If you have a container running in background (terminal not attached):
+container retire --guided
 ```
+---
 
-**Your files in `~/workspace/` persist (logs, checkpoints, code)** - the container is just the temporary computing environment.
+**That's it**. Files saved in `/workspace` are permanent.
 
 ---
 
-## Routine
+## Daily Routine
 
-In cloud computing platforms (such as DS01) **containers are ephemeral, files are persistent**. 
-- Deploy containers to run computationally-expensive jobs. Retire them when done.
+**Containers = disposable; Images & `~/workspace` = persistent.**
+
+- Deploy containers to run computationally-expensive jobs. 
+- Retire containers when job is done.
 - Regularly push/pull work between server-local computer: 
     - Configure a GitHub remote (automated in `project-init`) → quickly move files to/from the server/local computer 
     - Git workflow is better practice than manually downloading/uploading files to ds01!
     - Your files (code, models, logs, Dockerfiles) are version controlled and accessible from any computer.
     - You can work on computationally-cheap tasks locally, without the need for a GPU.
 
-**Containers = disposable; Images/dockerfiles = persistent; `~/workspace` = where your project progress is stored.**
-
-
 ```bash
 # To run a specific job
 project launch my-project 
 
+# Pull latest work from remote repo
+git pull --rebase
+
 # ... Work...
+
+# Push progress back to remote repo
+git add <files> 
+git commit -m "commit message"
+git push origin <branch>
 
 # When job completed
 container retire my-project
 ```
-
-That's it!
 
 ---
 
@@ -155,18 +156,19 @@ That's it!
 user setup              # First-time setup GUI (run once)
 project init            # Project setup GUI (run for each new project)
 
-# Daily workflow
-# Project-oriented (default)
+# Daily workflow - Project-oriented (default)
 project launch          # Start working (incl: image-create > container-deploy)
 exit                    # Run inside container-attached terminal
 
-# Container-oriented (more control)
-image create            # Define a custom Dockerfile & build exectuable image
-image update            # Update existing Dockerfile& rebuild executable image
+# Daily workflow - Container-oriented (control)
+image create            # Define a custom Dockerfile & build image executable
+image update            # Add/remove pkgs in Dockerfile, rebuild image executable
 container deploy        # Deploy container from existing image
+container attach        # Attach terminal to running container
 container retire        # Destroys container instance & frees GPU
 
 # Status
+container list          # Your containers
 dashboard               # System status, GPU availability
 check-limits            # Your current resource quotas
 
@@ -181,7 +183,7 @@ home                    # Return to your workspace (`/home/<user-id/>)
 
 ### Built-in help system:
 - `<command> --help` - Quick reference
-- `<command> --info` - Comprehensive reference
+- `<command> --info` - Comprehensive usage documentation
 - `<command> --concepts` - Explain concepts before running
 - `<command> --guided` - Interactive mode with explanations
 
@@ -249,8 +251,6 @@ container-deploy --info
 ---
 
 ## Next Steps
-
-See [full index](index.md) or jump right in.
 
 **I want to...**
 

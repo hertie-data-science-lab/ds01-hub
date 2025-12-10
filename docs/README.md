@@ -29,24 +29,26 @@ docs/
 
 ## Daily Routine
 
-> Containers = disposable; Images & `~/workspace` = persistent
+> Basic principle: 
+> - Containers = disposable
+> - Images, `~/workspace` = persistent
 
 
 **Already setup?** Here's how to use DS01
 
-- Deploy containers to run computationally-expensive jobs 
+Deploy containers to run computationally-expensive jobs 
 
 ```bash
 project launch my-project 
 ```
 
-- Pull latest work from remote repo (automaticalluy configured in `project-init`)
+Pull latest work from remote GitHub repo (automatically configured in `project-init`)
 
 ```bash
 git pull --rebase
 ```
 
-- Regularly push/pull work between server-local computer 
+Regularly push/pull work between server-local computer 
 
 ```bash
 git add <files> 
@@ -54,19 +56,23 @@ git commit -m "commit message"
 git push origin <branch>
 ```
 
-- Retire containers when job is done:
+Retire containers when job is done:
 
 ```bash
 container retire my-project
 ```
 
-- You can continue to work on computationally-cheap tasks locally, without a GPU, then spin up a new container when needed.
+That's it!
 
-*A proper Git workflow is better practice than manually downloading/uploading files to ds01; your files (code, models, logs, Dockerfiles) will be version controlled and accessible from any computer!*
+You can continue to work on computationally-cheap tasks locally without a GPU, then spin up a new container when needed.
+
+*A proper Git workflow is better practice than manually downloading/uploading files to ds01. Your files will be version controlled and accessible from any computer!*
 
 ---
 
 ## Essential Commands
+
+> See [quick references](quick-reference.md) for full usage
 
 ```bash
 # Getting started
@@ -74,20 +80,18 @@ user setup              # First-time setup GUI (run once)
 project init            # Project setup GUI (run for each new project)
 
 # Daily workflow - Project-oriented (default)
-project launch          # Start working (incl: image-create > container-deploy)
+project launch          # Start working in a project (image-create -> container-deploy)
 exit                    # Run inside container-attached terminal
 
 # Daily workflow - Container-oriented (control)
-image create            # Define a custom Dockerfile & build image executable
+image create            # Define custom Dockerfile, build image executable
 image update            # Add/remove pkgs in Dockerfile, rebuild image executable
-container deploy        # Deploy container from existing image
-container attach        # Attach terminal to running container
-container retire        # Destroys container instance & frees GPU
+container deploy        # Deploy container from image
+container retire        # Destroy container instance & free GPU
 
 # Status
 container list          # Your containers
 dashboard               # System status, GPU availability
-check-limits            # Your current resource quotas
 
 # Help
 commands                # Full list of what you can do

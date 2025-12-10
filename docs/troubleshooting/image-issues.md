@@ -34,6 +34,9 @@ image-update my-project
 ```
 
 ### Disk Space
+
+Best to notify DSL admin by raising an issue ticket in [ds01-hub repo](https://github.com/hertie-data-science-lab/ds01-hub/issues). Most user permissions are restricted so you will not be able to do a full clean of docker except from those files related to you (limited). 
+
 ```bash
 df -h
 docker system df
@@ -76,13 +79,9 @@ ModuleNotFoundError: No module named 'transformers'
 3. **Permanent fix (add to image):**
    ```bash
    exit  # Exit container
-   vim ~/dockerfiles/my-project.Dockerfile
-   # Add: RUN pip install transformers
-   image-update my-project
-   container-retire my-project
-   container-deploy my-project
+   image update 
+   container deploy
    ```
-
 ---
 
 ## Image Too Large {#image-size}
@@ -100,9 +99,9 @@ ModuleNotFoundError: No module named 'transformers'
 
 2. **Use .dockerignore:**
    ```bash
-   echo "data/" >> ~/dockerfiles/.dockerignore
-   echo "*.csv" >> ~/dockerfiles/.dockerignore
-   echo "models/" >> ~/dockerfiles/.dockerignore
+   echo "data/" >> ~/workspace/<my-project>/.dockerignore
+   echo "*.csv" >> ~/workspace/<my-project>/.dockerignore
+   echo "models/" >> ~/workspace/<my-project>/.dockerignore
    ```
 
 3. **Combine RUN commands:**
@@ -136,19 +135,10 @@ ModuleNotFoundError: No module named 'transformers'
    ```bash
    image-update my-project --no-cache
    ```
-
-2. **Check you're editing correct file:**
+2. **Recreate container after rebuild:**
    ```bash
-   ls ~/dockerfiles/
-   cat ~/dockerfiles/my-project.Dockerfile
-   ```
-
-3. **Recreate container after rebuild:**
-   ```bash
-   container-retire my-project
    container-deploy my-project
    ```
-
 ---
 
 ## Base Image Not Found {#base-not-found}
@@ -173,7 +163,7 @@ Error: manifest for henrycgbaker/aime-pytorch:2.8.0-cuda12.4-ubuntu22.04 not fou
 3. **Use different base image version:**
    ```bash
    # Edit Dockerfile
-   vim ~/dockerfiles/my-project.Dockerfile
+   vim ~/workspace/my-project/Dockerfile
    # Change FROM line to available image
    ```
 

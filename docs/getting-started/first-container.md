@@ -1,6 +1,6 @@
 # First Container
 
-Deploy your first container in 5 minutes.
+Deploy your first container in <30 minutes.
 
 ---
 
@@ -10,8 +10,15 @@ Deploy your first container in 5 minutes.
 # 1. First-time setup (run once)
 user-setup
 
-# 2. Deploy container
-container-deploy my-project --open
+# 2. Setup Project (per project)
+project-init --guided
+
+# 3a. Launch project (every login)
+project launch --guided
+
+#3b OR container-oriented workflow 
+image create # once (image-update for future use)
+container-deploy my-project --open # every login
 
 # 3. You're now inside the container
 # Work in /workspace - files here are persistent
@@ -21,40 +28,10 @@ exit
 container-retire my-project
 ```
 
-That's it. Your files in `/workspace` are always saved.
-
 ---
 
-## Step by Step
 
-### Step 1: First-Time Setup (Once)
-
-If this is your first time on DS01:
-
-```bash
-user-setup
-```
-
-This wizard:
-- Creates SSH keys (for GitHub)
-- Sets up your first workspace
-- Builds a custom image
-- Deploys your first container
-
-**Time:** 15-20 minutes
-
-### Step 2: Deploy Container
-
-```bash
-container-deploy my-project --open
-```
-
-This:
-- Allocates a GPU for you
-- Creates a container with PyTorch/TensorFlow
-- Enters the container terminal
-
-### Step 3: Work Inside Container
+## Work Inside Container
 
 ```bash
 # You're now inside the container
@@ -71,35 +48,6 @@ True
 ```
 
 **Important:** Save files in `/workspace` - this is your persistent storage.
-
-### Step 4: Exit and Retire
-
-When done for the day:
-
-```bash
-# Exit container
-exit
-
-# Free GPU for others
-container-retire my-project
-```
-
----
-
-## Daily Workflow
-
-After initial setup, your daily pattern is:
-
-```bash
-# Morning
-container-deploy my-project --open
-
-# Work...
-
-# Evening
-exit
-container-retire my-project
-```
 
 ---
 
@@ -140,9 +88,15 @@ image-create --concepts   # Understand what images are
 image-create --guided     # Create with explanations
 ```
 
+--
+
+### NB: Container Naming
+- **Images**: `ds01-<user>/<project>:latest`
+- **Containers**: `<project>._.<user>` (AIME convention)
+
 ---
 
-## Want to Learn More?
+## Bonus?
 
 **Understand why:**
 - [Containers & Docker](../background/containers-and-docker.md)
@@ -156,7 +110,7 @@ image-create --guided     # Create with explanations
 
 ## Troubleshooting
 
-### "No GPUs available"
+### "No GPUs available/Resource limits reached"
 ```bash
 ds01-dashboard      # Check availability
 container-retire old-project  # Free your old containers
@@ -164,7 +118,8 @@ container-retire old-project  # Free your old containers
 
 ### "Container not found"
 ```bash
-container-list      # Check what's running
+container-list          # Check what's running
+container-list --all    # Check all containers (incl those not in running state - advanced)
 container-deploy my-project  # Recreate
 ```
 

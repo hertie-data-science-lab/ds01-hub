@@ -59,7 +59,7 @@ docker logs my-project._.$(whoami)
 # 3. Check system status
 ds01-health-check
 
-# 4. Nuclear option: recreate container
+# 4. Recreate container
 container-retire my-project
 container-deploy my-project
 ```
@@ -70,9 +70,4 @@ Your workspace files are **always safe** - recreating a container won't lose dat
 
 ## Still Stuck?
 
-1. Check the specific issue pages linked above
-2. Run `ds01-health-check` and note any errors
-3. Contact your system administrator with:
-   - What you were trying to do
-   - The exact error message
-   - Output of `container-list` and `ds01-health-check`
+Raise an issue ticket in [ds01-hub repo](https://github.com/hertie-data-science-lab/ds01-hub/issues)

@@ -6,20 +6,8 @@ Welcome! This guide walks you through setting up your DS01 account from scratch.
 - A custom Docker image with your chosen ML framework
 - Your first running container
 
-**Estimated time:** 15-20 minutes
-
 ---
 
-## Prerequisites
-
-Before you begin:
-- [ ] You have an account on the DS01 server (created by admin)
-- [ ] You can log in via SSH: `ssh your-username@ds01-server`
-- [ ] You're a member of the `docker` group (check: `groups | grep docker`)
-
-If anything is missing, contact your system administrator.
-
----
 
 ## Method 1: Automated Setup (Recommended)
 
@@ -29,18 +17,6 @@ The `user-setup` command guides you through complete onboarding:
 
 ```bash
 user-setup
-```
-
-or
-
-```bash
-user setup
-```
-
-or
-
-```bash
-new-user
 ```
 
 ### What the Wizard Does
@@ -98,7 +74,7 @@ Phase 4/4: Custom packages... ✓
 ✓ Image built: ds01-your-username/my-first-project:latest
 ```
 
-**What this means:** A Docker image is like a blueprint for your computing environment. It contains Python, CUDA drivers, ML frameworks, and all your packages. You're building a custom environment tailored to your needs.
+**What this means:** A Docker image is like a blueprint for your computing environment. It contains Python, CUDA drivers, ML frameworks, and all your packages. 
 
 **Step 4: Container Deployment**
 ```
@@ -161,8 +137,6 @@ container-retire my-first-project
 
 ## Method 2: Manual Setup (Step-by-Step)
 
-Prefer to understand each step? Here's the manual approach.
-
 ### Step 1: SSH Key Setup (2 minutes)
 
 **Why:** SSH keys provide secure, password-less authentication for Git and remote services.
@@ -220,11 +194,11 @@ git commit -m "Initial commit"
 **Why:** Dockerfiles define your computing environment - what packages are installed.
 
 ```bash
-# Create Dockerfiles directory
-mkdir -p ~/dockerfiles
+# Create Dockerfile within projecet
+mkdir -p ~/my-first-project
 
 # Create your Dockerfile
-cat > ~/dockerfiles/my-first-project.Dockerfile << 'EOF'
+cat > ~/my-first-project/Dockerfile << 'EOF'
 # Phase 1: Base framework
 FROM henrycgbaker/aime-pytorch:2.8.0-cuda12.4-ubuntu22.04
 
@@ -270,11 +244,13 @@ EOF
 
 **Why:** Building creates a Docker image from your Dockerfile - your environment blueprint.
 
+**Recommended** `image-create` / `image-update` -> select dockerfile to build from
+
 ```bash
 # Build image (this takes time - downloads base image and installs packages)
 docker build \
   -t ds01-$(whoami)/my-first-project:latest \
-  -f ~/dockerfiles/my-first-project.Dockerfile \
+  -f ~/my-first-project/Dockerfile \
   .
 
 # Verify image
@@ -305,7 +281,7 @@ container-deploy my-first-project --open
 container-create my-first-project
 
 # Start and enter
-container-run my-first-project
+container-attach my-first-project
 ```
 
 ### Step 6: Verify Setup
@@ -315,7 +291,6 @@ Inside your container, run:
 ```bash
 # Check location
 pwd                             # Should show: /workspace
-ls                              # Should show: README.md
 
 # Check GPU
 nvidia-smi                      # Should show GPU details
@@ -345,21 +320,36 @@ GPU count: 1
 ~/ (your home directory)
 ├── workspace/
 │   └── my-first-project/           # ← Your code and data (PERSISTENT)
-│       ├── README.md
-│       ├── data/
-│       ├── notebooks/
-│       └── src/
-├── dockerfiles/
-│   └── my-first-project.Dockerfile # ← Environment blueprint (PERSISTENT)
-└── .ds01-limits                    # ← Your resource quotas
+│        ├── README.md
+|        ├── requirements.txt
+|        ├── pyproject.toml
+|        ├── Dockerfile
+│        ├── configs/
+│        ├── data/
+│        ├── models/
+│        ├── outputs/
+│        ├── notebooks/
+│        ├── scripts/
+│        └── tests/
+├─── hidden .files (ignore these)
+└── ONBOARDING.md
 ```
 
 **Inside container:**
 ```
 / (container filesystem)
 └── workspace/                      # ← Mounted from ~/workspace/my-first-project/
-    ├── README.md
-    └── (your files)
+│     ├── README.md
+|     ├── requirements.txt
+|     ├── pyproject.toml
+|     ├── Dockerfile
+│     ├── configs/
+│     ├── data/
+│     ├── models/
+│     ├── outputs/
+│     ├── notebooks/
+│     ├── scripts/
+│     └── tests/
 ```
 
 ### What's Persistent vs Ephemeral
@@ -375,203 +365,20 @@ GPU count: 1
 
 **Golden rule:** Save everything important in `/workspace` (inside container) = `~/workspace/<project>/` (on host).
 
-### Resource Limits
-
-Check your quotas:
-```bash
-cat ~/.ds01-limits
-```
-
-Typical limits:
-- **Max GPUs:** 1-2 (or MIG instances)
-- **Max Containers:** 2-3 simultaneously
-- **Memory:** 64-128GB per container
-- **CPUs:** 16-32 cores per container
-- **Idle Timeout:** 48 hours (auto-stop if idle)
-
-**What this means:** You can't use unlimited resources. Fair sharing ensures everyone gets a turn.
 
 ---
 
-## Next Steps
-
-### Learn the Daily Workflow
-
-Now that you're set up, practice the daily workflow:
-
-1. **Morning:** `container-deploy my-first-project --open`
-2. **Work:** Code, train models, experiment
-3. **Evening:** `container-retire my-first-project`
-
-**Read:** [Daily Usage Patterns](../guides/daily-workflow.md)
-
-### Customize Your Environment
+### Customise Your Environment
 
 Want to add more packages?
 
 ```bash
-# Update your Dockerfile
-nano ~/dockerfiles/my-first-project.Dockerfile
-
-# Rebuild image
+# Update your Dockerfile & rebuild image
 image-update my-first-project
 
+# or if prefer manually inspect
+nano ~/dockerfiles/my-first-project.Dockerfile
+
 # Recreate container
-container-retire my-first-project
 container-deploy my-first-project --open
 ```
-
-**Read:** [Building Custom Images](../guides/custom-images.md)
-
-### Understand the Fundamentals
-
-New to Linux or containers? Build foundational knowledge:
-- [Linux Basics](../background/linux-basics.md)
-- [Containers Explained](../background/containers-and-docker.md)
-- [Workspaces & Persistence](../background/workspaces-and-persistence.md)
-
-### Learn DS01 Concepts
-
-Understand the philosophy and design:
-- [Ephemeral Containers](../background/ephemeral-philosophy.md)
-- [Resource Management](../background/resource-management.md)
-- [Industry Practices](../background/industry-parallels.md)
-
-### Explore Advanced Topics
-
-Ready to level up?
-- [VSCode Remote Setup](../advanced/vscode-remote.md) - Develop locally with remote compute
--  - Performance and security tips
-- [Dockerfile Guide](../advanced/dockerfile-guide.md) - Advanced image building
-
----
-
-## Troubleshooting
-
-### "Command not found: user-setup"
-
-**Solution:** Commands may not be in your PATH. Try:
-```bash
-/opt/ds01-infra/scripts/user/wizards/user-setup
-```
-
-Or ask admin to run:
-```bash
-sudo /opt/ds01-infra/scripts/system/deploy-commands.sh
-```
-
-### "Permission denied" for Docker
-
-**Cause:** Not in `docker` group.
-
-**Solution:** Ask admin to run:
-```bash
-sudo /opt/ds01-infra/scripts/system/add-user-to-docker.sh your-username
-```
-
-Then log out and back in.
-
-### Image Build Fails
-
-**Common causes:**
-- Network issues (downloading base image)
-- Typo in package name
-- Package incompatibility
-
-**Debug:**
-```bash
-# Check Dockerfile syntax
-cat ~/dockerfiles/my-first-project.Dockerfile
-
-# Try building with output
-docker build -f ~/dockerfiles/my-first-project.Dockerfile .
-```
-
-**Learn more:** [Troubleshooting Guide](../reference/troubleshooting.md)
-
-### Container Won't Start
-
-**Check:**
-```bash
-# Are GPUs available?
-nvidia-smi
-
-# Do you have quota?
-cat ~/.ds01-limits
-
-# Are you at max containers?
-container-list
-```
-
-### Can't Find My Files
-
-**Remember:**
-- Host: `~/workspace/<project>/`
-- Container: `/workspace/`
-
-**Check:**
-```bash
-# On host
-ls ~/workspace/my-first-project/
-
-# In container
-ls /workspace/
-```
-
----
-
-## Quick Reference
-
-### Essential Commands
-
-```bash
-# Container lifecycle
-container-deploy <project> --open    # Create + start + enter
-container-retire <project>           # Stop + remove + free GPU
-container-list                       # View containers
-
-# Image management
-image-create                         # Build custom image
-image-list                           # View images
-image-update <project>               # Rebuild
-
-# Workspace
-cd ~/workspace/<project>/            # Your files
-ls ~/dockerfiles/                    # Image blueprints
-
-# Status
-cat ~/.ds01-limits                   # Your quotas
-nvidia-smi                           # GPU status (in container)
-```
-
-### Getting Help
-
-```bash
-# Command help
-container-deploy --help
-
-# Guided mode (educational)
-container-deploy --guided
-
-# System status
-ds01-dashboard                       # If enabled
-```
-
----
-
-## Congratulations!
-
-You're now set up on DS01! You have:
-- ✅ SSH keys for secure access
-- ✅ A project workspace (persistent storage)
-- ✅ A custom Docker image (your environment)
-- ✅ Your first container (compute environment)
-
-**Ready to work:**
-```bash
-container-deploy my-first-project --open
-```
-
-**Questions?** Check [Troubleshooting](../reference/troubleshooting.md) or ask your admin.
-
-**Want to learn more?** Choose your path: [Learning Path Guide](choosing-your-path.md)

@@ -268,30 +268,15 @@ image-create --concepts
 # 2. Run with guidance
 image-create --guided
 
-# 3. Later: Quick reference
+# 3. Second run: interactive
+image-create
+
+# 4. Later: Quick reference
 image-create --help
+
+# 5. Finally: experienced, run non-interactively as CLI
+image-create my-project --base=pytorch
 ```
-
-### Pattern 2: Quick Lookup
-
-```bash
-# Just need syntax
-container-deploy --help
-
-# Need all options
-container-deploy --info
-```
-
-### Pattern 3: Guided First Time
-
-```bash
-# First project: Learn while doing
-project init --guided
-
-# Second project: Fast mode
-project init
-```
-
 ---
 
 ## Help for Subcommands
@@ -314,120 +299,3 @@ container-deploy --help
 ```
 
 Both formats are equivalent.
-
----
-
-## Examples by Experience Level
-
-### New to Containers?
-
-```bash
-# Day 1: Learn concepts
-container-deploy --concepts
-image-create --concepts
-
-# Day 2: Run with guidance
-project init --guided
-image-create --guided
-
-# Week 1: Check syntax as needed
-container-deploy --help
-```
-
-### Familiar with Docker?
-
-```bash
-# Just read quick help once
-container-deploy --help
-image-create --help
-
-# Then use commands directly
-container-deploy my-project --open
-```
-
-### Experienced User?
-
-```bash
-# Interactive mode when you forget syntax
-container deploy
-
-# Or look up full options
-container-deploy --info
-
-# Usually just run commands
-project launch my-thesis --open
-```
-
----
-
-## Help for Troubleshooting
-
-**Command failed? Check help:**
-
-```bash
-# See if you missed a required option
-<command> --help
-
-# Check all available options
-<command> --info
-```
-
-**Not sure what went wrong?**
-
-```bash
-# System diagnostics
-ds01-health-check
-
-# Check resources
-check-limits
-dashboard
-```
-
----
-
-## Summary
-
-**Choose your help mode:**
-
-| Situation | Use This |
-|-----------|----------|
-| First time learning | `--concepts` then `--guided` |
-| Know concept, first use | `--guided` |
-| Forgot syntax | `--help` |
-| Need all options | `--info` |
-| Not sure what to type | Just run command (interactive) |
-| See all commands | `commands` |
-
-**DS01 adapts to your experience level** - use the help mode that fits where you are.
-
----
-
-## Next Steps
-
-**Try it out:**
-```bash
-# Learn about images
-image-create --concepts
-
-# Create image with guidance
-image-create --guided
-```
-
-**Explore:**
-```bash
-# See what's available
-commands
-
-# Try different help modes
-container-deploy --help
-container-deploy --info
-container-deploy --concepts
-```
-
-**Get comfortable with the system:**
-
-→ [Daily Workflow](daily-workflow.md) - Practice routine commands
-
-→ [Creating Projects](../guides/creating-projects.md) - Build something
-
-→ [Troubleshooting](../troubleshooting/) - When things go wrong

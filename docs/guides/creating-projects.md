@@ -17,8 +17,6 @@ project init my-new-project
 project init my-thesis --type=cv
 ```
 
-**Time:** 10-15 minutes (includes image build)
-
 ---
 
 ## What is a Project?
@@ -28,6 +26,7 @@ A project in DS01 includes:
 **On disk:**
 - Workspace directory (`~/workspace/my-project/`)
 - Git repository
+- requirements.txt (used to build the Dockerfile)
 - Dockerfile (defines environment)
 - README, .gitignore, directory structure
 
@@ -39,7 +38,6 @@ A project in DS01 includes:
 **The workflow:**
 - Create project once (`project init`)
 - Launch containers from it anytime (`project launch`)
-- Containers are temporary, project files are permanent
 
 ---
 
@@ -86,7 +84,7 @@ Select framework:
   3) JAX 0.4.23
 ```
 
-**Not sure?** Choose PyTorch - most popular for research.
+**Not sure?** Choose PyTorch.
 
 ### 4. Additional Packages
 ```
@@ -105,9 +103,7 @@ Project-specific packages: [package names or Enter to skip]
 Build Docker image now? [Y/n]:
 ```
 
-**Recommended:** Say yes. Takes 5-10 minutes but then you're ready to work.
-
-**Skip if:** Want to edit Dockerfile first, or no time now.
+Initial build of cache takes 5-10 minutes but subsequent builds faster.
 
 ---
 
@@ -139,13 +135,7 @@ project init my-thesis --type=ml --quick
 project init --guided
 ```
 
-**Adds explanations:**
-- What is a project?
-- Why Dockerfiles?
-- How does version control work?
-- What just happened at each step?
-
-**Best for:** First time creating a project, want to understand the process.
+Adds explanations
 
 ---
 
@@ -299,7 +289,7 @@ framework = "pytorch"
 
 ## Git Integration
 
-**Projects automatically initialize git:**
+**Projects automatically initialise git:**
 
 ```bash
 cd ~/workspace/my-thesis
@@ -371,37 +361,28 @@ project launch my-thesis
 
 **Different project types include different packages:**
 
+*NB: this may change in future!!*
+
 ### Machine Learning (General)
-- scikit-learn, xgboost, lightgbm
-- pandas, numpy, matplotlib
-- seaborn, plotly
+- scikit-learn, xgboost, lightgbm, pandas, numpy, matplotlib, seaborn, plotly
 
 ### Computer Vision
-- torchvision, Pillow, OpenCV
-- albumentations (augmentation)
-- timm (model zoo)
+- torchvision, Pillow, OpenCV, albumentations (augmentation), timm (model zoo)
 
 ### NLP
-- transformers, datasets
-- tokenizers, sentencepiece
-- spacy
+- transformers, datasets, tokenizers, sentencepiece,  spacy
 
 ### Reinforcement Learning
-- gym, stable-baselines3
-- tensorboard
+- gym, stable-baselines3, tensorboard
 
 ### Time Series
-- statsmodels, prophet
-- pmdarima, tslearn
+- statsmodels, prophet, pmdarima, tslearn
 
 ### LLM
-- transformers, accelerate
-- bitsandbytes, peft
-- flash-attention
+- transformers, accelerate, bitsandbytes, peft, flash-attention
 
 ### Custom
-- Only base packages
-- Add your own in Dockerfile
+- Only base packages; add your own in Dockerfile
 
 ---
 
@@ -495,7 +476,7 @@ git push
 vim ~/workspace/my-thesis/README.md
 ```
 
-Include:
+Suggested to include:
 - What this project does
 - How to reproduce experiments
 - Dataset locations
@@ -524,7 +505,7 @@ RUN pip install transformers && \
 project launch my-thesis --open
 ```
 
-**Customize environment:**
+**Customise environment:**
 
 → [Custom Environments Guide](custom-environments.md)
 

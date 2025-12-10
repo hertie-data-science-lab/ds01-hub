@@ -127,7 +127,7 @@ Error: Container not found
    docker exec my-project._.$(whoami) free -h
    ```
 
-3. **Check GPU utilization:**
+3. **Check GPU utilisation:**
    ```bash
    docker exec my-project._.$(whoami) nvidia-smi
    ```

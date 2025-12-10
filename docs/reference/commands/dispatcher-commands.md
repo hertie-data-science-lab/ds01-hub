@@ -17,6 +17,17 @@ Both syntaxes work identically and support all the same options.
 
 ---
 
+## Why Both Syntaxes?
+
+| Syntax | Best For |
+|--------|----------|
+| `container deploy` | Typing at terminal (feels natural) |
+| `container-deploy` | Scripts, tab completion, muscle memory |
+
+Both work identically - use whichever you prefer.
+
+---
+
 ## Available Dispatchers
 
 ### container
@@ -127,17 +138,6 @@ user <subcommand> [args] [options]
 user setup
 user setup --guided
 ```
-
----
-
-## Why Both Syntaxes?
-
-| Syntax | Best For |
-|--------|----------|
-| `container deploy` | Typing at terminal (feels natural) |
-| `container-deploy` | Scripts, tab completion, muscle memory |
-
-Both work identically - use whichever you prefer.
 
 ---
 

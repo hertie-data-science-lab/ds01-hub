@@ -1,39 +1,14 @@
 # DS01 User Documentation
 
-Hertie Data Science Lab's GPU-enabled container infrastructure for data science and machine learning.
+Hertie School Data Science Lab's GPU container platform for data science and machine learning.
 
 ---
 
 ## Get Started in <30 Minutes
 
-**Never used DS01 before?** Run this once:
+**Never used DS01 before?** see [quickstart](quickstart.md)
 
-```bash
-user setup
-```
-This walks you through everything: SSH keys, your first project, and connecting from your laptop.
-
-**Already set up?** Your daily workflow is simple:
-
-```bash
-# Create and launch a project
-project init --guided         # Create project dir & setup 
-project launch --guided       # Start working in containerised env
-
-# ... Work on your code, train models ...
-
-exit                  
-```
-
-**That's it. Your files in `/workspace` are persistent** - containers are temporary, your work is permanent.
-
-> *See [quickstart](quickstart.md) for setup walkthrough.*
-
-New to ds01? Add `--guided` to any command for step-by-step explanations.
-
-Further refs:
-- → [First Container Guide](getting-started/first-container.md) for step-by-step
-- → [Quick Reference](quick-reference.md) for all commands
+> This walks you through everything: SSH keys, connecting from your laptop, and deploying your first project.
 
 ---
 
@@ -41,16 +16,60 @@ Further refs:
 
 ```
 docs/
-├── getting-started/   Start here
-├── guides/            How to do things (practical)
-├── background/        Why things work (theory, skippable)
-├── reference/         Command documentation
-├── troubleshooting/   Fix problems
-├── intermediate/      Granular control over workflow
-└── advanced/          Power user topics
+├── getting-started/    Start here 
+├── guides/             Task-focused how-tos (practical)
+├── intermediate/       Atomic commands, CLI flags, scripting 
+├── advanced/           Docker direct, terminal workflows, batch jobs
+├── concepts/           Understanding DS01's design (theory, skippable)
+├── reference/          Command quick reference
+└── troubleshooting/    Fix problems
 ```
 
 ---
+
+## Learning Paths
+
+### Path 1: Beginner (Students, First-Time Users)
+**"I just want to work on my thesis"**
+
+1. [First-Time Setup](getting-started/first-time.md) - 15 minutes
+2. [Daily Workflow](getting-started/daily-workflow.md) - Core routine
+3. [Jupyter Setup](guides/jupyter-notebooks.md) - If using notebooks
+4. [VS Code Remote](guides/vscode-remote.md) - If using VS Code
+
+**Use:** 
+- Project-oriented: `project launch`, `exit`
+- Container-oriented: `image create`,`container deploy`, `container retire`
+
+**Skip the background reading** - learn as you go with `--guided` mode.
+
+### Path 2: Intermediate (IDE)
+**"I want more control and efficiency"**
+
+1. [Atomic Commands](intermediate/atomic-commands.md) - Granular control
+2. [CLI Flags](intermediate/cli-flags.md) - Faster than interactive mode
+3. [Scripting](intermediate/scripting.md) - Automate workflows
+
+**Use:** `container-create`, `container-start`, `container-stop`, `container-remove`
+
+### Path 3: Advanced (Terminal & DevOps Native)
+**"I prefer Docker commands and terminal workflows"**
+
+1. [Docker Direct](advanced/docker-direct.md) - Standard Docker commands
+2. [Terminal Workflows](advanced/terminal-workflows.md) - vim/tmux development
+3. [Batch Jobs](advanced/batch-jobs.md) - Non-interactive execution
+
+**Use:** `docker run`, `docker exec`, direct container access
+
+### Bonus Path(!): Understanding First
+**"I want to know how this works"**
+
+1. [What are containers?](concepts/containers-and-images.md)
+2. [Why are containers temporary?](concepts/ephemeral-containers.md)
+3. [Where are my files?](concepts/workspaces-persistence.md)
+4. [Cloud skills you're learning](concepts/ephemeral-containers.md#industry-parallels)
+
+Then proceed to practical guides.
 
 ## Practical Guides
 
@@ -119,50 +138,3 @@ Find your problem:
 | Run Jupyter | [Jupyter Setup](guides/jupyter-setup.md) |
 | Fix an error | [Troubleshooting](troubleshooting/) |
 | Learn industry practices | [Industry Parallels](background/industry-parallels.md) |
-
----
-
-## Essential Commands
-
-```bash
-# Project workflow (recommended)
-user setup                    # First-time setup
-project init                  # Create new project
-project launch                # Start working
-
-# Container workflow (more control)
-container deploy              # Create + start container
-container retire              # Stop + remove + free GPU
-
-# Images
-image create                  # Build custom image
-image update                  # Add/remove pkgs, rebuild custom image
-
-# Status
-container list                # Your containers
-dashboard                     # System overview
-check-limits                  # Your quotas
-
-# Alias list
-commands                      # Full list of available ds01 CLIs
-```
-
-For all commands: 
-- `<command> --help` - for basic usage
-- `<command> --info` - comprehensive usage documentaation
-- `<command> --concepts` - pre-run explanation of key concepts involved
-- `<command> --guided` - guided mode: detailed walkthough output at point-of-use
-
----
-
-## Getting Help
-
-1. Check [Troubleshooting](troubleshooting/)
-2. Run `commands` or add `--guided` flag to any command
-3. Raise an issue ticket in ds01-hub repo
-
----
-
-*New to servers and containers?* Start with [Prerequisites](getting-started/prerequisites.md)
-
-*Experienced user?* Jump to [Quick Reference](quick-reference.md)

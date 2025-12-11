@@ -1,7 +1,6 @@
 # DS01-hub
 
-The one-stop support hub for the Hertie School Data Science Lab server (ds01).
-
+The one-stop support hub for ds01: the Hertie School Data Science Lab's GPU server for containerised ML workloads.
 ---
 
 > **This is v1.0** — we welcome all feedback/ideas. big or small. If something's confusing, missing, or could be better, raise an issue ticket!

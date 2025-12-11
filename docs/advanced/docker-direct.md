@@ -188,17 +188,45 @@ docker tag ds01-alice/project:latest ds01-alice/project:backup-$(date +%Y%m%d)
 
 ---
 
-## Caution
+## DS01 Enforcement
 
-**Don't bypass DS01 for:**
-- Container creation (use `container-deploy`)
-- GPU allocation (use DS01 commands)
-- Resource limits (enforced by DS01)
+**Important:** Direct Docker commands are still subject to DS01 enforcement.
 
-Direct Docker bypasses:
-- GPU allocation tracking
-- Resource limit enforcement
-- Event logging
+### What's Enforced (Always)
+
+Even with direct Docker commands:
+
+| Enforcement | Mechanism |
+|-------------|-----------|
+| CPU/Memory limits | Systemd cgroups (`ds01-<group>-<user>.slice`) |
+| GPU limits | Docker wrapper injects constraints |
+| Container labeling | Auto-added: `DS01_USER`, `DS01_MANAGED` |
+| Event logging | Container lifecycle tracked |
+
+### What's NOT Enforced
+
+When bypassing DS01 commands:
+
+| Feature | Impact |
+|---------|--------|
+| Interactive wizards | You configure everything manually |
+| Auto workspace mounting | You specify `-v` flags yourself |
+| Project metadata | Not tracked in DS01 metadata |
+| GPU allocation tracking | May conflict with other users |
+
+### Best Practice
+
+```bash
+# Use DS01 for creation (gets enforcement + convenience)
+container deploy my-project
+
+# Use Docker for inspection/debugging
+docker logs my-project._.$(id -u)
+docker exec my-project._.$(id -u) nvidia-smi
+
+# Use DS01 for cleanup
+container retire my-project
+```
 
 ---
 

@@ -1,42 +1,48 @@
-# ds01-hub
+# DS01-hub
 
-The one-stop support hub for the Hertie Data Science Lab server (ds01).
+The one-stop support hub for the Hertie School Data Science Lab server (ds01).
 
 ---
 
-**This is v1.0** — we're just getting started! We welcome all feedback, ideas, and constructive criticism, big or small. If something's confusing, missing, or could be better, let us know.
+> **This is v1.0** — we welcome all feedback/ideas. big or small. If something's confusing, missing, or could be better, raise an issue ticket!
 
 ---
 
 ## What you can do here
-1) click `docs` dir to view latest user-facing docs (NB: all the information in these docs is also provided at-point-of-use within ds01's CLI ecosystem; just type `help` to get started, or add `--guided` flat to a command for a guided in-terminal walthrough).
-2) click the `issues` tab to raise an issue to DSL (see below).
+1) click the [`docs`](https://github.com/hertie-data-science-lab/ds01-hub/tree/main/docs) dir to read the latest user-facing documentation
+2) click the [`issues`](https://github.com/hertie-data-science-lab/ds01-hub/issues) tab to raise an issue to DSL (see below)
 
 ---
 
-### Docs dir structure
+> **Prefer just to dive in?** [quickstart](quickstart.md) walks you through everything: from SSHing into the server for the first time, to deploying your first containerised project - all in under 30 mins.
+
+---
+
+## Docs dir structure
 ```
 docs/
-├── getting-started/   Start here
-├── guides/            How to do things (practical)
-├── background/        Why things work (theory, skippable for those that just want to get working on their thesis)
-├── reference/         Command documentation
-├── troubleshooting/   Fix problems
-└── advanced/          Advanced user topics (greater control, greater complexity)
+├── getting-started/    Start here 
+├── guides/             Task-focused how-tos (practical)
+├── intermediate/       Atomic commands, CLI flags, scripting 
+├── advanced/           Docker direct, terminal workflows, batch jobs
+├── concepts/           Understanding DS01's design (theory, skippable)
+├── reference/          Command quick reference
+└── troubleshooting/    Fix problems
 ```
 
-### How to raise an issue
+## Raising an issue ticket
 Click **"New Issue"** to:
 
 - **Report a bug** — something's broken, erroring, or not working as expected
-- **Ask a question** — you're stuck and need guidance
 - **Request access** — need resources (GPU time, MIGs), group access, or software installed
-- **Book a consultation** — want hands-on help, office hours, or technical support
-- **Share feedback** — have ideas to improve ds01? We want to hear them
 - **Request documentation** — need a guide for something not yet documented
 - **Report a status issue** — think the server might be down?
+- **Share feedback** — have ideas to improve ds01? We want to hear them
+- **Ask a question** — you're stuck and need guidance
+- **Book a consultation** — want hands-on help, office hours, or technical support
 
-## How to file a good issue
+
+### How to file a good issue
 
 1. **Click "New Issue"** and choose the appropriate template
 2. **Fill in required fields** — especially your Hertie email so we can follow up
@@ -48,7 +54,7 @@ Click **"New Issue"** to:
    ```
    ````
 
-   This makes it much easier to read, search, and debug.
+   This makes it easier to read, search, and debug.
 
 4. **Be specific** — what were you trying to do? What command did you run? What happened?
 
@@ -59,7 +65,7 @@ Have a question that might help others? Want to share tips or chat with other ds
 - **Announcements** — subscribe to get notified about maintenance and updates
 - **Q&A** — ask questions that might benefit the community
 - **Ideas** — suggest features or improvements
-- **General** — chat with other ds01 users
+- **General** — miscellaneous
 
 ## Response times
 

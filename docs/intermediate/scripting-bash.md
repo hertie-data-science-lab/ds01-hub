@@ -1,6 +1,19 @@
-# Scripting Workflows
+# Scripting with Bash
 
-Automate DS01 workflows with bash scripts - run experiments, test images, deploy pipelines.
+Automate DS01 workflows with bash scripts.
+
+---
+
+## Why Bash?
+
+| Advantages | Disadvantages |
+|------------|---------------|
+| Native to DS01 commands | Complex string manipulation |
+| No dependencies | Error handling is verbose |
+| Fast for simple tasks | Harder to debug |
+| Direct shell integration | Limited data structures |
+
+**Best for:** Simple workflows, quick automation, cron jobs.
 
 ---
 
@@ -90,6 +103,12 @@ for lr in 0.001 0.01 0.1; do
 done
 ```
 
+**Usage:**
+```bash
+chmod +x parallel-experiments.sh
+./parallel-experiments.sh
+```
+
 ---
 
 ## Pattern 2: Sequential Pipeline
@@ -124,6 +143,12 @@ container retire training --force
 container retire eval --force
 ```
 
+**Usage:**
+```bash
+chmod +x ml-pipeline.sh
+./ml-pipeline.sh my-thesis
+```
+
 ---
 
 ## Pattern 3: Hyperparameter Grid Search
@@ -149,6 +174,12 @@ for lr in 0.001 0.01 0.1; do
     container-retire $NAME --force
   done
 done
+```
+
+**Usage:**
+```bash
+chmod +x grid-search.sh
+./grid-search.sh
 ```
 
 ---
@@ -233,8 +264,7 @@ done
 
 ## Next Steps
 
-- → [Atomic Commands](atomic-commands.md) - Commands for scripting
-
-- → [CLI Flags](cli-flags.md) - Non-interactive usage
-
-- → [Advanced](../advanced/) - Docker-native scripting
+- [Scripting with Python](scripting-python.md) - Alternative approach
+- [Atomic Commands](atomic-commands.md) - Commands for scripting
+- [CLI Flags](cli-flags.md) - Non-interactive usage
+- [Advanced](../advanced/) - Docker-native scripting

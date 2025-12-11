@@ -29,6 +29,7 @@
 
 | Guide | What You'll Learn |
 |-------|-------------------|
+| [Efficiency Tips](efficiency-tips.md) | Keyboard shortcuts, workflow patterns |
 | [Dockerfile Best Practices](dockerfile-best-practices.md) | Build optimization, layer caching |
 | [SSH Advanced](ssh-advanced.md) | Config files, port forwarding |
 

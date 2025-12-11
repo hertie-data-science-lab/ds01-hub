@@ -33,7 +33,6 @@
 |-------|-------------------|
 | [Scripting (Bash)](scripting-bash.md) | Shell automation patterns |
 | [Scripting (Python)](scripting-python.md) | Subprocess-based automation |
-| [Efficiency Tips](efficiency-tips.md) | Keyboard shortcuts, workflow optimizations |
 | [Shell Aliases](shell-aliases.md) | Shortcuts for your `~/.bashrc` |
 
 ---

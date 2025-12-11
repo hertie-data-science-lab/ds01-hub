@@ -86,66 +86,6 @@ container-<TAB>
 container-deploy my-<TAB>
 # Completes project name if unique
 ```
-
----
-
-## Workflow Optimizations
-
-### 1. Combine Commands
-
-```bash
-# Instead of
-container-stop my-project
-container-remove my-project
-
-# Use
-container retire my-project
-
-# Instead of
-container-create my-project
-container-start my-project
-
-# Use
-container deploy my-project
-```
-
-### 2. Use Flags Over Prompts
-
-```bash
-# Slow (interactive prompts)
-container deploy
-# [Select project...]
-# [Select GPU count...]
-
-# Fast (flags)
-container deploy my-project --gpu=2
-```
-
-### 3. Background Containers
-
-```bash
-# Start multiple containers
-container deploy exp-1 --background
-container deploy exp-2 --background
-container deploy exp-3 --background
-
-# Work in one while others run
-container-attach exp-1
-```
-
-### 4. Quick Status Checks
-
-```bash
-# Check your containers
-container-list
-
-# Check resource usage
-container-stats
-
-# Check your limits
-check-limits
-```
-
 ---
 
 ## Time-Saving Patterns
@@ -174,7 +114,7 @@ container-list --all | grep stopped | awk '{print $1}' | xargs -I {} container-r
 
 ---
 
-## Environment Customization
+## Environment Customisation
 
 ### Bashrc Additions
 
@@ -198,6 +138,7 @@ Add to your Dockerfile:
 RUN echo 'alias ll="ls -la"' >> ~/.bashrc
 RUN echo 'alias ..="cd .."' >> ~/.bashrc
 ```
+Many others possible - depends on your workflow
 
 ---
 

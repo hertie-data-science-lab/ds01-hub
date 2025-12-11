@@ -14,6 +14,12 @@ docs/
 └── troubleshooting/    Fix problems
 ```
 
+### Separation of Concerns
+
+>-  **Practical:** [Getting Started](getting-started/) → [Guides](guides/) → [Intermediate](intermediate/) → [Advanced](advanced/)
+>- **Conceptual:** [Key Concepts](concepts/) (DS01-specific) | [Background](background/) (career skills)
+>- **Reference:** [Commands Ref](reference/) | [Troubleshooting](troubleshooting/)
+
 ---
 
 ## Learning Paths
@@ -55,9 +61,7 @@ docs/
 DS01 has two types of conceptual documentation with different purposes:
 
 ### Key Concepts to Understand
-**DS01-specific mental models for effective usage**
-
-- [Concepts Overview](concepts/) - 30-45 min total
+**DS01-specific mental models for effective usage** — [Overview](concepts/) (30-45 min total)
 
 | Topic | What It Answers |
 |-------|----------------|
@@ -69,9 +73,7 @@ DS01 has two types of conceptual documentation with different purposes:
 **Read these:** When something confuses you, or before first use.
 
 ### Educational Computing Context
-**Deeper knowledge for career development**
-
-- [Background Overview](background/) - 2-3 hours total
+**Deeper knowledge for career development** — [Overview](background/) (2-3 hours total)
 
 | Topic | Career Relevance |
 |-------|-----------------|

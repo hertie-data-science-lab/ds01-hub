@@ -1,24 +1,12 @@
-# DS01 User Documentation - Intro
+# DS01 User Documentation
 
-
-## Documentation Structure
-
-```
-docs/
-├── getting-started/    Start here 
-├── guides/             Task-focused how-tos (practical)
-├── intermediate/       Atomic commands, CLI flags, scripting 
-├── advanced/           Docker direct, terminal workflows, batch jobs
-├── concepts/           Understanding DS01's design (theory, skippable)
-├── reference/          Command quick reference
-└── troubleshooting/    Fix problems
-```
+**→ [Index & Learning Paths](index.md)** - Documentation structure, reading paths, and section overview.
 
 ---
 
 ## Get Started in <30 Minutes
 
-**Never used DS01 before?** see [quickstart](quickstart.md)
+**Never used DS01 before?** See [quickstart](quickstart.md)
 
 > This walks you through everything: SSH keys, connecting from your laptop, and deploying your first containerised project.
 
@@ -29,16 +17,16 @@ docs/
 **Already setup?** Here's how to use DS01
 
 
-> Basic principle: 
+> Basic principle:
 > - Containers = disposable
 > - Images, `~/workspace` = persistent
 
 
 
-Deploy containers to run specific computationally-expensive jobs 
+Deploy containers to run specific computationally-expensive jobs
 
 ```bash
-project launch my-project 
+project launch my-project
 ```
 
 Pull your latest files from remote GitHub repo (automatically configured in `project-init`)
@@ -50,7 +38,7 @@ git pull --rebase
 Regularly push/pull work between server-local computer as you work
 
 ```bash
-git add <files> 
+git add <files>
 git commit -m "commit message"
 git push origin <branch>
 ```
@@ -96,7 +84,6 @@ dashboard               # System status, GPU availability
 commands                # Full list of what you can do
 home                    # Return to your workspace (`/home/<user-id/>)
 ```
-
 ---
 
 ## Getting Help
@@ -157,7 +144,7 @@ container-deploy --info
 - Define what software is installed (PyTorch, pandas, etc.)
 - Stored in Dockerfiles - version controlled, shareable, reproducible envs
 - Dockerfiles are Single Source of Truth (STT) → stored in project dir & git repo
-- Raw Dockerfiles > built into exectuable image files > deployed as container instances 
+- Raw Dockerfiles > built into exectuable image files > deployed as container instances
 - Rebuild containers from Dockerfiles anytime
 
 **Why this model?**
@@ -166,10 +153,4 @@ container-deploy --info
 - **Cloud-native**: Same workflow as AWS/GCP/Kubernetes
 - **Flexible**: Multiple projects with different environments
 
-- → [Learn more about containers](concepts/containers-and-images.md) *(optional)*
-
----
-
-## Next Steps
-
-See [Index & Learning Paths](index.md) for entry points.
+→ [Learn more about containers](concepts/containers-and-images.md) *(optional)*

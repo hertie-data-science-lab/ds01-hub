@@ -221,7 +221,7 @@ Images are built from Dockerfiles at:
 ~/dockerfiles/<project-name>.Dockerfile
 ```
 
-Edit directly for advanced customization:
+Edit directly for advanced customisation:
 ```bash
 nano ~/dockerfiles/my-project.Dockerfile
 image-update my-project

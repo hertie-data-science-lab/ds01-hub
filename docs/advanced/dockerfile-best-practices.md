@@ -31,7 +31,7 @@ COPY config/ /workspace/config/
 
 ---
 
-## Layer Optimization
+## Layer Optimisation
 
 ### Combine Commands
 
@@ -247,7 +247,7 @@ FROM henrycgbaker/aime-pytorch:2.8.0-cuda12.4-ubuntu22.04
 
 WORKDIR /workspace
 
-# Visualization dependencies
+# Visualisation dependencies
 RUN apt-get update && apt-get install -y \
     libcairo2-dev \
     && rm -rf /var/lib/apt/lists/*

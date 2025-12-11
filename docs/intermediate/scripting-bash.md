@@ -265,6 +265,4 @@ done
 ## Next Steps
 
 - [Scripting with Python](scripting-python.md) - Alternative approach
-- [Atomic Commands](atomic-commands.md) - Commands for scripting
-- [CLI Flags](cli-flags.md) - Non-interactive usage
 - [Advanced](../advanced/) - Docker-native scripting

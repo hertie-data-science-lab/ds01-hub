@@ -157,9 +157,9 @@ ds01-events user <username>
 # Check GPU availability
 nvidia-smi
 
-# GPU utilization dashboard
-gpu-utilization-monitor
-mig-utilization-monitor
+# GPU utilisation dashboard
+gpu-utilisation-monitor
+mig-utilisation-monitor
 
 # Continuous monitoring
 watch -n 1 nvidia-smi

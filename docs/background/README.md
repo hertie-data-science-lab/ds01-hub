@@ -68,7 +68,7 @@ Understand *why* DS01 works this way and how it prepares you for industry.
 
 **What you'll learn:** Why containers are temporary, benefits of stateless design, resource efficiency.
 
-**Career relevance:** Cloud-native development, cost optimization, infrastructure as code.
+**Career relevance:** Cloud-native development, cost optimisation, infrastructure as code.
 
 #### Resource Management
 - [Resource Management](resource-management.md) - 15 min
@@ -149,7 +149,7 @@ By using DS01 and reading these docs, you're learning:
 
 ### Technical Skills
 - Linux command line proficiency
-- Docker and containerization
+- Docker and containerisation
 - GPU computing and resource management
 - Infrastructure as code patterns
 
@@ -172,7 +172,7 @@ By using DS01 and reading these docs, you're learning:
 > "Learning container workflows in grad school made my transition to AWS seamless."
 > — Data Scientist
 
-> "Understanding resource limits from shared computing helped me optimize our Kubernetes costs."
+> "Understanding resource limits from shared computing helped me optimise our Kubernetes costs."
 > — ML Engineer
 
 > "The ephemeral container model is exactly how we work at scale."

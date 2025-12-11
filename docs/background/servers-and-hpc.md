@@ -91,7 +91,7 @@ DS01 is an HPC system specialized for data science and ML.
 **1. Resource Scheduling**
 - Multiple users want GPUs, limited availability
 - Priority and queuing ensure fairness
-- Time limits prevent monopolization
+- Time limits prevent monopolisation
 
 **2. Fair Share**
 - Resources distributed fairly among users
@@ -134,7 +134,7 @@ Idle Timeout: 0.5h (varies by user)
 
 ### Don't:
 - Leave containers idle for days
-- Monopolize all GPUs
+- Monopolise all GPUs
 - Ignore resource limit warnings
 
 ### Efficient Resource Use
@@ -200,7 +200,7 @@ Mostly false. With containers you can install packages, modify your environment,
 **Cloud providers (AWS, GCP, Azure):**
 - EC2 instances = renting servers
 - Cloud GPUs = server GPU access
-- Containers = server containerization
+- Containers = server containerisation
 
 **Companies use servers for:**
 - Training ML models (too large for laptops)

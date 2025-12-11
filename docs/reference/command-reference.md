@@ -528,7 +528,7 @@ image-delete my-project --force
 
 ### project-init
 
-**Complete project initialization** (L4 wizard)
+**Complete project initialisation** (L4 wizard)
 
 **Syntax:**
 ```bash

@@ -154,7 +154,7 @@ Monday 5pm:  All retire containers, GPUs freed
 Tuesday 9am: Dana, Eve, Frank deploy - GPUs available!
 ```
 
-**Result:** Higher utilization, fairer access.
+**Result:** Higher utilisation, fairer access.
 
 ### 2. Simpler State Management
 
@@ -464,7 +464,7 @@ container-retire exp-variant-b
 **Cons:**
 - Complex state management (running/stopped/paused)
 - Resource allocation confusion (stopped but holding GPU?)
-- Lower utilization (resources "reserved" but idle)
+- Lower utilisation (resources "reserved" but idle)
 - Stale environments (running for months without updates)
 
 **Where used:** Single-user workstations, development laptops
@@ -475,7 +475,7 @@ container-retire exp-variant-b
 
 **Pros:**
 - Simple state (running or not)
-- High utilization (resources freed immediately)
+- High utilisation (resources freed immediately)
 - Always fresh environment
 - Matches production workflows
 
@@ -495,7 +495,7 @@ container-retire exp-variant-b
 **Practical:**
 - Fair resource sharing
 - Simple mental model
-- High utilization
+- High utilisation
 
 **Scalable:**
 - Works with 2 users or 200
@@ -678,7 +678,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 5. **Industry standard** - cloud, K8s, HPC all work this way
 6. **Simple mental model** - "shut down when done"
 
-**The ephemeral container model maximizes resource utilization, teaches production practices, and simplifies state management.**
+**The ephemeral container model maximizes resource utilisation, teaches production practices, and simplifies state management.**
 
 **Embrace the philosophy: Containers are temporary, workspaces are forever.**
 

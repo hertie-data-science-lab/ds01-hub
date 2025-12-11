@@ -36,7 +36,7 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJq... user@ds01
 
 **What this means:** SSH keys let you access Git repositories and remote services without typing passwords. The wizard creates a secure key pair for you.
 
-**Step 2: Project Initialization**
+**Step 2: Project Initialisation**
 ```
 Creating your first project...
 
@@ -314,7 +314,7 @@ GPU count: 1
 
 ## Understanding Your Setup
 
-### File Organization
+### File Organisation
 
 ```
 ~/ (your home directory)

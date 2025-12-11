@@ -213,7 +213,7 @@ image create
 - Command asks questions
 - Presents menus
 - Guides you through options
-- No need to memorize flags
+- No need to memorise flags
 
 **Example:**
 ```bash
@@ -249,7 +249,7 @@ commands
 
 **Shows:**
 - All DS01 commands
-- Organized by category
+- Organised by category
 - Brief descriptions
 - Common workflows
 

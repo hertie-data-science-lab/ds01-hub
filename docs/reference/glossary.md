@@ -32,7 +32,7 @@ Stop and remove a container, freeing the GPU. Command: `container-retire`
 Your persistent storage directory (`~/workspace/<project>/`). Files here survive container removal.
 
 **Tier/Layer**
-DS01 commands are organized in layers:
+DS01 commands are organised in layers:
 - **L2 (Atomic):** Single-purpose commands (`container-create`, `image-list`)
 - **L3 (Orchestrators):** Multi-step workflows (`container-deploy`, `container-retire`)
 - **L4 (Wizards):** Complete guided experiences (`user-setup`, `project-init`)

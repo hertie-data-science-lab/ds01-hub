@@ -21,7 +21,7 @@ DS01 is designed around industry-standard practices used in production ML system
 
 ## Core Industry Concepts in DS01
 
-### 1. Containerization (Docker)
+### 1. Containerisation (Docker)
 
 **Industry usage:**
 - **Development:** Dev containers, consistent environments
@@ -121,7 +121,7 @@ EXPOSE 8888
 - Writing Dockerfiles
 - Multi-stage builds
 - Layer caching
-- Build optimization
+- Build optimisation
 
 ---
 
@@ -184,7 +184,7 @@ spec:
 
 **Benefits:**
 - **Scale independently:** Add storage without changing compute
-- **Cost optimize:** Different tiers for compute vs storage
+- **Cost optimise:** Different tiers for compute vs storage
 - **Resilience:** Compute fails? Recreate. Data always safe.
 
 ---
@@ -381,7 +381,7 @@ jobs:
 - Training jobs
 - Model deployment
 
-**All use containerization and ephemeral compute.**
+**All use containerisation and ephemeral compute.**
 
 ---
 
@@ -428,13 +428,13 @@ jobs:
 **DS01 teaches:**
 - Docker image building
 - CI/CD concepts
-- Resource optimization
+- Resource optimisation
 - Production workflows
 
 **You'll use:**
 - Kubernetes for model serving
 - Docker for reproducibility
-- GPU optimization
+- GPU optimisation
 - Auto-scaling systems
 
 ### Data Engineer
@@ -532,7 +532,7 @@ nvidia-smi
 
 **DS01:**
 - User namespace isolation (not root on host)
-- Resource limits (can't monopolize)
+- Resource limits (can't monopolise)
 - GPU pinning (can't access others' GPUs)
 
 **Production:**
@@ -541,7 +541,7 @@ nvidia-smi
 - Pod security policies
 - Secrets management
 
-### 5. Cost Optimization
+### 5. Cost Optimisation
 
 **DS01 equivalent:**
 ```bash
@@ -626,7 +626,7 @@ spec:
 ## Learning Path to Production
 
 ### Phase 1: DS01 (You are here)
-- Learn containerization
+- Learn containerisation
 - Practice resource management
 - Build reproducible environments
 - Understand ephemeral compute
@@ -652,7 +652,7 @@ spec:
 ### Phase 5: Production Scale
 - Multi-region deployments
 - Auto-scaling
-- Cost optimization
+- Cost optimisation
 - Security hardening
 
 **DS01 is your foundation for all of this.**
@@ -685,7 +685,7 @@ spec:
 1. **DS01 uses industry-standard tools** (Docker, YAML configs, GPU management)
 2. **Workflows mirror production** (ephemeral compute, persistent storage, IaC)
 3. **Skills transfer directly** to AWS, GCP, Azure, Kubernetes
-4. **Core concepts are universal** (containerization, resource limits, fair sharing)
+4. **Core concepts are universal** (containerisation, resource limits, fair sharing)
 5. **Career preparation** for data science, ML engineering, software engineering
 
 **DS01 isn't just for learning - it's training you for production ML systems.**

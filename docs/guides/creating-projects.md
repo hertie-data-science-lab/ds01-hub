@@ -204,7 +204,7 @@ project launch my-thesis
 container-deploy my-thesis
 ```
 
-- → [Custom environments guide](custom-environments.md) for details
+→ [Custom environments guide](custom-environments.md) for details
 
 ---
 
@@ -352,26 +352,19 @@ project launch my-thesis
 
 *NB: this may change in future!!*
 
-### Machine Learning (General)
-- scikit-learn, xgboost, lightgbm, pandas, numpy, matplotlib, seaborn, plotly
+- **Machine Learning (General):** scikit-learn, xgboost, lightgbm, pandas, numpy, matplotlib, seaborn, plotly
 
-### Computer Vision
-- torchvision, Pillow, OpenCV, albumentations (augmentation), timm (model zoo)
+- **Computer Vision**: torchvision, Pillow, OpenCV, albumentations (augmentation), timm (model zoo)
 
-### NLP
-- transformers, datasets, tokenizers, sentencepiece,  spacy
+- **NLP:** transformers, datasets, tokenizers, sentencepiece,  spacy
 
-### Reinforcement Learning
-- gym, stable-baselines3, tensorboard
+- **Reinforcement Learning:** gym, stable-baselines3, tensorboard
 
-### Time Series
-- statsmodels, prophet, pmdarima, tslearn
+- **Time Series:** statsmodels, prophet, pmdarima, tslearn
 
-### LLM
-- transformers, accelerate, bitsandbytes, peft, flash-attention
+- **LLM:** transformers, accelerate, bitsandbytes, peft, flash-attention
 
-### Custom
-- Only base packages; add your own in Dockerfile
+- **Custom:** Only base packages; add your own in Dockerfile
 
 ---
 
@@ -494,18 +487,8 @@ RUN pip install transformers && \
 project launch my-thesis --open
 ```
 
-**Customise environment:**
-
 - → [Custom Environments Guide](custom-environments.md)
-
-**Set up development tools:**
-
-- → [Jupyter Setup](jupyter.md)
-
+- → [Jupyter Setup](jupyter-notebooks.md)
 - → [VS Code Remote](vscode-remote.md)
-
-**Understand concepts:**
-
 - → [Containers and Images](../concepts/containers-and-images.md)
-
 - → [Workspaces and Persistence](../concepts/workspaces-persistence.md)

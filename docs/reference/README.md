@@ -6,7 +6,7 @@ Quick lookup documentation for commands, limits, and system details.
 
 ## Commands
 
-Organized by category:
+Organised by category:
 - [Container Commands](commands/container-commands.md) - deploy, retire, list, stats, etc.
 - [Image Commands](commands/image-commands.md) - create, list, update, delete
 - [Project Commands](commands/project-commands.md) - project-init, dir-create, etc.

@@ -6,7 +6,7 @@
 >
 > **Just want the essentials?** See [Key Concepts: Workspaces and Persistence](../concepts/workspaces-persistence.md) for a shorter overview.
 
-Understanding stateless/stateful separation is critical for cloud computing. This guide explains persistence patterns, file organization, and how these concepts transfer to AWS, Kubernetes, and production systems.
+Understanding stateless/stateful separation is critical for cloud computing. This guide explains persistence patterns, file organisation, and how these concepts transfer to AWS, Kubernetes, and production systems.
 
 ---
 
@@ -104,7 +104,7 @@ docker run \
 - Actually saved to `~/workspace/my-project/` (on host)
 - Survive container removal
 
-### Visualization
+### Visualisation
 
 ```
 ┌─────────────────────────────────────────┐
@@ -133,7 +133,7 @@ docker run \
 
 ---
 
-## Best Practices for File Organization
+## Best Practices for File Organisation
 
 ### Recommended Structure
 
@@ -190,7 +190,7 @@ docker run \
 - `tests/`: Verify correctness
 
 **Collaboration:**
-- Clear organization
+- Clear organisation
 - Easy to navigate
 - Standard structure
 
@@ -612,7 +612,7 @@ docker image prune
 
 1. **Save everything to `/workspace`**
 2. **Use Git for code** (push regularly)
-3. **Organize projects** (data/, src/, models/, etc.)
+3. **Organise projects** (data/, src/, models/, etc.)
 4. **Save checkpoints frequently**
 5. **Clean up old data** periodically
 6. **Use experiment tracking** (W&B, MLflow)
@@ -639,7 +639,7 @@ docker image prune
 **Put knowledge into practice:**
 - → [Daily Usage Patterns](../guides/daily-workflow.md)
 
-### Advanced Organization
+### Advanced Organisation
 
 **Project structure:**
 - → [Project Structure](../guides/creating-projects.md)
@@ -655,7 +655,7 @@ docker image prune
 3. **Images = PERSISTENT** - Can recreate containers
 4. **Always save to `/workspace`** inside containers
 5. **Use Git for code**, backups for data
-6. **Organize projects** for collaboration and reproducibility
+6. **Organise projects** for collaboration and reproducibility
 
 **The golden rule: If it's important, save it to `/workspace`!**
 

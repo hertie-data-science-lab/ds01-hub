@@ -25,12 +25,12 @@
 | [Terminal Workflows](terminal-workflows.md) | CLI-native development patterns |
 | [Batch Jobs](batch-jobs.md) | Non-interactive job submission |
 
-### Optimization
+### Optimisation
 
 | Guide | What You'll Learn |
 |-------|-------------------|
 | [Efficiency Tips](efficiency-tips.md) | Keyboard shortcuts, workflow patterns |
-| [Dockerfile Best Practices](dockerfile-best-practices.md) | Build optimization, layer caching |
+| [Dockerfile Best Practices](dockerfile-best-practices.md) | Build optimisation, layer caching |
 | [SSH Advanced](ssh-advanced.md) | Config files, port forwarding |
 
 ### Specialized
@@ -65,7 +65,7 @@ docker logs my-project._.$(id -u)
 **Terminal workflows:**
 1. [Docker Direct](docker-direct.md) → [Terminal Workflows](terminal-workflows.md) → [Batch Jobs](batch-jobs.md)
 
-**Optimization:**
+**Optimisation:**
 1. [Efficiency Tips](efficiency-tips.md) → [Dockerfile Best Practices](dockerfile-best-practices.md)
 
 **Remote access:**

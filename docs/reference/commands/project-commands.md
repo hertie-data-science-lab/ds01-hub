@@ -1,6 +1,6 @@
 # Project Commands
 
-Commands for project initialization and setup.
+Commands for project initialisation and setup.
 
 ---
 
@@ -38,7 +38,7 @@ container retire my-thesis
 
 ## project-init
 
-**Complete project initialization** (L4 wizard)
+**Complete project initialisation** (L4 wizard)
 
 ```bash
 project-init [project-name] [OPTIONS]

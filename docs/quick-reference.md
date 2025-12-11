@@ -127,7 +127,7 @@ image-delete my-project              # Remove image
 
 ```bash
 dashboard                    # System overview
-dashboard gpu                # GPU/MIG utilization
+dashboard gpu                # GPU/MIG utilisation
 dashboard cpu                # CPU by user
 dashboard --watch            # Live monitoring (2s refresh)
 dashboard --full             # All sections expanded

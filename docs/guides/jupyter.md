@@ -542,7 +542,7 @@ batch_size = 16  # Was 256
 
 ### Slow Notebook Performance
 
-**Check GPU utilization:**
+**Check GPU utilisation:**
 ```bash
 nvidia-smi
 ```

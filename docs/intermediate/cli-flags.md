@@ -226,32 +226,6 @@ container retire $PROJECT --force
 
 ---
 
-## Shell Aliases
-
-**Add to `~/.bashrc`:**
-
-```bash
-# Short aliases
-alias pl='project launch'
-alias pd='project deploy'
-alias ca='container-attach'
-alias cr='container retire'
-alias cl='container-list'
-
-# Common patterns
-alias plo='project launch --open'
-alias plb='project launch --background'
-alias crf='container retire --force'
-```
-
-**Usage:**
-```bash
-plo my-thesis          # project launch my-thesis --open
-crf my-thesis          # container retire my-thesis --force
-```
-
----
-
 ## Next Steps
 
 - → [Container States](container-states.md) - Understand full lifecycle

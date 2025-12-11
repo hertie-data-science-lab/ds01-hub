@@ -102,7 +102,7 @@ import torch
 # Now torch.cuda.device_count() == 1, but each rank has its own MIG
 
 # Your training code here...
-# Use MPI for gradient synchronization instead of NCCL
+# Use MPI for gradient synchronisation instead of NCCL
 ```
 
 Launch with:

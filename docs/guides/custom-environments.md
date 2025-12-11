@@ -202,7 +202,7 @@ project launch my-project
 
 ---
 
-## Common Customization Patterns
+## Common Customisation Patterns
 
 ### Adding ML Libraries
 

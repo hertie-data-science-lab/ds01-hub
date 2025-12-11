@@ -25,7 +25,7 @@ Without containers:
 
 **The Solution - Containers provide:**
 - **Isolated environments**: Your packages don't affect others
-- **Resource limits**: Your code can't monopolize CPU/RAM
+- **Resource limits**: Your code can't monopolise CPU/RAM
 - **Reproducibility**: Same environment every time
 - **GPU sharing**: Fair allocation without conflicts
 
@@ -360,7 +360,7 @@ Prefer DS01 commands for creation/management.
 Sufficient isolation for shared academic environment:
 - Can't access other users' files
 - Can't interfere with other processes
-- Resource limits prevent monopolization
+- Resource limits prevent monopolisation
 
 ### "What happens to my files?"
 

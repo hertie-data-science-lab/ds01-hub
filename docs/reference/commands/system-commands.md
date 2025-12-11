@@ -71,7 +71,7 @@ Same as `ds01-dashboard` but shorter to type.
 | `--watch`, `-w` | Continuous monitoring (2s refresh) |
 | `--full` | Show all sections expanded |
 | `--json` | JSON output for scripting |
-| `gpu` | GPU/MIG utilization only |
+| `gpu` | GPU/MIG utilisation only |
 | `system` | System resources only |
 | `containers` | Container list only |
 | `users` | Per-user breakdown |
@@ -251,14 +251,14 @@ gpu-queue status           # View queue status
 help
 ```
 
-Lists all DS01 commands organized by category (containers, images, system, etc.).
+Lists all DS01 commands organised by category (containers, images, system, etc.).
 
 **Alias:** `commands` (identical functionality)
 
 **Example:**
 ```bash
 help
-# Shows categorized list of all DS01 commands
+# Shows categorised list of all DS01 commands
 ```
 
 ---

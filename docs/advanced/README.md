@@ -65,8 +65,11 @@ docker logs my-project._.$(id -u)
 **Terminal workflows:**
 1. [Docker Direct](docker-direct.md) → [Terminal Workflows](terminal-workflows.md) → [Batch Jobs](batch-jobs.md)
 
-**Build optimization:**
-1. [Dockerfile Best Practices](dockerfile-best-practices.md)
+**Optimization:**
+1. [Efficiency Tips](efficiency-tips.md) → [Dockerfile Best Practices](dockerfile-best-practices.md)
 
 **Remote access:**
 1. [SSH Advanced](ssh-advanced.md) → [VS Code Remote](vscode-remote.md)
+
+**Specialized:**
+1. [Multi-MIG Training](multi-mig-training.md)

@@ -59,8 +59,9 @@ container-remove my-project   # Remove only
 
 ## Suggested Path
 
-1. **[Command Hierarchy](command-hierarchy.md)** - Understand L3/L2/L1 levels
-2. **[Atomic Commands](atomic-commands.md)** - Learn the individual commands
-3. **[Container States](container-states.md)** - Understand the full lifecycle
-4. **[CLI Flags](cli-flags.md)** - Ditch interactive mode
-5. **[Scripting](scripting-bash.md)** - Automate your workflows
+1. [Command Hierarchy](command-hierarchy.md) - Understand L3/L2/L1 levels
+2. [Atomic Commands](atomic-commands.md) - Learn the individual commands
+3. [Container States](container-states.md) - Understand the full lifecycle
+4. [CLI Flags](cli-flags.md) - Ditch interactive mode
+5. [Scripting (Bash)](scripting-bash.md) or [Scripting (Python)](scripting-python.md) - Automate workflows
+6. [Shell Aliases](shell-aliases.md) - Speed up common commands

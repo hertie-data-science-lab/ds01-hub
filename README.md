@@ -17,7 +17,9 @@ The one-stop support hub for ds01: the Hertie School Data Science Lab's GPU serv
 
 ---
 
-## Docs dir structure
+## Documentation directory
+
+Click [here](https://github.com/hertie-data-science-lab/ds01-hub/tree/main/docs) for user-facing documentation
 ```
 docs/
 ├── getting-started/    Start here 
@@ -30,7 +32,7 @@ docs/
 ```
 
 ## Raising an issue ticket
-Click **"New Issue"** to:
+### Click "New Issue" to:
 
 - **Report a bug** — something's broken, erroring, or not working as expected
 - **Request access** — need resources (GPU time, MIGs), group access, or software installed

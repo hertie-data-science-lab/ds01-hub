@@ -1,20 +1,36 @@
 # Custom Environments
 
-Build and customize Docker images for your specific research needs.
+Build and customise Docker images for your specific research needs.
+
+> **Key concept:** DS01 containers ARE your Python environment - you don't need venv or conda inside containers. See [Python Environments in Containers](../concepts/python-environments.md) for why.
 
 ---
 
 ## Two Approaches
 
-DS01 supports two ways to customize your environment:
+DS01 supports two ways to customise your environment:
 
 | Approach | Speed | Reproducibility | Version Controlled | Best For |
 |----------|-------|-----------------|-------------------|----------|
 | **Edit Dockerfile** | Slower (rebuild) | ✓ Full | ✓ Yes | Research, collaboration, long-term projects |
-| **Quick install** | Fast (pip in running container) | Partial | Limited | Quick experiments, testing packages |
+| **Quick install** | Fast (pip in running container)* | Partial | Limited | Quick experiments, testing packages |
 
-**Recommendation:** Use Dockerfiles for research work - they're shareable, reproducible, and version-controlled.
+The '*Quick Install' method involves adding new pkgs to your running container using pip/apt, then saving the pkg changes back into your image when you retire the container. This is offered by default in the `container retiree` workflow, which uses `docker commit` under the hood. This is fine for adding new packages, but not recommended for ongoing projects.
 
+
+**Recommendation:** Use Dockerfiles for research work - they're shareable, reproducible, and version-controlled. `image update` will handle this for you.
+
+---
+
+# Best Practice
+Simplest, most robust:
+```
+Keep `requirements.txt` file up to date with any new pkg requirements, then use `image update` CLI to scan that and update.
+
+DS01 has developed this CLI for you that handles all of the below on your behalf. 
+
+The below, is just what is being done under the hood, or if you want more granular control.
+```
 ---
 
 ## Dockerfile Method (Recommended)
@@ -64,7 +80,7 @@ WORKDIR /workspace
 ### Step 2: Rebuild Image
 
 ```bash
-image-update my-thesis
+image-update my-thesis --rebuild
 ```
 
 **What happens:**
@@ -78,9 +94,6 @@ image-update my-thesis
 ### Step 3: Recreate Container
 
 ```bash
-# Remove old container
-container retire my-thesis
-
 # Launch with new image
 project launch my-thesis --open
 ```
@@ -96,7 +109,7 @@ python -c "import transformers; print(transformers.__version__)"
 
 ---
 
-## Quick Install Method
+## Quick Install Method (quick fix during experimentation)
 
 **For rapid experimentation** - install packages into running container, save later.
 
@@ -124,17 +137,39 @@ exit
 # Save packages to image WITHOUT editing Dockerfile
 container retire my-project --save-packages
 ```
+*NB: the interactive GUI also offers this by default*
 
 **What happens:**
 - Commits container changes to image
 - New containers get these packages
-- **BUT:** Not in Dockerfile, not version-controlled
+- **BUT:** Not in Dockerfile, not version-controlled, not shareable
 
 **Trade-offs:**
 - ✓ Fast - no rebuild needed
 - ✗ Not reproducible - colleagues don't know what's installed
 - ✗ Not version-controlled - can't track changes
 - ✗ Image bloat - auto-cleanup may remove dangling layers
+
+### Option 2: Use `image update` 
+
+**Best Approach:**
+
+```bash
+# 1. Note what you installed
+pip list | grep transformers
+# transformers==4.30.2
+
+# 2. Exit and edit Dockerfile via `image update`
+exit
+image-update
+# opens interactive GUI
+# i) select image
+# ii) add transformers==4.30.2 
+# iii) rebuilds image for you
+
+# 3. Recreate container
+project launch my-project
+```
 
 ### Option 2: Add to Dockerfile (Reproducible)
 
@@ -153,10 +188,9 @@ vim ~/workspace/my-project/Dockerfile
 # RUN pip install transformers>=4.30.0
 
 # 4. Rebuild image
-image-update my-project
+image-update my-project --rebuild
 
 # 5. Recreate container
-container retire my-project
 project launch my-project
 ```
 
@@ -577,16 +611,16 @@ project launch my-project --open
 
 **Learn more Docker:**
 
-→ [Dockerfile Best Practices](../advanced/dockerfile-best-practices.md)
+- → [Dockerfile Best Practices](../advanced/dockerfile-best-practices.md)
 
-→ [Docker Guide](../advanced/dockerfile-guide.md)
+- → [Docker Guide](../advanced/dockerfile-guide.md)
 
 **Set up development tools:**
 
-→ [Jupyter Setup](jupyter-notebooks.md)
+- → [Jupyter Setup](jupyter.md)
 
-→ [VS Code Remote](vscode-remote.md)
+- → [VS Code Remote](vscode-remote.md)
 
 **Understand the concepts:**
 
-→ [Containers and Images](../concepts/containers-and-images.md)
+- → [Containers and Images](../concepts/containers-and-images.md)

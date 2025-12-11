@@ -21,8 +21,8 @@ Setting up VSCode for remote development on DS01.
 Add to `~/.ssh/config` (on your laptop):
 ```
 Host ds01
-    HostName ds01-server.edu
-    User your-username
+    HostName 10.1.23.20
+    User <student-id>@students.hertie-school.org
     IdentityFile ~/.ssh/id_ed25519
 ```
 
@@ -39,16 +39,24 @@ Host ds01
 
 ## Working with Containers
 
+> **⚠️ Container must be running first.** Start your container via terminal before connecting:
+> ```bash
+> ssh ds01
+> container-deploy <project-name> --background
+> ```
+
 **Option 1: SSH into container**
 
 Add to `~/.ssh/config`:
 ```
 Host ds01-container
-    HostName ds01-server.edu
-    User your-username
-    RemoteCommand docker exec -it my-project._.your-username bash
+    HostName 10.1.23.20
+    User <student-id>@students.hertie-school.org
+    RemoteCommand docker exec -it <project-name>._.<user-id> bash
     RequestTTY yes
 ```
+
+Replace `<project-name>` and `<user-id>` with your actual values (e.g., `my-thesis._.12345`).
 
 **Option 2: Dev Containers extension**
 
@@ -67,44 +75,12 @@ When opening a notebook, VS Code prompts you to select a kernel:
 
 > **Note:** You may see both `/usr/bin/python` and `/bin/python` listed - they're identical (symlinks). Either works.
 
-### Container as Your Python Environment
+### Python Environment
 
-**DS01 containers replace virtual environments.** The container provides complete isolation:
+**DS01 containers replace virtual environments** - you don't need venv or conda inside containers.
 
-| Traditional Setup | DS01 Approach |
-|-------------------|---------------|
-| Create venv/conda env | Container provides isolation |
-| `pip install` in venv | Packages installed at image build time |
-| Activate environment | Just select the container's Python |
-
-**You don't need to:**
-- Create virtual environments inside containers
-- Worry about environment activation
-- Manage multiple Python versions
-
-### Installing Additional Packages
-
-**At image build time (recommended):**
-- Use `image-create` to include packages in your image
-- Packages persist across container restarts
-
-**At runtime (temporary experiments):**
-```python
-# In notebook cell - use %pip (Jupyter magic), not !pip
-%pip install package-name
-```
-
-> **Why `%pip`?** The `%pip` magic ensures the running kernel can find newly installed packages. Using `!pip` may require a kernel restart.
-
-### Troubleshooting Notebooks
-
-**"Module not found" after pip install:**
-- If you used `!pip install`, restart the kernel
-- Better: use `%pip install` next time
-
-**Kernel won't connect:**
-- Reload VS Code window: `Ctrl+Shift+P` → "Developer: Reload Window"
-- Check Jupyter output: `Ctrl+Shift+P` → "Jupyter: Show Output"
+For details on installing packages and environment management:
+- → [Python Environments in Containers](../concepts/python-environments.md)
 
 ---
 
@@ -127,5 +103,5 @@ When opening a notebook, VS Code prompts you to select a kernel:
 
 ## Next Steps
 
-→ [SSH Setup](ssh-setup.md)
-→ [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [SSH Setup](ssh-setup.md)
+- → [Daily Usage Patterns](../guides/daily-workflow.md)

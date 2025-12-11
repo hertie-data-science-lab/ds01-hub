@@ -37,9 +37,9 @@
 container-deploy my-project
 container-attach my-project
 
-# Docker commands (advanced)
-docker run -it --gpus device=0 ds01-12345/my-project:latest
-docker exec -it my-project._.12345 bash
+# Docker commands (advanced) - replace <project-name> and <user-id>
+docker run -it --gpus device=0 ds01-<user-id>/<project-name>:latest
+docker exec -it <project-name>._.<user-id> bash
 ```
 
 **Why:**
@@ -48,24 +48,24 @@ docker exec -it my-project._.12345 bash
 - Works anywhere (not DS01-specific)
 - Required for complex workflows
 
-→ [Docker Direct Guide](docker-direct.md)
+- → [Docker Direct Guide](docker-direct.md)
 
-→ [Terminal Workflows](terminal-workflows.md)
+- → [Terminal Workflows](terminal-workflows.md)
 
 ### 2. Batch Jobs and Background Processing
 
 **Submit jobs, check results later:**
 
 ```bash
-# Submit training job
-docker exec -d my-project._.$(id -u) \
+# Submit training job - replace <project-name>
+docker exec -d <project-name>._.$(id -u) \
   nohup python train.py > /workspace/output.log 2>&1
 
 # Check later
-tail -f ~/workspace/my-project/output.log
+tail -f ~/workspace/<project-name>/output.log
 ```
 
-→ [Batch Jobs Guide](batch-jobs.md)
+- → [Batch Jobs Guide](batch-jobs.md)
 
 ### 3. Build Optimisation
 
@@ -75,7 +75,7 @@ tail -f ~/workspace/my-project/output.log
 - Layer caching strategies
 - Minimal base images
 
-→ [Dockerfile Best Practices](dockerfile-best-practices.md)
+- → [Dockerfile Best Practices](dockerfile-best-practices.md)
 
 ### 4. Advanced SSH and Remote Access
 
@@ -85,13 +85,13 @@ tail -f ~/workspace/my-project/output.log
 - Key-based authentication
 - Port forwarding for Jupyter/TensorBoard
 
-→ [SSH Advanced Guide](ssh-advanced.md)
+- → [SSH Advanced Guide](ssh-advanced.md)
 
 ### 5. Multi-GPU Training
 
 **Distributed training across multiple MIG instances:**
 
-→ [Multi-MIG Training](multi-mig-training.md)
+- → [Multi-MIG Training](multi-mig-training.md)
 
 ---
 

@@ -133,6 +133,6 @@ source ~/.bashrc
 
 ## Next Steps
 
-→ [Daily Workflow Guide](../guides/daily-workflow.md)
-→ [Custom Images Guide](../guides/custom-images.md)
-→ [Quick Reference](../quick-reference.md)
+- → [Daily Workflow Guide](../guides/daily-workflow.md)
+- → [Custom Images Guide](../guides/custom-images.md)
+- → [Quick Reference](../quick-reference.md)

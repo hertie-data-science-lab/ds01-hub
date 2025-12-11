@@ -2,6 +2,8 @@
 
 CLI-focused development patterns for users who prefer terminal over IDE.
 
+> **Note:** In examples below, replace `<project-name>` with your actual project name. The `$(id -u)` part auto-substitutes your user ID.
+
 ---
 
 ## Philosophy
@@ -24,7 +26,7 @@ CLI-focused development patterns for users who prefer terminal over IDE.
 vim ~/workspace/my-project/train.py
 
 # Run in container (non-interactive)
-docker exec my-project._.$(id -u) \
+docker exec <project-name>._.$(id -u) \
   python /workspace/train.py
 
 # Check output
@@ -43,11 +45,11 @@ cd ~/workspace/my-project
 vim src/model.py
 
 # Test changes
-docker exec my-project._.$(id -u) \
+docker exec <project-name>._.$(id -u) \
   python /workspace/src/model.py
 
 # Or enter container for interactive testing
-docker exec -it my-project._.$(id -u) bash
+docker exec -it <project-name>._.$(id -u) bash
 >>> python
 >>> from src.model import MyModel
 >>> model = MyModel()
@@ -76,7 +78,7 @@ Ctrl+B "    # Split horizontal
 vim ~/workspace/my-project/train.py
 
 # Right pane: container shell
-docker exec -it my-project._.$(id -u) bash
+docker exec -it <project-name>._.$(id -u) bash
 
 # Detach
 Ctrl+B D
@@ -93,11 +95,11 @@ tmux attach -s dev
 
 ```bash
 # Single command
-docker exec my-project._.$(id -u) \
+docker exec <project-name>._.$(id -u) \
   python /workspace/train.py
 
 # Multiple commands
-docker exec my-project._.$(id -u) bash -c "
+docker exec <project-name>._.$(id -u) bash -c "
   cd /workspace
   python preprocess.py
   python train.py
@@ -105,7 +107,7 @@ docker exec my-project._.$(id -u) bash -c "
 "
 
 # With environment variables
-docker exec -e CUDA_VISIBLE_DEVICES=0 my-project._.$(id -u) \
+docker exec -e CUDA_VISIBLE_DEVICES=0 <project-name>._.$(id -u) \
   python /workspace/train.py
 ```
 
@@ -117,7 +119,7 @@ docker exec -e CUDA_VISIBLE_DEVICES=0 my-project._.$(id -u) \
 
 ```bash
 # Container logs
-docker logs -f my-project._.$(id -u)
+docker logs -f <project-name>._.$(id -u)
 
 # Application logs
 tail -f ~/workspace/my-project/training.log
@@ -165,14 +167,14 @@ git diff src/model.py
 
 ```bash
 # Start in background
-docker exec -d my-project._.$(id -u) \
+docker exec -d <project-name>._.$(id -u) \
   nohup python /workspace/train.py > /workspace/output.log 2>&1
 
 # Check running processes
-docker exec my-project._.$(id -u) ps aux | grep python
+docker exec <project-name>._.$(id -u) ps aux | grep python
 
 # Kill process
-docker exec my-project._.$(id -u) pkill -f train.py
+docker exec <project-name>._.$(id -u) pkill -f train.py
 ```
 
 ---
@@ -183,13 +185,13 @@ docker exec my-project._.$(id -u) pkill -f train.py
 
 ```bash
 # Host to container
-docker cp local-file.txt my-project._.$(id -u):/workspace/
+docker cp local-file.txt <project-name>._.$(id -u):/workspace/
 
 # Container to host
-docker cp my-project._.$(id -u):/workspace/results.txt ~/
+docker cp <project-name>._.$(id -u):/workspace/results.txt ~/
 
 # Entire directory
-docker cp ~/data/ my-project._.$(id -u):/workspace/data/
+docker cp ~/data/ <project-name>._.$(id -u):/workspace/data/
 ```
 
 **Usually not needed** - use workspace mount instead.
@@ -202,9 +204,9 @@ docker cp ~/data/ my-project._.$(id -u):/workspace/data/
 
 ```bash
 # Add to ~/.bashrc
-alias dex='docker exec -it my-project._.$(id -u) bash'
-alias drun='docker exec my-project._.$(id -u)'
-alias dlogs='docker logs -f my-project._.$(id -u)'
+alias dex='docker exec -it <project-name>._.$(id -u) bash'
+alias drun='docker exec <project-name>._.$(id -u)'
+alias dlogs='docker logs -f <project-name>._.$(id -u)'
 
 # Usage
 dex                           # Enter container
@@ -216,8 +218,8 @@ dlogs                         # Follow logs
 
 ## See Also
 
-→ [Docker Direct](docker-direct.md) - Docker command reference
+- → [Docker Direct](docker-direct.md) - Docker command reference
 
-→ [Batch Jobs](batch-jobs.md) - Long-running jobs
+- → [Batch Jobs](batch-jobs.md) - Long-running jobs
 
-→ [SSH Advanced](ssh-advanced.md) - Remote access
+- → [SSH Advanced](ssh-advanced.md) - Remote access

@@ -1,6 +1,12 @@
 # Workspaces & Persistence
 
-Understanding what's saved and what's temporary is critical for DS01. This guide explains persistence, file organization, and backup strategies.
+**Deep dive into stateless compute, persistent storage, and cloud architecture patterns.**
+
+> **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
+>
+> **Just want the essentials?** See [Key Concepts: Workspaces and Persistence](../concepts/workspaces-persistence.md) for a shorter overview.
+
+Understanding stateless/stateful separation is critical for cloud computing. This guide explains persistence patterns, file organization, and how these concepts transfer to AWS, Kubernetes, and production systems.
 
 ---
 
@@ -554,10 +560,10 @@ docker rmi ds01-$(whoami)/old-project:latest
 **Check both locations:**
 ```bash
 # On host
-ls ~/workspace/my-project/
+ls ~/workspace/<project-name>/
 
-# Inside container (should match)
-docker exec my-project._.$(whoami) ls /workspace/
+# Inside container (should match) - replace <project-name>
+docker exec <project-name>._.$(whoami) ls /workspace/
 ```
 
 ### "Files disappeared after container removal"
@@ -565,11 +571,11 @@ docker exec my-project._.$(whoami) ls /workspace/
 **Likely saved outside workspace:**
 ```bash
 # Check if files in workspace
-ls ~/workspace/my-project/
+ls ~/workspace/<project-name>/
 
-# If empty, check container (if still exists)
-docker exec my-project._.$(whoami) ls /tmp/
-docker exec my-project._.$(whoami) ls ~/
+# If empty, check container (if still exists) - replace <project-name>
+docker exec <project-name>._.$(whoami) ls /tmp/
+docker exec <project-name>._.$(whoami) ls ~/
 ```
 
 **Prevention:** Always save to `/workspace`
@@ -626,17 +632,17 @@ docker image prune
 ### Understand Containers
 
 **Learn how containers work:**
-→ [Containers Explained](containers-explained.md)
+- → [Containers Explained](containers-explained.md)
 
 ### Learn Daily Workflow
 
 **Put knowledge into practice:**
-→ [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../guides/daily-workflow.md)
 
 ### Advanced Organization
 
 **Project structure:**
-→ [Project Structure](../guides/creating-projects.md)
+- → [Project Structure](../guides/creating-projects.md)
 
 ---
 

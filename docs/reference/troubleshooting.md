@@ -2,6 +2,8 @@
 
 Common issues and solutions for DS01. Check here before asking for help.
 
+> **Note:** In examples below, replace `<project-name>` with your actual project name. The `$(whoami)` part auto-substitutes your username.
+
 ---
 
 ## Container Issues
@@ -57,7 +59,7 @@ Error: Container failed to start
 1. **Check container status:**
    ```bash
    docker ps -a | grep my-project
-   docker logs my-project._.$(whoami)
+   docker logs <project-name>._.$(whoami)
    ```
 
 2. **Recreate container:**
@@ -80,7 +82,7 @@ Error: Container failed to start
 - Processes terminated
 
 **Causes:**
-1. **Idle timeout reached** (typically 48 hours of low CPU)
+1. **Idle timeout reached** (30min-2h, varies by user)
 2. **Out of memory** (OOM killer)
 3. **Max runtime exceeded**
 4. **Code crashed**
@@ -88,18 +90,20 @@ Error: Container failed to start
 **Solutions:**
 1. **Check logs:**
    ```bash
-   docker logs my-project._.$(whoami) | tail -100
+   docker logs <project-name>._.$(whoami) | tail -100
    ```
 
 2. **Check for OOM:**
    ```bash
-   docker inspect my-project._.$(whoami) | grep OOMKilled
+   docker inspect <project-name>._.$(whoami) | grep OOMKilled
    ```
 
 3. **Prevent idle timeout:**
    ```bash
-   touch ~/workspace/my-project/.keep-alive
+   touch ~/workspace/<project-name>/.keep-alive
    ```
+
+   > **⚠️ Contact DSL First:** The `.keep-alive` workaround is available but should be a **last resort** as it can disrupt the system for other users. Please [open an issue on DS01 Hub](https://github.com/hertie-data-science-lab/ds01-hub/issues) first to find a better solution together.
 
 4. **Restart container:**
    ```bash
@@ -157,19 +161,19 @@ Error: Container not found
 1. **Check both locations:**
    ```bash
    # On host
-   ls ~/workspace/my-project/
+   ls ~/workspace/<project-name>/
 
    # In container
-   docker exec my-project._.$(whoami) ls /workspace/
+   docker exec <project-name>._.$(whoami) ls /workspace/
    ```
 
 2. **Verify workspace mount:**
    ```bash
-   docker inspect my-project._.$(whoami) | grep -A 5 "Mounts"
+   docker inspect <project-name>._.$(whoami) | grep -A 5 "Mounts"
    ```
 
 3. **Remember the mapping:**
-   - Host: `~/workspace/my-project/`
+   - Host: `~/workspace/<project-name>/`
    - Container: `/workspace/`
 
 ---
@@ -190,13 +194,13 @@ Permission denied
 **Solutions:**
 1. **Check ownership:**
    ```bash
-   ls -ld ~/workspace/my-project/
+   ls -ld ~/workspace/<project-name>/
    # Should be owned by you
    ```
 
 2. **Fix permissions (on host):**
    ```bash
-   sudo chown -R $(whoami):$(whoami) ~/workspace/my-project/
+   sudo chown -R $(whoami):$(whoami) ~/workspace/<project-name>/
    ```
 
 3. **Check disk space:**
@@ -305,14 +309,14 @@ ModuleNotFoundError: No module named 'transformers'
 
 **Causes:**
 - Package not in image
-- Wrong Python environment
 - Package name typo
+
+> **Note:** DS01 containers ARE your Python environment - you don't need venv or conda. See [Python Environments](../concepts/python-environments.md).
 
 **Solutions:**
 1. **Check if installed:**
    ```bash
    pip list | grep transformers
-   conda list | grep transformers
    ```
 
 2. **Temporary install:**
@@ -323,11 +327,10 @@ ModuleNotFoundError: No module named 'transformers'
 3. **Permanent fix (add to image):**
    ```bash
    exit  # Exit container
-   vim ~/dockerfiles/my-project.Dockerfile
-   # Add: RUN pip install transformers
-   image-update my-project
-   container-retire my-project
-   container-deploy my-project
+   # Edit ~/workspace/<project-name>/Dockerfile to add: RUN pip install transformers
+   image-update <project-name>
+   container-retire <project-name>
+   container-deploy <project-name>
    ```
 
 ---
@@ -353,7 +356,7 @@ bash: nvidia-smi: command not found
 
 2. **Check GPU allocation:**
    ```bash
-   docker inspect my-project._.$(whoami) | grep -i gpu
+   docker inspect <project-name>._.$(whoami) | grep -i gpu
    ```
 
 3. **Recreate with GPU:**
@@ -447,18 +450,19 @@ No devices found
 **Solutions:**
 1. **Check Jupyter is running:**
    ```bash
-   docker exec my-project._.$(whoami) ps aux | grep jupyter
+   docker exec <project-name>._.$(whoami) ps aux | grep jupyter
    ```
 
 2. **Check port:**
    ```bash
-   docker port my-project._.$(whoami)
+   docker port <project-name>._.$(whoami)
    ```
 
 3. **Set up SSH tunnel:**
    ```bash
    # On your laptop
-   ssh -L 8888:localhost:8888 user@ds01-server
+   ssh -L 8888:localhost:8888 ds01
+   # Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
 
    # Then access: http://localhost:8888
    ```
@@ -640,7 +644,7 @@ Permission denied (publickey)
 
 2. **Check logs:**
    ```bash
-   docker logs my-project._.$(whoami)
+   docker logs <project-name>._.$(whoami)
    ```
 
 3. **Check system status:**
@@ -679,7 +683,7 @@ Permission denied (publickey)
 
 4. **Relevant logs:**
    ```bash
-   docker logs my-project._.$(whoami) | tail -50
+   docker logs <project-name>._.$(whoami) | tail -50
    ```
 
 ---
@@ -740,7 +744,7 @@ Permission denied (publickey)
 
 1. **Workspace (most likely safe):**
    ```bash
-   ls ~/workspace/my-project/
+   ls ~/workspace/<project-name>/
    ```
 
 2. **Git (if you pushed):**
@@ -752,7 +756,7 @@ Permission denied (publickey)
 
 3. **Previous checkpoints:**
    ```bash
-   ls ~/workspace/my-project/models/
+   ls ~/workspace/<project-name>/models/
    ```
 
 **If truly lost:**
@@ -771,12 +775,12 @@ Permission denied (publickey)
 **Solutions:**
 1. **Force stop:**
    ```bash
-   docker stop -t 1 my-project._.$(whoami)
+   docker stop -t 1 <project-name>._.$(whoami)
    ```
 
 2. **Force kill:**
    ```bash
-   docker kill my-project._.$(whoami)
+   docker kill <project-name>._.$(whoami)
    ```
 
 3. **Remove forcefully:**
@@ -831,15 +835,15 @@ Permission denied (publickey)
 ## Next Steps
 
 **Understand the system:**
-→ [Containers Explained](../background/containers-and-docker.md)
-→ [Workspaces & Persistence](../background/workspaces-and-persistence.md)
+- → [Containers Explained](../background/containers-and-docker.md)
+- → [Workspaces & Persistence](../background/workspaces-and-persistence.md)
 
 **Learn best practices:**
 → 
-→ [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../guides/daily-workflow.md)
 
 **Command reference:**
-→ [Command Reference](command-reference.md)
+- → [Command Reference](command-reference.md)
 
 ---
 

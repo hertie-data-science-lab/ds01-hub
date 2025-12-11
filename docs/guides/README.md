@@ -18,7 +18,7 @@ Step-by-step instructions for common tasks. Each guide includes:
 
 ## Development Tools
 
-- [Jupyter Setup](jupyter-setup.md) - Jupyter Lab with SSH tunnels
+- [Jupyter Setup](jupyter.md) - Jupyter Lab with SSH tunnels
 - [VSCode Remote](vscode-remote.md) - Remote development in containers
 
 ## GPUs & Collaboration

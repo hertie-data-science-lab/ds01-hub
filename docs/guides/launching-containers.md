@@ -38,7 +38,6 @@ project launch my-thesis --open
 project launch   # Interactive project selection
 ```
 
-**Benefits:**
 - Beginner-friendly
 - Handles missing images
 - One command to start working
@@ -65,7 +64,6 @@ container deploy my-thesis --open
 container deploy
 ```
 
-**Benefits:**
 - Faster (no image check)
 - Works with AIME base images
 - Direct control
@@ -74,31 +72,6 @@ container deploy
 
 ---
 
-## Decision Tree
-
-**Starting out?**
-```bash
-project launch my-project
-```
-
-**Image definitely exists?**
-```bash
-container deploy my-project
-```
-
-**Want AIME base image (not custom)?**
-```bash
-container deploy   # Select from AIME catalog
-```
-
-**Not sure?**
-```bash
-project launch     # Safer choice
-```
-
----
-
-## Detailed Comparison
 
 | Feature | `project launch` | `container deploy` |
 |---------|------------------|-------------------|
@@ -107,13 +80,13 @@ project launch     # Safer choice
 | **Works with custom projects** | ✓ Yes | ✓ Yes |
 | **Works with AIME base images** | Limited | ✓ Yes |
 | **Reads pyproject.toml** | ✓ Yes | ✗ No |
-| **Interactive mode** | ✓ Yes | ✓ Yes |
-| **Speed** | Slightly slower | Faster |
-| **Best for** | Daily workflow | Power users |
+
 
 ---
 
 ## All Container Commands
+
+Under the hood there are additional levels of control available.
 
 ### Creation & Starting
 
@@ -126,6 +99,11 @@ container deploy <name>        # Direct: create + start
 container-create <name>        # Create only (not started)
 container-start <name>         # Start existing stopped container
 container-run <name>           # Start and enter terminal
+
+# L1 Docker (Direct) - Expert
+docker run ...                 # Raw Docker commands (still enforced by cgroups)
+docker start <container>       # Start stopped container
+docker exec -it <container> bash  # Enter running container
 ```
 
 ### Connecting to Running Containers
@@ -134,7 +112,7 @@ container-run <name>           # Start and enter terminal
 container-attach <name>        # Connect to running container
 ```
 
-**Note:** `container-attach` only works with **running** containers. Use `project launch` if container doesn't exist.
+**Note:** `container-attach` only works with **running** containers. Use `container deploy` if container doesn't exist.
 
 ### Stopping & Removing
 
@@ -145,6 +123,10 @@ container retire <name>        # Stop + remove + free GPU
 # L2 Atomic - Advanced
 container-stop <name>          # Stop only (holds GPU briefly)
 container-remove <name>        # Remove only
+
+# L1 Docker (Direct) - Expert
+docker stop <container>        # Stop container
+docker rm <container>          # Remove container
 ```
 
 ### Information
@@ -153,62 +135,6 @@ container-remove <name>        # Remove only
 container-list                 # List your containers
 container-stats                # Resource usage
 ```
-
----
-
-## When to Use Each Command
-
-### Daily Workflow: `project launch`
-
-```bash
-# Morning
-project launch my-thesis --open
-
-# Afternoon (different project)
-container retire my-thesis
-project launch other-project --open
-
-# Evening
-container retire other-project
-```
-
-**Why:** Handles everything, beginner-friendly.
-
-### Quick Deployment: `container deploy`
-
-```bash
-# You know image exists
-container deploy my-project --open
-
-# Testing AIME base image
-container deploy   # Select from catalog
-```
-
-**Why:** Faster when image definitely exists.
-
-### Reconnecting: `container-attach`
-
-```bash
-# Container already running
-container-attach my-project
-
-# Check what's running first
-container-list
-container-attach <name>
-```
-
-**Why:** Connect to existing session.
-
-### Cleanup: `container retire`
-
-```bash
-# Done for the day
-exit
-container retire my-project
-```
-
-**Why:** Frees GPU immediately, removes container.
-
 ---
 
 ## Interactive Mode
@@ -238,70 +164,6 @@ Choice [1-3]: _
 
 ---
 
-## Common Patterns
-
-### Pattern 1: New Project Start to Finish
-
-```bash
-# Create project
-project init my-research
-
-# Launch it (includes build)
-project launch my-research --open
-
-# Work...
-
-# Done
-exit
-container retire my-research
-```
-
-### Pattern 2: Existing Project Daily Use
-
-```bash
-# Morning
-project launch my-thesis --open
-
-# Work all day...
-
-# Evening
-exit
-container retire my-thesis
-```
-
-### Pattern 3: Quick Experiment
-
-```bash
-# Deploy fast
-container deploy experiment --open
-
-# Test idea...
-
-# Cleanup
-exit
-container retire experiment
-```
-
-### Pattern 4: Background Work + Reconnect
-
-```bash
-# Launch in background
-project launch training --background
-
-# Later: attach
-container-attach training
-
-# Start training...
-
-# Detach without stopping
-exit  # Container keeps running
-
-# Reconnect later
-container-attach training
-```
-
----
-
 ## Flags & Options
 
 ### `project launch` Options
@@ -311,7 +173,7 @@ project launch <name> [options]
 
 Options:
   --open              Create and open terminal (default)
-  --background        Create but don't open terminal
+  --background        Create but do not open terminal
   --rebuild           Force rebuild image even if exists
   --guided            Show explanations
   -h, --help          Show help
@@ -336,7 +198,7 @@ container deploy <name> [options]
 
 Options:
   --open              Deploy and open terminal (default)
-  --background        Deploy but don't open terminal
+  --background        Deploy but do not open terminal
   --project=<name>    Use specific project workspace
   --image=<name>      Use specific Docker image
   --guided            Show explanations
@@ -412,6 +274,32 @@ container-start my-project
 
 ---
 
+## Expert: L1 Docker Commands
+
+**For advanced users** - direct Docker access, still subject to DS01 resource enforcement (cgroups, OPA).
+
+```bash
+# Create and run container
+docker run -d --name my-container --gpus device=0 my-image
+
+# Start/stop existing container
+docker start my-container
+docker stop my-container
+
+# Enter running container
+docker exec -it my-container bash
+
+# Remove container
+docker rm my-container
+
+# List containers
+docker ps -a
+```
+
+**Note:** DS01 wrapper (`/usr/local/bin/docker`) automatically injects cgroup limits and labels.
+
+---
+
 ## Understanding Container States
 
 ### With L3 Commands (Recommended)
@@ -428,21 +316,38 @@ container retire → Removed
 
 ### With L2 Commands (Advanced)
 
-**Full four-state model:**
+**Full five-state model:**
 - **Created** - Exists but not started
 - **Running** - Active, can attach
-- **Stopped** - Paused (holds GPU temporarily)
+- **Paused** - Frozen processes, GPU still allocated
+- **Stopped** - Halted, GPU released after timeout
 - **Removed** - Deleted
 
 **Transitions:**
 ```
-container-create → Created
-container-start  → Running
-container-stop   → Stopped
-container-remove → Removed
+container-create  → Created
+container-start   → Running
+container-pause   → Paused (from Running)
+container-unpause → Running (from Paused)
+container-stop    → Stopped
+container-remove  → Removed
 ```
 
-**Most users:** Stick with L3 commands, simpler mental model.
+### With L1 Docker Commands (Expert)
+
+**Same five-state model**, direct Docker syntax:
+
+**Transitions:**
+```
+docker create   → Created
+docker start    → Running
+docker pause    → Paused
+docker unpause  → Running
+docker stop     → Stopped
+docker rm       → Removed
+```
+
+**Most users:** Stick with L3 commands, simpler mental model / avoids idle containers hogging resources.
 
 ---
 
@@ -613,16 +518,16 @@ dashboard
 
 **Learn the daily workflow:**
 
-→ [Daily Workflow Guide](../getting-started/daily-workflow.md)
+- → [Daily Workflow Guide](../getting-started/daily-workflow.md)
 
 **Understand container lifecycle:**
 
-→ [Ephemeral Containers Concept](../concepts/ephemeral-containers.md)
+- → [Ephemeral Containers Concept](../concepts/ephemeral-containers.md)
 
 **Create new projects:**
 
-→ [Creating Projects Guide](creating-projects.md)
+- → [Creating Projects Guide](creating-projects.md)
 
 **Advanced container management:**
 
-→ [Container Management Reference](../reference/container-commands.md)
+- → [Container Management Reference](../reference/container-commands.md)

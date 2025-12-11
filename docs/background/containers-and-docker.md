@@ -1,6 +1,10 @@
 # Containers & Docker
 
-> **Just want to deploy?** Skip to [First Container](../getting-started/first-container.md)
+**Deep dive into container technology and its role in modern computing.**
+
+> **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
+>
+> **Just want to use DS01?** See [Key Concepts: Containers and Images](../concepts/containers-and-images.md) for a shorter overview, or skip to [First Container](../getting-started/first-container.md).
 
 Containers are the foundation of DS01 and modern cloud computing. This guide explains what they are, why we use them, and how they work.
 

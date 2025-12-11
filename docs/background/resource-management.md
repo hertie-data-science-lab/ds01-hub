@@ -1,6 +1,10 @@
 # Resource Management
 
-Understanding DS01's resource allocation and limits.
+**Understanding quotas, fair sharing, and resource allocation in shared computing.**
+
+> **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
+
+Resource management is a core concept in cloud computing, HPC, and multi-tenant systems. This guide explains DS01's resource allocation and how these patterns apply to production systems.
 
 ## Your Resource Limits
 
@@ -11,9 +15,11 @@ cat ~/.ds01-limits
 **Typical limits:**
 - Max GPUs: 1-2
 - Max Containers: 2-3
-- Memory: 64-128GB per container
-- Idle Timeout: 48 hours
-- Max Runtime: 168 hours (1 week)
+- Memory: 32-128GB per container
+- Idle Timeout: 30min-2h (varies by user)
+- Max Runtime: 24h-72h (varies by user)
+
+Run `check-limits` to see your current values.
 
 ## How Limits Work
 
@@ -55,5 +61,5 @@ container-deploy new-project
 
 ## Next Steps
 
-→ [Ephemeral Containers](ephemeral-containers.md)
-→ [Resource Limits Reference](../reference/resource-limits.md)
+- → [Ephemeral Containers](ephemeral-containers.md)
+- → [Resource Limits Reference](../reference/resource-limits.md)

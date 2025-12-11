@@ -121,8 +121,8 @@ check-limits
 Max GPUs:       2
 Max Containers: 3
 Memory/Container: 64GB
-Max Runtime:    168h
-Idle Timeout:   48h
+Max Runtime:    24h (varies by user)
+Idle Timeout:   0.5h (varies by user)
 
 === Current Usage ===
 GPUs:       1 / 2

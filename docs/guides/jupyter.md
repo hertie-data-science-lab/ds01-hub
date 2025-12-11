@@ -11,11 +11,10 @@ Run Jupyter notebooks on DS01 with GPU access.
 | **Browser Jupyter Lab** | Full Jupyter experience, extensions | ✓ | 2 minutes |
 | **VS Code Notebooks** | Integrated development, debugging | ✓ | 1 minute |
 
-**Both work great** - choose based on your preference.
-
 ---
+# Quick start
 
-## Quick Start: Browser Jupyter Lab
+### Quick Start: Browser Jupyter Lab
 
 ```bash
 # 1. Launch container
@@ -25,7 +24,8 @@ project launch my-project --open
 jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 
 # 3. On laptop: Create SSH tunnel (new terminal)
-ssh -L 8888:localhost:8888 user@ds01-server
+ssh -L 8888:localhost:8888 ds01
+# Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
 
 # 4. Open browser: http://localhost:8888
 # Copy token from step 2
@@ -33,23 +33,25 @@ ssh -L 8888:localhost:8888 user@ds01-server
 
 ---
 
-## Quick Start: VS Code Notebooks
+### Quick Start: VS Code Notebooks
 
 ```bash
 # 1. Launch container
 project launch my-project --background
 
-# 2. In VS Code: Connect to DS01 (Remote-SSH)
-# 3. Open .ipynb file
-# 4. Select kernel: Python in container
-# 5. Start coding!
+# 2. In VS Code: Connect to DS01 (Remote-SSH extension)
+# 3. Attach VS Code to running container (Dev Containers extension)
+# 4. Open .ipynb file
+# 5. Select kernel: /usr/bin/python (see below)
+# 6. Start coding!
 ```
 
-→ [Full VS Code setup guide](vscode-remote.md)
+- → [Full VS Code setup guide](vscode-remote.md) | [Kernel selection details](vscode-remote.md#selecting-a-kernel)
 
 ---
+# Detailed Walkthroughs:
 
-## Browser Jupyter Lab (Detailed)
+### Browser Jupyter Lab (Detailed)
 
 ### Step 1: Launch Container
 
@@ -93,7 +95,8 @@ jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 **On your laptop** (new terminal):
 
 ```bash
-ssh -L 8888:localhost:8888 your-username@ds01-server
+ssh -L 8888:localhost:8888 ds01
+# Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
 ```
 
 **What this does:** Forwards port 8888 from DS01 to your laptop.
@@ -202,17 +205,14 @@ Start with systemd (if enabled in container).
 
 ---
 
-## Understanding Kernels
+## Understanding Kernels in DS01
 
-**What is a kernel?**
-- The Python interpreter that runs your notebook code
-- Each notebook connects to one kernel
-- Kernels can be different Python versions or environments
-
-**In DS01:**
-- Your container has one Python environment
+- Your container has one Python environment (containers provide complete isolation)
 - Jupyter uses that environment as the kernel
 - All packages installed in container are available
+- **You don't need venv or conda** - the container IS your environment
+
+→ See [Python Environments in Containers](../concepts/python-environments.md) for details
 
 **Check available kernels:**
 ```bash
@@ -237,12 +237,6 @@ python -m ipykernel install --user --name=python39 --display-name="Python 3.9"
 
 ## VS Code Notebooks (Detailed)
 
-**Benefits:**
-- No SSH tunnel needed
-- Integrated debugging
-- Intellisense/autocomplete
-- Side-by-side code and notebooks
-
 ### Setup
 
 **1. Install VS Code extensions (on laptop):**
@@ -262,7 +256,7 @@ project launch my-project --background
 
 **4. Attach VS Code to container:**
 ```
-VS Code → Remote Explorer → Containers → Attach
+VS Code → Remote Explorer / Container Tools / Dev Containers → Attach
 ```
 
 **5. Open notebook:**
@@ -291,31 +285,6 @@ File → Open → /workspace/my-project/notebooks/experiment.ipynb
 import torch
 torch.cuda.is_available()  # Should be True
 ```
-
-### VS Code Jupyter Features
-
-**Run cells:**
-- Click play button
-- Or: `Shift+Enter`
-
-**Debug cells:**
-- Set breakpoints
-- Click debug icon
-- Step through code
-
-**Variable explorer:**
-- See all variables
-- Click to inspect
-
-**Outline view:**
-- Navigate cells
-- See structure
-
-**Why VS Code over browser Jupyter?**
-- Debugging is better
-- Integrated terminal
-- Git integration built-in
-- Same interface for code and notebooks
 
 ---
 
@@ -384,7 +353,8 @@ EOF
 jupyter lab --ip=0.0.0.0 --port=8889 --no-browser
 
 # Update SSH tunnel
-ssh -L 8889:localhost:8889 user@ds01-server
+ssh -L 8889:localhost:8889 ds01
+# Without SSH keys: ssh -L 8889:localhost:8889 <student-id>@students.hertie-school.org@10.1.23.20
 
 # Access via http://localhost:8889
 ```
@@ -412,7 +382,7 @@ pip install jupyterlab-execute-time
 **Via Jupyter UI:**
 ```
 Settings → Enable Extension Manager
-Extensions tab → Search → Install
+Extensions tab → Search → Install 
 ```
 
 **Recommended extensions:**
@@ -433,23 +403,6 @@ RUN pip install jupyterlab-git jupyterlab-lsp python-lsp-server
 
 **Notebooks auto-save** to `/workspace/notebooks/` - they persist across container recreates.
 
-**Good habits:**
-
-```bash
-# Inside container
-cd /workspace/notebooks
-
-# Check git status
-git status
-
-# Commit changes
-git add experiment.ipynb
-git commit -m "Add feature extraction experiment"
-
-# Push to remote
-git push
-```
-
 **Before retiring container:**
 ```bash
 # Make sure notebooks are saved
@@ -458,15 +411,6 @@ jupyter notebook list
 # Files are in /workspace? Safe to retire
 exit
 container retire my-project
-```
-
-**Next time:**
-```bash
-# Launch again
-project launch my-project
-
-# Your notebooks are still there!
-ls /workspace/notebooks/
 ```
 
 ---
@@ -483,7 +427,7 @@ project launch analysis --open
 jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 
 # On laptop: SSH tunnel
-ssh -L 8888:localhost:8888 user@ds01
+ssh -L 8888:localhost:8888 ds01
 
 # Work in notebooks...
 
@@ -506,10 +450,10 @@ jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 # In browser: Start training in notebook
 # Detach tmux: Ctrl+B, D
 
-# Training runs overnight
+# Training runs
 exit
 
-# Next morning: Check progress
+# Check progress
 container-attach training
 tmux attach -t jupyter
 ```
@@ -556,7 +500,7 @@ container retire prototype
    ```bash
    # Try different port
    jupyter lab --port=8889
-   ssh -L 8889:localhost:8889 user@ds01
+   ssh -L 8889:localhost:8889 ds01
    ```
 
 ### "Token Invalid" Error
@@ -616,14 +560,14 @@ data = data.to(device)
 **Use autossh:**
 ```bash
 # On laptop
-autossh -M 0 -L 8888:localhost:8888 user@ds01-server
+autossh -M 0 -L 8888:localhost:8888 ds01
 ```
 
 **Or create alias in `~/.ssh/config`:**
 ```
 Host ds01-jupyter
-    HostName ds01-server
-    User your-username
+    HostName 10.1.23.20
+    User <student-id>@students.hertie-school.org
     LocalForward 8888 localhost:8888
     ServerAliveInterval 60
     ServerAliveCountMax 3
@@ -658,40 +602,8 @@ project launch my-project
 
 ---
 
-## Best Practices
-
-### 1. One Notebook Per Experiment
-
-```
-notebooks/
-├── 01_data_exploration.ipynb
-├── 02_baseline_model.ipynb
-├── 03_improved_model.ipynb
-└── 04_final_results.ipynb
-```
-
-### 2. Clear Outputs Before Committing
-
-```bash
-# Install nbstripout
-pip install nbstripout
-
-# Configure for your repo
-cd ~/workspace/my-project
-nbstripout --install
-
-# Now git commit automatically strips outputs
-```
-
-### 3. Use %%time for Profiling
-
-```python
-%%time
-# Your slow code here
-train_model()
-```
-
-### 4. Save Checkpoints
+## Best Practices: Save Checkpoints 
+In case you loose ssh connection / container crashes. Remember: containers are disposable, your files in workspace are persistent. This way you persist progress.
 
 ```python
 # In training notebook
@@ -699,54 +611,11 @@ if epoch % 5 == 0:
     torch.save(model.state_dict(), f'/workspace/models/checkpoint_{epoch}.pt')
 ```
 
-### 5. Document as You Go
-
-```python
-# Markdown cells explaining:
-# - What this section does
-# - Why you chose this approach
-# - Results and observations
-```
-
----
-
-## Jupyter vs Terminal Scripts
-
-**When to use Jupyter:**
-- Exploratory data analysis
-- Visualizations
-- Interactive debugging
-- Teaching/demos
-
-**When to use Python scripts:**
-- Long training runs
-- Production pipelines
-- Automated workflows
-- Code reuse across projects
-
-**Can mix both:**
-```python
-# Notebook: exploration and prototyping
-# → Extract working code to src/train.py
-# → Run training: !python src/train.py
-```
-
 ---
 
 ## Next Steps
 
-**Set up VS Code:**
-
-→ [VS Code Remote Guide](vscode-remote.md)
-
-**Learn advanced techniques:**
-
-→ [Long-Running Jobs](long-running-jobs.md)
-
-**Optimize your workflow:**
-
-→ [Daily Workflow](../getting-started/daily-workflow.md)
-
-**Understand the system:**
-
-→ [Containers and Images](../concepts/containers-and-images.md)
+- → [VS Code Remote Guide](vscode-remote.md)
+- → [Long-Running Jobs](long-running-jobs.md)
+- → [Daily Workflow](../getting-started/daily-workflow.md)
+- → [Containers and Images](../concepts/containers-and-images.md)

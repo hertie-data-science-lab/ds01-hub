@@ -12,6 +12,8 @@ Complete reference for all DS01 commands with examples and options.
 - [container-create](#container-create) - Create container only (L2)
 - [container-start](#container-start) - Start container in background (L2)
 - [container-run](#container-run) - Start and enter container (L2)
+- [container-pause](#container-pause) - Freeze container processes (L2)
+- [container-unpause](#container-unpause) - Resume frozen container (L2)
 - [container-stop](#container-stop) - Stop container (L2)
 - [container-remove](#container-remove) - Remove container (L2)
 - [container-list](#container-list) - List containers (L2)
@@ -227,6 +229,56 @@ user@my-project:/workspace$
 3. You can exit with `exit` or Ctrl+D
 
 **Note:** Container keeps running after you exit (unless you stop it)
+
+---
+
+### container-pause
+
+**Freeze container processes** (L2 atomic)
+
+**Syntax:**
+```bash
+container-pause <project-name>
+```
+
+**Examples:**
+```bash
+# Pause container
+container-pause my-project
+
+# Processes frozen, GPU still allocated
+```
+
+**What it does:**
+1. Freezes all container processes (SIGSTOP)
+2. GPU remains allocated
+3. Memory state preserved
+4. Use `container-unpause` to resume
+
+**Use case:** Temporarily free CPU while keeping GPU and state
+
+---
+
+### container-unpause
+
+**Resume frozen container** (L2 atomic)
+
+**Syntax:**
+```bash
+container-unpause <project-name>
+```
+
+**Examples:**
+```bash
+# Resume paused container
+container-unpause my-project
+
+# Processes continue where they left off
+```
+
+**What it does:**
+1. Resumes all frozen processes (SIGCONT)
+2. Container continues running normally
 
 ---
 
@@ -757,16 +809,18 @@ container-retire exp-3
 
 ### Debugging
 
+> Replace `<project-name>` with your actual project name.
+
 ```bash
 # Check container status
 container-list
-container-stats my-project
+container-stats <project-name>
 
 # View logs
-docker logs my-project._.$(whoami)
+docker logs <project-name>._.$(whoami)
 
 # Enter container
-container-run my-project
+container-run <project-name>
 
 # Check GPU
 nvidia-smi
@@ -881,18 +935,18 @@ alias clist='container-list'
 ### Learn Workflows
 
 **Daily patterns:**
-→ [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../guides/daily-workflow.md)
 
 **Project setup:**
-→ [Creating Projects](../guides/creating-projects.md)
+- → [Creating Projects](../guides/creating-projects.md)
 
 **Container management:**
-→ [Managing Containers](../guides/daily-workflow.md)
+- → [Managing Containers](../guides/daily-workflow.md)
 
 ### Troubleshooting
 
 **Common issues:**
-→ [Troubleshooting Guide](troubleshooting.md)
+- → [Troubleshooting Guide](troubleshooting.md)
 
 **Best practices:**
 → 

@@ -68,7 +68,13 @@ screen -r training
 
 ## Preventing Idle Timeout
 
-DS01 stops containers idle for too long (typically 48 hours of low CPU).
+DS01 auto-stops containers that are idle (low GPU activity). Timeout varies by user (typically **30min-2h**) and is dynamically adjusted. Run `check-limits` to see your current limits.
+
+> **⚠️ Contact DSL First**
+>
+> The workarounds below (`.keep-alive`, `nohup`, etc.) are available but should be **last resorts** as they can disrupt the system for other users by holding GPUs longer than necessary.
+>
+> **Please [open an issue on DS01 Hub](https://github.com/hertie-data-science-lab/ds01-hub/issues) first** to discuss your requirements with the Data Science Lab team. We can often find better solutions together (adjusted limits, scheduled runs, checkpointing strategies).
 
 ### Option 1: .keep-alive File
 
@@ -84,26 +90,70 @@ Active GPU/CPU usage doesn't count as idle. Training jobs naturally prevent time
 
 ---
 
+## Pausing Jobs Temporarily
+
+For short breaks, you can pause containers instead of stopping them.
+
+### DS01 Commands (Recommended)
+
+```bash
+# Pause container (freeze all processes)
+container-pause my-project
+
+# Resume container
+container-unpause my-project
+```
+
+### Docker Commands (L1)
+
+> Replace `<project-name>` with your actual project name.
+
+```bash
+# Pause container
+docker pause <project-name>._.$(id -u)
+
+# Resume container
+docker unpause <project-name>._.$(id -u)
+```
+
+**What happens when paused:**
+- All processes freeze instantly (training pauses mid-batch)
+- GPU remains allocated but idle
+- Memory state preserved
+- Resume instantly where you left off
+
+**When to use pause:**
+- Debugging (freeze state for inspection)
+- Testing before checkpoints
+
+**When NOT to use pause:**
+- Long breaks (use `container-stop` instead) 
+- Freeing GPU for others (pause keeps GPU allocated)
+
+---
+
 ## Monitoring Progress
 
 ### From Outside Container
+
+> Replace `<project-name>` with your actual project name.
 
 ```bash
 # Check container is running
 container-list
 
 # View logs
-docker logs my-project._.$(whoami) --tail 100
+docker logs <project-name>._.$(whoami) --tail 100
 
 # Follow logs
-docker logs my-project._.$(whoami) -f
+docker logs <project-name>._.$(whoami) -f
 ```
 
 ### Inside Container
 
 ```bash
 # Attach to running container
-container-run my-project
+container-attach my-project
 
 # Check GPU
 nvidia-smi
@@ -162,9 +212,11 @@ check-limits
 ```
 
 Key limits:
-- **Max Runtime:** Typically 168h (1 week)
-- **Idle Timeout:** Typically 48h
+- **Max Runtime:** 24h-72h (varies by user)
+- **Idle Timeout:** 30min-2h (varies by user)
 - **Memory:** Per-container limit
+
+Run `check-limits` to see your current values.
 
 ---
 
@@ -208,16 +260,18 @@ os.system('echo "Training complete" | mail -s "DS01 Alert" you@email.com')
 
 ## Troubleshooting
 
+> Replace `<project-name>` with your actual project name in commands below.
+
 ### Job Stopped Unexpectedly
 
 1. Check logs:
    ```bash
-   docker logs my-project._.$(whoami) | tail -100
+   docker logs <project-name>._.$(whoami) | tail -100
    ```
 
 2. Check for OOM:
    ```bash
-   docker inspect my-project._.$(whoami) | grep OOMKilled
+   docker inspect <project-name>._.$(whoami) | grep OOMKilled
    ```
 
 3. Resume from checkpoint:

@@ -2,6 +2,8 @@
 
 Solutions for container startup, runtime, and lifecycle problems.
 
+> **Note:** In examples below, replace `<project-name>` with your actual project name. The `$(whoami)` part auto-substitutes your username.
+
 ---
 
 ## Container Won't Start {#wont-start}
@@ -21,8 +23,8 @@ Error: Container failed to start
 
 1. **Check container status:**
    ```bash
-   docker ps -a | grep my-project
-   docker logs my-project._.$(whoami)
+   docker ps -a | grep <project-name>
+   docker logs <project-name>._.$(whoami)
    ```
 
 2. **Recreate container:**
@@ -45,7 +47,7 @@ Error: Container failed to start
 - Processes terminated
 
 **Causes:**
-1. **Idle timeout reached** (typically 48 hours of low CPU)
+1. **Idle timeout reached** (30min-2h, varies by user)
 2. **Out of memory** (OOM killer)
 3. **Max runtime exceeded**
 4. **Code crashed**
@@ -54,18 +56,20 @@ Error: Container failed to start
 
 1. **Check logs:**
    ```bash
-   docker logs my-project._.$(whoami) | tail -100
+   docker logs <project-name>._.$(whoami) | tail -100
    ```
 
 2. **Check for OOM:**
    ```bash
-   docker inspect my-project._.$(whoami) | grep OOMKilled
+   docker inspect <project-name>._.$(whoami) | grep OOMKilled
    ```
 
 3. **Prevent idle timeout:**
    ```bash
-   touch ~/workspace/my-project/.keep-alive
+   touch ~/workspace/<project-name>/.keep-alive
    ```
+
+   > **⚠️ Contact DSL First:** The `.keep-alive` workaround is available but should be a **last resort** as it can disrupt the system for other users. Please [open an issue on DS01 Hub](https://github.com/hertie-data-science-lab/ds01-hub/issues) first to find a better solution together.
 
 4. **Restart container:**
    ```bash
@@ -124,12 +128,12 @@ Error: Container not found
 
 2. **Check if swapping:**
    ```bash
-   docker exec my-project._.$(whoami) free -h
+   docker exec <project-name>._.$(whoami) free -h
    ```
 
 3. **Check GPU utilisation:**
    ```bash
-   docker exec my-project._.$(whoami) nvidia-smi
+   docker exec <project-name>._.$(whoami) nvidia-smi
    ```
 
 4. **Reduce memory pressure:**
@@ -149,12 +153,12 @@ Error: Container not found
 
 1. **Force stop:**
    ```bash
-   docker stop -t 1 my-project._.$(whoami)
+   docker stop -t 1 <project-name>._.$(whoami)
    ```
 
 2. **Force kill:**
    ```bash
-   docker kill my-project._.$(whoami)
+   docker kill <project-name>._.$(whoami)
    ```
 
 3. **Remove forcefully:**

@@ -47,7 +47,7 @@ container-remove my-project  # Remove explicitly
 - Better debugging (isolate which step fails)
 - Required for automation/scripting
 
-→ [Atomic Commands Reference](atomic-commands.md)
+- → [Atomic Commands Reference](atomic-commands.md)
 
 ### 2. CLI Flags and Efficiency
 
@@ -71,7 +71,7 @@ container-deploy my-project --gpu=2              # Multi-GPU
 - Scriptable commands
 - Better for automation
 
-→ [CLI Flags Reference](cli-flags.md)
+- → [CLI Flags Reference](cli-flags.md)
 
 ### 3. Full Container State Model
 
@@ -92,7 +92,7 @@ created → running → stopped → removed
 - Can pause work without losing allocation
 - Better control over resource usage
 
-→ [Container States](container-states.md)
+- → [Container States](container-states.md)
 
 ### 4. Scripting Workflows
 
@@ -128,7 +128,7 @@ done
 - Reproducible workflows
 - Save time on repetitive tasks
 
-→ [Scripting Guide](scripting.md)
+- → [Scripting Guide](scripting.md)
 
 ---
 

@@ -21,6 +21,8 @@ When and how to use Docker commands directly on DS01.
 
 ## Common Docker Commands
 
+> **Note:** In examples below, replace `<project-name>` with your actual project name. The `$(whoami)` part auto-substitutes your username.
+
 ### Container Inspection
 
 ```bash
@@ -31,23 +33,23 @@ docker ps -a
 docker ps -a --filter "name=._.$(whoami)"
 
 # Container details
-docker inspect my-project._.$(whoami)
+docker inspect <project-name>._.$(whoami)
 
 # Container logs
-docker logs my-project._.$(whoami)
-docker logs my-project._.$(whoami) --tail 100
-docker logs my-project._.$(whoami) -f  # Follow
+docker logs <project-name>._.$(whoami)
+docker logs <project-name>._.$(whoami) --tail 100
+docker logs <project-name>._.$(whoami) -f  # Follow
 ```
 
 ### Container Interaction
 
 ```bash
 # Execute command in container
-docker exec my-project._.$(whoami) nvidia-smi
-docker exec my-project._.$(whoami) pip list
+docker exec <project-name>._.$(whoami) nvidia-smi
+docker exec <project-name>._.$(whoami) pip list
 
 # Enter container (alternative to container-run)
-docker exec -it my-project._.$(whoami) /bin/bash
+docker exec -it <project-name>._.$(whoami) /bin/bash
 ```
 
 ### Image Management
@@ -60,7 +62,7 @@ docker images
 docker images | grep ds01-$(whoami)
 
 # Remove image
-docker rmi ds01-$(whoami)/my-project:latest
+docker rmi ds01-$(whoami)/<project-name>:latest
 
 # Prune unused images
 docker image prune
@@ -100,13 +102,13 @@ experiment-1._.bob
 
 ```bash
 # Check memory limit
-docker inspect my-project._.$(whoami) --format '{{.HostConfig.Memory}}'
+docker inspect <project-name>._.$(whoami) --format '{{.HostConfig.Memory}}'
 
 # Check CPU limit
-docker inspect my-project._.$(whoami) --format '{{.HostConfig.NanoCpus}}'
+docker inspect <project-name>._.$(whoami) --format '{{.HostConfig.NanoCpus}}'
 
 # Check GPU allocation
-docker inspect my-project._.$(whoami) | grep -i gpu
+docker inspect <project-name>._.$(whoami) | grep -i gpu
 ```
 
 ---
@@ -117,23 +119,23 @@ docker inspect my-project._.$(whoami) | grep -i gpu
 
 ```bash
 # Check last exit code
-docker inspect my-project._.$(whoami) --format '{{.State.ExitCode}}'
+docker inspect <project-name>._.$(whoami) --format '{{.State.ExitCode}}'
 
 # Check OOM killed
-docker inspect my-project._.$(whoami) --format '{{.State.OOMKilled}}'
+docker inspect <project-name>._.$(whoami) --format '{{.State.OOMKilled}}'
 
 # View full state
-docker inspect my-project._.$(whoami) --format '{{json .State}}' | jq
+docker inspect <project-name>._.$(whoami) --format '{{json .State}}' | jq
 ```
 
 ### Network Issues
 
 ```bash
 # Check network settings
-docker inspect my-project._.$(whoami) --format '{{json .NetworkSettings}}'
+docker inspect <project-name>._.$(whoami) --format '{{json .NetworkSettings}}'
 
 # Check exposed ports
-docker port my-project._.$(whoami)
+docker port <project-name>._.$(whoami)
 ```
 
 ---
@@ -143,19 +145,19 @@ docker port my-project._.$(whoami)
 ### Force Stop
 
 ```bash
-docker stop -t 1 my-project._.$(whoami)
+docker stop -t 1 <project-name>._.$(whoami)
 ```
 
 ### Force Kill
 
 ```bash
-docker kill my-project._.$(whoami)
+docker kill <project-name>._.$(whoami)
 ```
 
 ### Force Remove
 
 ```bash
-docker rm -f my-project._.$(whoami)
+docker rm -f <project-name>._.$(whoami)
 ```
 
 ---
@@ -164,12 +166,12 @@ docker rm -f my-project._.$(whoami)
 
 ```bash
 # Build from Dockerfile
-docker build -t ds01-$(whoami)/my-project:latest \
-    -f ~/dockerfiles/my-project.Dockerfile .
+docker build -t ds01-$(whoami)/<project-name>:latest \
+    -f ~/dockerfiles/<project-name>.Dockerfile .
 
 # Build with no cache
-docker build --no-cache -t ds01-$(whoami)/my-project:latest \
-    -f ~/dockerfiles/my-project.Dockerfile .
+docker build --no-cache -t ds01-$(whoami)/<project-name>:latest \
+    -f ~/dockerfiles/<project-name>.Dockerfile .
 ```
 
 ---

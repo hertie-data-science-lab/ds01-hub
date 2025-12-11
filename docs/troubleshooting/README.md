@@ -49,19 +49,21 @@ Find your problem below and jump to the solution.
 
 If you're stuck, try these in order:
 
+> Replace `<project-name>` with your actual project name.
+
 ```bash
 # 1. Check what's running
 container-list
 
 # 2. Check container logs
-docker logs my-project._.$(whoami)
+docker logs <project-name>._.$(whoami)
 
 # 3. Check system status
 ds01-health-check
 
 # 4. Recreate container
-container-retire my-project
-container-deploy my-project
+container-retire <project-name>
+container-deploy <project-name>
 ```
 
 Your workspace files are **always safe** - recreating a container won't lose data.

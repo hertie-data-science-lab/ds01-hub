@@ -233,8 +233,8 @@ done
 
 ## Next Steps
 
-→ [Atomic Commands](atomic-commands.md) - Commands for scripting
+- → [Atomic Commands](atomic-commands.md) - Commands for scripting
 
-→ [CLI Flags](cli-flags.md) - Non-interactive usage
+- → [CLI Flags](cli-flags.md) - Non-interactive usage
 
-→ [Advanced](../advanced/) - Docker-native scripting
+- → [Advanced](../advanced/) - Docker-native scripting

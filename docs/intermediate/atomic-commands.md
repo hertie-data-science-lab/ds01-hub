@@ -18,6 +18,8 @@ container retire = stop + remove
 ```bash
 container-create   # Just create
 container-start    # Just start
+container-pause    # Freeze processes (GPU stays allocated)
+container-unpause  # Resume frozen container
 container-stop     # Just stop
 container-remove   # Just remove
 ```
@@ -220,6 +222,70 @@ Ctrl+D
 ```
 
 **Container state after:** Still `running` (if other processes exist)
+
+---
+
+### `container-pause` - Pause Container
+
+**Freezes all container processes without stopping.**
+
+**Syntax:**
+```bash
+container-pause <name> [options]
+container-pause                      # Interactive
+```
+
+**Common flags:**
+```bash
+--all, -a               # Pause all running containers
+--guided                # Show explanations
+-h, --help              # Show help
+```
+
+**Examples:**
+```bash
+# Pause container
+container-pause my-thesis
+
+# Pause all containers
+container-pause --all
+```
+
+**What it does:**
+1. Sends SIGSTOP to all processes
+2. Processes frozen in place
+3. GPU remains allocated
+4. Memory state preserved
+
+**Container state after:** `paused`
+
+**Use case:** Free CPU temporarily while keeping GPU and state
+
+**To resume:** `container-unpause <name>`
+
+---
+
+### `container-unpause` - Resume Container
+
+**Resumes frozen container processes.**
+
+**Syntax:**
+```bash
+container-unpause <name> [options]
+container-unpause                    # Interactive
+```
+
+**Examples:**
+```bash
+# Resume paused container
+container-unpause my-thesis
+```
+
+**What it does:**
+1. Sends SIGCONT to all processes
+2. Processes continue where they left off
+
+**Container state after:** `running`
 
 ---
 
@@ -820,16 +886,16 @@ trap "container-remove $CONTAINER_NAME --stop --force" EXIT
 
 **Learn CLI efficiency:**
 
-→ [CLI Flags Guide](cli-flags.md) - Use flags instead of interactive mode
+- → [CLI Flags Guide](cli-flags.md) - Use flags instead of interactive mode
 
 **Understand state model:**
 
-→ [Container States](container-states.md) - Full lifecycle explained
+- → [Container States](container-states.md) - Full lifecycle explained
 
 **Automate workflows:**
 
-→ [Scripting Guide](scripting.md) - Write scripts with atomic commands
+- → [Scripting Guide](scripting.md) - Write scripts with atomic commands
 
 **Go deeper:**
 
-→ [Advanced Guide](../advanced/) - Docker-native workflows
+- → [Advanced Guide](../advanced/) - Docker-native workflows

@@ -2,6 +2,8 @@
 
 **→ [Index & Learning Paths](index.md)** - Documentation structure, reading paths, and section overview.
 
+> This contains everything you need to navigate this repo - from practical basics of deploying a container, advanced scripting and automation patterns, all the way through to explanations of core CS concepts behind DS01's architecture, and bridges to parallel industry practices.
+
 ---
 
 ## Get Started in <30 Minutes

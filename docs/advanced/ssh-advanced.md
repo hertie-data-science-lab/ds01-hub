@@ -10,8 +10,8 @@ Create `~/.ssh/config` on your laptop:
 
 ```
 Host ds01
-    HostName ds01-server.example.com
-    User your-username
+    HostName 10.1.23.20
+    User <student-id>@students.hertie-school.org
     IdentityFile ~/.ssh/id_ed25519
     ForwardAgent yes
 ```
@@ -19,6 +19,11 @@ Host ds01
 Now connect with:
 ```bash
 ssh ds01
+```
+
+Without SSH config, use the full format:
+```bash
+ssh <student-id>@students.hertie-school.org@10.1.23.20
 ```
 
 ---
@@ -38,12 +43,13 @@ ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
 ### Copy to DS01
 
 ```bash
-ssh-copy-id user@ds01-server
+ssh-copy-id ds01
+# Without SSH config: ssh-copy-id <student-id>@students.hertie-school.org@10.1.23.20
 ```
 
 Or manually:
 ```bash
-cat ~/.ssh/id_ed25519.pub | ssh user@ds01-server "cat >> ~/.ssh/authorized_keys"
+cat ~/.ssh/id_ed25519.pub | ssh ds01 "cat >> ~/.ssh/authorized_keys"
 ```
 
 ### Agent Forwarding
@@ -54,7 +60,7 @@ On your laptop:
 ssh-add ~/.ssh/id_ed25519
 
 # Connect with forwarding
-ssh -A user@ds01-server
+ssh -A ds01
 ```
 
 This lets you use your local key for Git inside DS01.
@@ -67,7 +73,8 @@ This lets you use your local key for Git inside DS01.
 
 ```bash
 # Forward port 8888
-ssh -L 8888:localhost:8888 user@ds01-server
+ssh -L 8888:localhost:8888 ds01
+# Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
 
 # Access at http://localhost:8888
 ```
@@ -76,7 +83,7 @@ ssh -L 8888:localhost:8888 user@ds01-server
 
 ```bash
 # Forward port 6006
-ssh -L 6006:localhost:6006 user@ds01-server
+ssh -L 6006:localhost:6006 ds01
 
 # Access at http://localhost:6006
 ```
@@ -84,15 +91,15 @@ ssh -L 6006:localhost:6006 user@ds01-server
 ### Multiple Ports
 
 ```bash
-ssh -L 8888:localhost:8888 -L 6006:localhost:6006 user@ds01-server
+ssh -L 8888:localhost:8888 -L 6006:localhost:6006 ds01
 ```
 
 ### In SSH Config
 
 ```
 Host ds01
-    HostName ds01-server.example.com
-    User your-username
+    HostName 10.1.23.20
+    User <student-id>@students.hertie-school.org
     LocalForward 8888 localhost:8888
     LocalForward 6006 localhost:6006
 ```
@@ -107,8 +114,8 @@ Add to `~/.ssh/config`:
 
 ```
 Host ds01
-    HostName ds01-server.example.com
-    User your-username
+    HostName 10.1.23.20
+    User <student-id>@students.hertie-school.org
     ControlMaster auto
     ControlPath ~/.ssh/sockets/%r@%h-%p
     ControlPersist 600
@@ -210,8 +217,8 @@ rsync -avz ds01:~/workspace/project/models/ ./models/
 
 ```
 Host ds01
-    HostName ds01-server.example.com
-    User your-username
+    HostName 10.1.23.20
+    User <student-id>@students.hertie-school.org
     ForwardAgent yes
 ```
 
@@ -223,7 +230,8 @@ Host ds01
 
 ```bash
 # Check SSH is running
-ssh -v user@ds01-server
+ssh -v ds01
+# Without SSH config: ssh -v <student-id>@students.hertie-school.org@10.1.23.20
 ```
 
 ### Permission Denied
@@ -235,7 +243,7 @@ chmod 600 ~/.ssh/id_ed25519
 chmod 644 ~/.ssh/id_ed25519.pub
 
 # Test key
-ssh -i ~/.ssh/id_ed25519 user@ds01-server
+ssh -i ~/.ssh/id_ed25519 ds01
 ```
 
 ### Host Key Changed
@@ -269,5 +277,5 @@ Host ds01
 ## See Also
 
 - [Prerequisites](../getting-started/prerequisites.md)
-- [Jupyter Setup](../guides/jupyter-setup.md)
+- [Jupyter Setup](../guides/jupyter.md)
 - [VSCode Remote](../guides/vscode-remote.md)

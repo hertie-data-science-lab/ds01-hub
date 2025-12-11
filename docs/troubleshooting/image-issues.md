@@ -60,15 +60,15 @@ ModuleNotFoundError: No module named 'transformers'
 
 **Causes:**
 - Package not in image
-- Wrong Python environment
 - Package name typo
+
+> **Note:** DS01 containers ARE your Python environment - you don't need venv or conda. See [Python Environments](../concepts/python-environments.md).
 
 **Solutions:**
 
 1. **Check if installed:**
    ```bash
    pip list | grep transformers
-   conda list | grep transformers
    ```
 
 2. **Temporary install:**
@@ -79,8 +79,9 @@ ModuleNotFoundError: No module named 'transformers'
 3. **Permanent fix (add to image):**
    ```bash
    exit  # Exit container
-   image update 
-   container deploy
+   image-update <project-name>
+   container-retire <project-name>
+   container-deploy <project-name>
    ```
 ---
 

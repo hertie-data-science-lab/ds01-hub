@@ -1,74 +1,6 @@
 # Workspaces and Persistence
 
-Understanding what persists across container recreates and where your files actually live.
-
----
-
-## The Two Filesystems
-
-When you work in a DS01 container, you interact with **two different filesystems**:
-
-### 1. Container Filesystem (Ephemeral)
-
-```
-Container: my-thesis._.12345
-├─ /root/               # Home directory (temporary!)
-├─ /tmp/                # Temp files (temporary!)
-├─ /usr/bin/python      # From image (reset on recreate)
-├─ /opt/conda/          # From image (reset on recreate)
-└─ Everything else from image
-```
-
-**Lifetime:** Exists only while container exists. Removed with `container retire`.
-
-**Use for:** Temporary computations, cache, intermediate files you don't need.
-
-### 2. Workspace Filesystem (Persistent)
-
-```
-Host: /home/<username>/workspace/
-├─ my-thesis/
-│   ├─ data/
-│   ├─ models/
-│   ├─ notebooks/
-│   ├─ results/
-│   └─ Dockerfile
-└─ other-project/
-```
-
-**Mounted into container as:** `/workspace/`
-
-**Lifetime:** Permanent. Survives container removal, survives system reboots.
-
-**Use for:** All your important work - code, data, models, results.
-
----
-
-## How It Works
-
-**When you run `project launch my-thesis`:**
-
-```
-Host Machine                Container
-────────────                ─────────
-/home/user/workspace/  ←→  /workspace/  (volume mount)
-    └─ my-thesis/              └─ my-thesis/
-```
-
-**The mount is bidirectional:**
-- Files created in `/workspace/` inside container appear in `~/workspace/` on host
-- Files created in `~/workspace/` on host appear in `/workspace/` inside container
-- **They're the same files** - not copies
-
-**When you `container retire my-thesis`:**
-- Container filesystem deleted
-- `/workspace/` mount disconnected
-- `~/workspace/` on host **untouched**
-
-**Next `project launch my-thesis`:**
-- New container created
-- `~/workspace/` mounted again into new container
-- All your files reappear
+**Where your files live and what survives container removal.**
 
 ---
 
@@ -76,475 +8,180 @@ Host Machine                Container
 
 **Save everything important to `/workspace/<project>/`**
 
-```bash
-# Inside container - GOOD
-cd /workspace/my-thesis
-python train.py
-# Checkpoints saved to /workspace/my-thesis/models/
+Everything else in the container is temporary.
 
-# Inside container - BAD
-cd ~
-python train.py
-# Checkpoints saved to /root/ (temporary!)
+---
+
+## Two Filesystems
+
+When you work in a container, there are two places files can be:
+
+### 1. Container filesystem (temporary)
+
 ```
+/root/              ← Home directory (temporary!)
+/tmp/               ← Temp files (temporary!)
+/usr/, /opt/        ← From image (reset on recreate)
+```
+
+**Lost when:** Container is removed (`container retire`)
+
+### 2. Workspace (permanent)
+
+```
+/workspace/my-project/    ← Your files (permanent!)
+├── code/
+├── data/
+├── models/
+└── Dockerfile
+```
+
+**Maps to:** `~/workspace/my-project/` on the host
+
+**Survives:** Container removal, system reboots, everything
+
+---
+
+## How It Works
+
+Your workspace is "mounted" into the container:
+
+```
+Host Machine                Container
+────────────                ─────────
+~/workspace/my-project/ ←→ /workspace/my-project/
+```
+
+**Same files, different path.** Changes in one appear in the other.
 
 ---
 
 ## Common Scenarios
 
-### Scenario 1: Saving Model Checkpoints
+### Saving model checkpoints
 
 **Wrong (files lost):**
 ```python
-# Inside container
-import torch
-
-model = MyModel()
-torch.save(model.state_dict(), 'checkpoint.pt')
-# Saved to /root/checkpoint.pt (ephemeral!)
-
-# Exit, remove container
-exit
-container retire my-thesis
-
-# Relaunch
-project launch my-thesis
-ls checkpoint.pt  # ERROR: No such file
+torch.save(model, 'checkpoint.pt')        # Saves to /root/
+# or
+torch.save(model, '/tmp/checkpoint.pt')   # Saves to /tmp/
 ```
 
 **Right (files persist):**
 ```python
-# Inside container
-import torch
-
-model = MyModel()
-torch.save(model.state_dict(), '/workspace/my-thesis/models/checkpoint.pt')
-# Saved to persistent storage
-
-# Exit, remove container
-exit
-container retire my-thesis
-
-# Relaunch
-project launch my-thesis
-ls /workspace/my-thesis/models/checkpoint.pt  # File exists!
+torch.save(model, '/workspace/my-project/models/checkpoint.pt')
 ```
 
-### Scenario 2: Downloading Datasets
+### Downloading datasets
 
 **Wrong (re-download every time):**
 ```bash
-# Inside container
 cd /tmp
-wget https://example.com/dataset.tar.gz
-tar -xzf dataset.tar.gz
-# Extracted to /tmp/ (ephemeral!)
-
-# Next launch - have to download again
+wget https://example.com/data.tar.gz
 ```
 
 **Right (download once):**
 ```bash
-# Inside container
-cd /workspace/my-thesis/data
-wget https://example.com/dataset.tar.gz
-tar -xzf dataset.tar.gz
-# Extracted to /workspace/ (persistent!)
-
-# Next launch - dataset already there
+cd /workspace/my-project/data
+wget https://example.com/data.tar.gz
 ```
 
-### Scenario 3: Jupyter Notebooks
+### Running Jupyter
 
-**Default (safe):**
+**Always start from workspace:**
 ```bash
-# Inside container
-cd /workspace/my-thesis/notebooks
+cd /workspace/my-project
 jupyter lab
-# Notebooks auto-save to /workspace/ (persistent!)
 ```
 
-**If you start Jupyter elsewhere (dangerous):**
-```bash
-# Inside container
-cd ~
-jupyter lab
-# Notebooks save to /root/notebooks/ (ephemeral!)
-```
-
-**Always start Jupyter from `/workspace/`.**
+Notebooks auto-save to the current directory.
 
 ---
 
-## Checking Where Files Are
+## Checking Where You Are
 
-**Inside container, check your location:**
 ```bash
+# Where am I?
 pwd
-# /workspace/my-thesis ✓ Good
-# /root ✗ Bad
-```
+# /workspace/my-project ← Good
+# /root ← Bad (temporary!)
 
-**Check if file is in workspace:**
-```bash
-# Inside container
+# Is this file safe?
 realpath my-file.txt
-# /workspace/my-thesis/my-file.txt ✓ Persistent
-# /root/my-file.txt ✗ Ephemeral
-```
-
-**List workspace projects:**
-```bash
-# Inside or outside container
-ls ~/workspace/
-# or
-ls /workspace/
+# /workspace/... ← Permanent
+# /root/... ← Temporary
 ```
 
 ---
 
-## Industry Parallel: Stateless Apps + Persistent Storage
+## Workspace Structure
 
-DS01's model mirrors cloud architecture:
-
-### AWS Example
+Recommended layout:
 
 ```
-EC2 Instance (ephemeral)          EFS/S3 (persistent)
-────────────────────────          ───────────────────
-Application code                  User data
-Runtime state                     Uploaded files
-Temporary cache                   Database backups
-Logs (unless shipped out)         Long-term storage
-
-Can terminate anytime    ←→       Survives termination
-```
-
-### Kubernetes Example
-
-```
-Pod (ephemeral)                   PersistentVolume
-───────────────                   ────────────────
-Container filesystem              Mounted at /data/
-App runs from image               User uploads
-Temporary processing              Database files
-                                  Logs archive
-
-Pod restarts frequently  ←→       Volume persists
-```
-
-### DS01 Example
-
-```
-Container (ephemeral)             Workspace (persistent)
-─────────────────────             ──────────────────────
-Python packages (from image)      Your code
-Running processes                 Your data
-/tmp/ files                       Your models
-Temporary variables               Your results
-
-Removed daily            ←→       Survives forever
-```
-
-**Pattern is universal: ephemeral compute + persistent storage.**
-
----
-
-## Advanced: What About Home Directory?
-
-**In DS01 containers, `/root/` is ephemeral.**
-
-**But you can make configs persist:**
-
-### Option 1: Symlink to Workspace
-
-```bash
-# Inside container
-ln -sf /workspace/my-thesis/.bashrc ~/.bashrc
-ln -sf /workspace/my-thesis/.vimrc ~/.vimrc
-
-# Now edits persist
-```
-
-### Option 2: Add to Dockerfile
-
-```dockerfile
-COPY bashrc /root/.bashrc
-COPY vimrc /root/.vimrc
-```
-
-**Rebuild image:**
-```bash
-image-update my-thesis
-```
-
-**Now configs baked into image** - every container has them.
-
----
-
-## Package Installation Persistence
-
-### Temporary (Lost on Remove)
-
-```bash
-# Inside container
-pip install new-package
-
-# Works this session
-import new_package  # OK
-
-# Exit and retire
-exit
-container retire my-thesis
-
-# Relaunch - package gone
-project launch my-thesis
-import new_package  # ModuleNotFoundError
-```
-
-### Permanent (Add to Image)
-
-```bash
-# Edit Dockerfile
-vim ~/workspace/my-thesis/Dockerfile
-# Add: RUN pip install new-package
-
-# Rebuild image
-image-update my-thesis
-
-# Recreate container
-container retire my-thesis
-project launch my-thesis
-
-# Package present
-import new_package  # Works forever
-```
-
-### Quick Install (Fast but Non-Reproducible)
-
-```bash
-# Inside container
-image-install new-package
-
-# Saves packages to image
-# Faster than editing Dockerfile
-# Less reproducible
-```
-
----
-
-## Cache Directories
-
-Some tools cache to home directory. You might want persistence:
-
-### Hugging Face Cache
-
-```bash
-# Default (ephemeral)
-~/.cache/huggingface/
-
-# Make persistent
-export HF_HOME=/workspace/my-thesis/.cache/huggingface
-```
-
-**Add to Dockerfile:**
-```dockerfile
-ENV HF_HOME=/workspace/.cache/huggingface
-```
-
-### Pip Cache
-
-```bash
-# Default (ephemeral)
-~/.cache/pip/
-
-# Make persistent (optional)
-export PIP_CACHE_DIR=/workspace/.cache/pip
-```
-
-**Note:** Caching can speed up package installs, but workspace caches take up your quota.
-
----
-
-## Git Repositories in Workspace
-
-**Your project workspace can be a git repo:**
-
-```bash
-# Outside or inside container
-cd ~/workspace/my-thesis
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin <url>
-git push
-```
-
-**Benefits:**
-- Version control your code
-- Backup to GitHub/GitLab
-- Collaborate with others
-- Track experiment history
-
-**What to commit:**
-- ✓ Code (.py files, notebooks)
-- ✓ Dockerfile
-- ✓ Configuration files
-- ✓ README, documentation
-- ✗ Large datasets (use .gitignore)
-- ✗ Model checkpoints (too large)
-- ✗ Generated results (can regenerate)
-
----
-
-## Workspace Structure Best Practices
-
-**Recommended structure:**
-
-```
-~/workspace/my-thesis/
+~/workspace/my-project/
 ├── Dockerfile           # Environment definition
 ├── requirements.txt     # Python packages
-├── pyproject.toml       # Project metadata
-├── README.md            # Project documentation
-├── .gitignore           # Git exclusions
-├── data/                # Datasets (add to .gitignore)
-│   ├── raw/
-│   └── processed/
+├── README.md
+├── .gitignore
+├── data/                # Datasets
 ├── notebooks/           # Jupyter notebooks
-│   └── exploration.ipynb
 ├── src/                 # Source code
-│   ├── __init__.py
-│   ├── model.py
-│   └── train.py
-├── models/              # Saved checkpoints (add to .gitignore)
-│   └── checkpoint_epoch_10.pt
-├── results/             # Experiment outputs
-│   ├── logs/
-│   ├── plots/
-│   └── metrics.csv
-└── tests/               # Unit tests
-    └── test_model.py
-```
-
-**Add to `.gitignore`:**
-```
-data/
-models/*.pt
-*.pyc
-__pycache__/
-.ipynb_checkpoints/
+├── models/              # Saved checkpoints
+└── results/             # Outputs, logs, plots
 ```
 
 ---
 
-## Quota and Space Management
+## Quick Reference
 
-**Workspaces have storage quotas** - check your usage:
-
-```bash
-# Check workspace usage
-du -sh ~/workspace/*
-
-# Find large files
-du -h ~/workspace/my-thesis | sort -h | tail -20
-```
-
-**Space-saving tips:**
-
-1. **Don't duplicate datasets:**
-   ```bash
-   # Share datasets across projects
-   ~/workspace/datasets/imagenet/
-   ~/workspace/my-thesis/data -> ../datasets/imagenet  # Symlink
-   ```
-
-2. **Clean up old checkpoints:**
-   ```bash
-   # Keep only best checkpoints
-   rm ~/workspace/my-thesis/models/checkpoint_epoch_{1..9}.pt
-   ```
-
-3. **Compress results:**
-   ```bash
-   tar -czf results.tar.gz results/
-   rm -rf results/
-   ```
-
-4. **Archive finished projects:**
-   ```bash
-   tar -czf my-thesis-archive.tar.gz my-thesis/
-   # Upload to external storage
-   # rm -rf my-thesis/
-   ```
+| Location | Inside Container | Permanent? | Use For |
+|----------|-----------------|-----------|---------|
+| `/workspace/` | Yes | **Yes** | All important work |
+| `/root/` (home) | Yes | No | Temporary config |
+| `/tmp/` | Yes | No | Scratch space |
+| `~/workspace/` | Host only | **Yes** | Same as /workspace/ |
 
 ---
 
-## Filesystem Table
+## Common Questions
 
-| Location | Persistent? | Visible Outside Container? | Use For |
-|----------|-------------|----------------------------|---------|
-| `/workspace/` | ✓ Yes | ✓ Yes (`~/workspace/`) | All important work |
-| `/root/` | ✗ No | ✗ No | Temporary config |
-| `/tmp/` | ✗ No | ✗ No | Scratch space |
-| `/opt/conda/` | ✗ No (from image) | ✗ No | Python packages (baked in) |
-| `/usr/bin/` | ✗ No (from image) | ✗ No | System binaries (baked in) |
+**"Where did my files go?"**
+> Check if they were in `/workspace/`. If not, they're gone with the container.
 
-**Rule of thumb:** If you want it next time, put it in `/workspace/`.
+**"Can I access workspace outside the container?"**
+> Yes. It's at `~/workspace/<project>/` on the host.
+
+**"Can I share files between projects?"**
+> Yes. All projects are in `~/workspace/`. You can symlink or reference paths.
+
+**"How much space do I have?"**
+> Check with `du -sh ~/workspace/*`
 
 ---
 
 ## Troubleshooting
 
-### "Where did my files go?"
+### Files disappeared
 
-**Check if they were in workspace:**
 ```bash
-# Were they here?
-ls /workspace/my-thesis/
+# Were they in workspace?
+ls /workspace/my-project/
 
-# Or here?
-ls ~  # If so, they're gone
+# Or somewhere temporary?
+# If temporary → they're gone
 ```
 
-**Prevention:**
+**Prevention:** Always `cd /workspace/my-project` before working.
+
+### Workspace looks empty in container
+
 ```bash
-# Always work in workspace
-cd /workspace/my-thesis
-# Check before saving
-pwd
-```
-
-### "Workspace is full"
-
-**Check usage:**
-```bash
-du -sh ~/workspace/*
-```
-
-**Find space hogs:**
-```bash
-du -h ~/workspace/ | sort -h | tail -20
-```
-
-**Clean up:**
-```bash
-# Remove old checkpoints
-# Compress datasets
-# Archive finished projects
-```
-
-### "Can't see workspace files in container"
-
-**Check mount:**
-```bash
-# Inside container
+# Check mount
 ls /workspace/
 mount | grep workspace
-```
 
-**If empty, relaunch:**
-```bash
+# If empty, restart container
 exit
 container retire my-project
 project launch my-project
@@ -554,20 +191,8 @@ project launch my-project
 
 ## Next Steps
 
-**Understand why containers are temporary:**
+- [Containers and Images](containers-and-images.md) - Why containers are temporary
+- [Ephemeral Containers](ephemeral-containers.md) - The design philosophy
+- [Creating Projects](../guides/creating-projects.md) - Set up a new project
 
-→ [Ephemeral Container Model](ephemeral-containers.md)
-
-**Learn about images vs containers:**
-
-→ [Containers and Images](containers-and-images.md)
-
-**Apply this knowledge:**
-
-→ [Daily Workflow](../getting-started/daily-workflow.md)
-
-→ [Creating Projects](../guides/creating-projects.md)
-
----
-
-**Remember: `/workspace/` is permanent, everything else is temporary.**
+**Want deeper understanding?** See [Workspaces & Persistence](../background/workspaces-and-persistence.md) in Educational Computing Context.

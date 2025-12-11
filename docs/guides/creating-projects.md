@@ -14,7 +14,7 @@ project init
 project init my-new-project
 
 # With framework type hint
-project init my-thesis --type=cv
+project init my-thesis --type=rl
 ```
 
 ---
@@ -44,10 +44,10 @@ A project in DS01 includes:
 ## Interactive Mode (Recommended)
 
 ```bash
-project init
+project init # also --guided (Guided Mode available)
 ```
 
-**The wizard asks:**
+**The GUI asks:**
 
 ### 1. Project Name
 ```
@@ -129,16 +129,6 @@ project init my-thesis --type=ml --quick
 
 ---
 
-## Guided Mode (For Learning)
-
-```bash
-project init --guided
-```
-
-Adds explanations
-
----
-
 ## What Gets Created
 
 After `project init my-thesis` completes:
@@ -206,14 +196,15 @@ WORKDIR /workspace
 **After editing:**
 ```bash
 # Rebuild image
-image-update my-thesis
+image-update my-thesis --rebuild
 
 # Recreate containers
-container retire my-thesis
 project launch my-thesis
+# Or
+container-deploy my-thesis
 ```
 
-→ [Custom environments guide](custom-environments.md) for details
+- → [Custom environments guide](custom-environments.md) for details
 
 ---
 
@@ -246,14 +237,12 @@ project init research-2024
 # Work on project A
 project launch thesis-cv --open
 # ... work ...
-exit
-container retire thesis-cv
+exit # keep running in background, or retire
 
 # Switch to project B
 project launch thesis-nlp --open
 # ... work ...
-exit
-container retire thesis-nlp
+exit # keep running in background, or retire
 ```
 
 ---
@@ -507,16 +496,16 @@ project launch my-thesis --open
 
 **Customise environment:**
 
-→ [Custom Environments Guide](custom-environments.md)
+- → [Custom Environments Guide](custom-environments.md)
 
 **Set up development tools:**
 
-→ [Jupyter Setup](jupyter-notebooks.md)
+- → [Jupyter Setup](jupyter.md)
 
-→ [VS Code Remote](vscode-remote.md)
+- → [VS Code Remote](vscode-remote.md)
 
 **Understand concepts:**
 
-→ [Containers and Images](../concepts/containers-and-images.md)
+- → [Containers and Images](../concepts/containers-and-images.md)
 
-→ [Workspaces and Persistence](../concepts/workspaces-persistence.md)
+- → [Workspaces and Persistence](../concepts/workspaces-persistence.md)

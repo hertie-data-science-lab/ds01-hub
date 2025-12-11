@@ -19,6 +19,12 @@ Host ds01
 
 ## Working with Containers
 
+> **⚠️ Container must be running first.** Start your container via terminal before connecting:
+> ```bash
+> ssh ds01
+> container-deploy <project-name> --background
+> ```
+
 ### Dev Containers Extension (Recommended)
 
 1. Connect to DS01 via Remote-SSH first
@@ -36,12 +42,9 @@ When working inside containers:
 **Kernel Selection:**
 - Select the container's Python: `/usr/bin/python`
 - The kernel uses packages installed in the container
+- **No venv/conda needed** - the container IS your environment
 
-**Installing Packages at Runtime:**
-```python
-# Use %pip (not !pip) for reliable installs
-%pip install pandas matplotlib
-```
+→ See [Python Environments in Containers](../concepts/python-environments.md) for details
 
 **Troubleshooting:**
 - "Kernel not found": Ensure you're attached to the container, not the host

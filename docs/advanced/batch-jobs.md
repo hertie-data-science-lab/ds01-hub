@@ -2,6 +2,8 @@
 
 Submit long-running jobs and check results later - HPC-style workflows.
 
+> **Note:** In examples below, replace `<project-name>` with your actual project name. The `$(id -u)` part auto-substitutes your user ID.
+
 ---
 
 ## Overview
@@ -43,7 +45,7 @@ nvidia-smi
 **Standard approach:**
 
 ```bash
-docker exec -d my-project._.$(id -u) \
+docker exec -d <project-name>._.$(id -u) \
   nohup python /workspace/train.py \
   > /workspace/output.log 2>&1 &
 ```
@@ -98,7 +100,7 @@ echo "tail -f ~/workspace/logs/*.log"
 docker ps --filter label=DS01_USER=$(id -u)
 
 # Processes in specific container
-docker exec my-project._.$(id -u) ps aux | grep python
+docker exec <project-name>._.$(id -u) ps aux | grep python
 
 # GPU usage
 nvidia-smi
@@ -158,7 +160,7 @@ cat ~/workspace/output.log
 
 ```bash
 # Run job
-docker exec my-project._.$(id -u) \
+docker exec <project-name>._.$(id -u) \
   python /workspace/train.py
 EXIT_CODE=$?
 
@@ -166,7 +168,7 @@ if [ $EXIT_CODE -eq 0 ]; then
   echo "Success!"
 else
   echo "Failed with code $EXIT_CODE"
-  docker logs my-project._.$(id -u)
+  docker logs <project-name>._.$(id -u)
 fi
 ```
 
@@ -213,7 +215,7 @@ else:
 ```bash
 #!/bin/bash
 
-docker exec -d my-project._.$(id -u) \
+docker exec -d <project-name>._.$(id -u) \
   bash -c "python /workspace/train.py; echo 'Training complete' | mail -s 'Job Done' user@example.com"
 ```
 
@@ -282,8 +284,8 @@ echo "  $CHECKPOINT_DIR/"
 
 ## See Also
 
-→ [Terminal Workflows](terminal-workflows.md) - CLI development patterns
+- → [Terminal Workflows](terminal-workflows.md) - CLI development patterns
 
-→ [Docker Direct](docker-direct.md) - Docker commands
+- → [Docker Direct](docker-direct.md) - Docker commands
 
-→ [Scripting](../intermediate/scripting.md) - Automation patterns
+- → [Scripting](../intermediate/scripting.md) - Automation patterns

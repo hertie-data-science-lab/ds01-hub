@@ -254,8 +254,8 @@ crf my-thesis          # container retire my-thesis --force
 
 ## Next Steps
 
-→ [Container States](container-states.md) - Understand full lifecycle
+- → [Container States](container-states.md) - Understand full lifecycle
 
-→ [Scripting Guide](scripting.md) - Automate with bash scripts
+- → [Scripting Guide](scripting.md) - Automate with bash scripts
 
-→ [Efficiency Tips](efficiency-tips.md) - More shortcuts
+- → [Efficiency Tips](efficiency-tips.md) - More shortcuts

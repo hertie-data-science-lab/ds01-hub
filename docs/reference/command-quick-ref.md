@@ -89,6 +89,8 @@ container-stats
 container-create <name>      # Create only
 container-start <name>       # Start existing
 container-run <name>         # Start and enter
+container-pause <name>       # Freeze processes (GPU stays allocated)
+container-unpause <name>     # Resume frozen container
 container-stop <name>        # Stop only
 container-remove <name>      # Remove only
 container-exit               # Exit gracefully
@@ -106,6 +108,7 @@ image-create                 # Interactive
 
 # Update/rebuild image
 image-update <project>
+image-update <project> --rebuild
 
 # Quick install (non-reproducible)
 image-install <packages>
@@ -284,7 +287,8 @@ git log --oneline
 jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 
 # On laptop - Create SSH tunnel
-ssh -L 8888:localhost:8888 user@ds01-server
+ssh -L 8888:localhost:8888 ds01
+# Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
 
 # Open browser
 http://localhost:8888
@@ -597,17 +601,17 @@ ls /opt/ds01-infra/docs-user/
 
 ## Related Documentation
 
-→ [Getting Started](../getting-started/first-time.md)
+- → [Getting Started](../getting-started/first-time.md)
 
-→ [Daily Workflow](../getting-started/daily-workflow.md)
+- → [Daily Workflow](../getting-started/daily-workflow.md)
 
-→ [Creating Projects](../guides/creating-projects.md)
+- → [Creating Projects](../guides/creating-projects.md)
 
-→ [Custom Environments](../guides/custom-environments.md)
+- → [Custom Environments](../guides/custom-environments.md)
 
-→ [Jupyter Notebooks](../guides/jupyter-notebooks.md)
+- → [Jupyter Notebooks](../guides/jupyter.md)
 
-→ [Troubleshooting](../troubleshooting/)
+- → [Troubleshooting](../troubleshooting/)
 
 ---
 

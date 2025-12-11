@@ -4,7 +4,10 @@ Working with others on DS01.
 
 ## Sharing Code
 
-**Use Git:**
+**Use Git (basic):**
+
+*NB: git configuration and connectiong to a remote is automatically configured as standard in `project init`*
+
 ```bash
 cd ~/workspace/my-project
 git init
@@ -22,36 +25,47 @@ container-deploy my-project
 
 ## Sharing Data
 
-**Options:**
-1. Shared data directory (if available)
-2. Download from common source
-3. Small data: Include in Git repo
+DS01 will be developing collaborative shared-access directories for data-sharing.
 
 ## Reproducibility
 
 **Essential files:**
-- `requirements.txt` - Python packages
-- `Dockerfile` - Environment setup
-- `README.md` - Instructions
+- `requirements.txt` - Python packages *(the basis for `image create` to build a Dockerfile with)*
+- `Dockerfile` - Environment setup for containers *(built with `image create` or directly edit)*
+- `README.md` - Instructions for users, displays on GitHub repos
 - `.gitignore` - Exclude large files
 
-**Example README:**
-```markdown
-# My Project
+### A note on `README.md`
 
-## Setup
-\`\`\`bash
-image-create my-project
-container-deploy my-project --open
-\`\`\`
+`project init` creates a `README.md` on your behalf, but it is recommended to edit it immediately and iteratively.
+```bash
+# Edit README immediately
+vim ~/workspace/my-thesis/README.md
+```
 
-## Running
-\`\`\`bash
-python src/train.py
-\`\`\`
+Suggested to include:
+- What this project does
+- How to reproduce experiments
+- Dataset locations
+- Key results
+
+### A note on Dockerfiles
+
+Keep Dockerfiles simple
+
+```dockerfile
+# Good - clear, minimal
+RUN pip install transformers datasets
+
+# Avoid - overly complex
+RUN pip install transformers && \
+    wget https://... && \
+    tar -xzf ... && \
+    cd ... && \
+    python setup.py install && \
+    ...
 ```
 
 ## Next Steps
-
-→ [Creating Projects](creating-projects.md)
-→ [Project Structure](../guides/creating-projects.md)
+- → [Creating Projects](creating-projects.md)
+- → [Project Structure](../guides/creating-projects.md)

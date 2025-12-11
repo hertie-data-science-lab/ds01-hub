@@ -1,42 +1,43 @@
-# DS01 User Documentation - Index & Learning Paths
+# DS01 User Documentation
 
 ## Documentation Structure
 
 ```
 docs/
-├── getting-started/    Start here 
-├── guides/             Task-focused how-tos (practical)
-├── intermediate/       Atomic commands, CLI flags, scripting 
+├── getting-started/    Start here
+├── guides/             Task-focused how-tos
+├── intermediate/       Atomic commands, CLI flags, scripting
 ├── advanced/           Docker direct, terminal workflows, batch jobs
-├── concepts/           Understanding DS01's design (theory, skippable)
+├── concepts/           Key Concepts to Understand (DS01-specific)
+├── background/         Educational Computing Context (career skills)
 ├── reference/          Command quick reference
 └── troubleshooting/    Fix problems
 ```
 
-## Suggested Learning Paths
+---
+
+## Learning Paths
 
 ### Path 1: Beginner (Students, First-Time Users)
 **"I just want to work on my thesis"**
 
 1. [First-Time Setup](getting-started/first-time.md) - 15 minutes
 2. [Daily Workflow](getting-started/daily-workflow.md) - Core routine
-3. [Jupyter Setup](guides/jupyter-notebooks.md) - If using notebooks
+3. [Jupyter Setup](guides/jupyter.md) - If using notebooks
 4. [VS Code Remote](guides/vscode-remote.md) - If using VS Code
 
-**Use:** 
-- Project-oriented: `project launch`, `exit`
-- Container-oriented: `image create`,`container deploy`, `container retire`
+**Commands:** `project launch`, `exit`, `container deploy`, `container retire`
 
 **Skip the background reading** - learn as you go with `--guided` mode.
 
-### Path 2: Intermediate (IDE-based)
+### Path 2: Intermediate (Want More Control)
 **"I want more control and efficiency"**
 
 1. [Atomic Commands](intermediate/atomic-commands.md) - Granular control
 2. [CLI Flags](intermediate/cli-flags.md) - Faster than interactive mode
 3. [Scripting](intermediate/scripting.md) - Automate workflows
 
-**Use:** `container-create`, `container-start`, `container-stop`, `container-remove`
+**Commands:** `container-create`, `container-start`, `container-stop`, `container-remove`
 
 ### Path 3: Advanced (Terminal & DevOps Native)
 **"I prefer Docker commands and terminal workflows"**
@@ -45,45 +46,56 @@ docs/
 2. [Terminal Workflows](advanced/terminal-workflows.md) - vim/tmux development
 3. [Batch Jobs](advanced/batch-jobs.md) - Non-interactive execution
 
-**Use:** `docker run`, `docker exec`, direct container access
+**Commands:** `docker run`, `docker exec`, direct container access
 
-### Bonus Path(!): Understanding First
-**"I want to know how this works"**
+---
 
-1. [What are containers?](concepts/containers-and-images.md)
-2. [Why are containers temporary?](concepts/ephemeral-containers.md)
-3. [Where are my files?](concepts/workspaces-persistence.md)
-4. [Cloud skills you're learning](concepts/ephemeral-containers.md#industry-parallels)
+## Conceptual Documentation
 
-Then proceed to practical guides.
+DS01 has two types of conceptual documentation with different purposes:
+
+### Key Concepts to Understand
+**DS01-specific mental models for effective usage**
+
+- [Concepts Overview](concepts/) - 30-45 min total
+
+| Topic | What It Answers |
+|-------|----------------|
+| [Containers and Images](concepts/containers-and-images.md) | Why do packages disappear? Why rebuild images? |
+| [Ephemeral Containers](concepts/ephemeral-containers.md) | Why are containers temporary? Will I lose work? |
+| [Workspaces and Persistence](concepts/workspaces-persistence.md) | Where are my files? What persists? |
+| [Python Environments](concepts/python-environments.md) | Do I need venv/conda? |
+
+**Read these:** When something confuses you, or before first use.
+
+### Educational Computing Context
+**Deeper knowledge for career development**
+
+- [Background Overview](background/) - 2-3 hours total
+
+| Topic | Career Relevance |
+|-------|-----------------|
+| [Servers & HPC](background/servers-and-hpc.md) | AWS, GCP, cloud computing |
+| [Linux Basics](background/linux-basics.md) | Any server/cloud work |
+| [Containers & Docker](background/containers-and-docker.md) | Kubernetes, CI/CD, microservices |
+| [Industry Parallels](background/industry-parallels.md) | Direct cloud platform preparation |
+
+**Read these:** When you want to understand the technology deeply, or prepare for industry.
+
+---
 
 ## Practical Guides
 
 Step-by-step instructions for common tasks:
 
-- [Daily Workflow](guides/daily-workflow.md) - This is the core workflow
+- [Daily Workflow](guides/daily-workflow.md) - Core routine
 - [Custom Images](guides/custom-images.md) - Install your own packages
 - [GPU Usage](guides/gpu-usage.md) - Request, monitor, release GPUs
 - [Long-Running Jobs](guides/long-running-jobs.md) - Overnight training
-- [Jupyter Setup](guides/jupyter-setup.md) - Jupyter Lab with SSH tunnels
+- [Jupyter Setup](guides/jupyter.md) - Jupyter Lab with SSH tunnels
 - [VSCode Remote](guides/vscode-remote.md) - Remote development
 
 [All guides →](guides/)
-
----
-
-## Background Knowledge
-
-*Optional but useful to familiarise yourself with cloud-computing concepts*:
-
-- [Servers & HPC](background/servers-and-hpc.md) - Shared computing environments
-- [Containers & Docker](background/containers-and-docker.md) - Why containers exist
-- [Ephemeral Philosophy](background/ephemeral-philosophy.md) - Why containers are temporary
-- [Industry Parallels](background/industry-parallels.md) - How this maps to AWS/GCP/Kubernetes
-
-> **Just want to deploy?** Skip background and go to [First Container](getting-started/first-container.md)
-
-[All background →](background/)
 
 ---
 
@@ -119,8 +131,10 @@ Find your problem:
 |--------------|----------|
 | Start my first container | [First Container](getting-started/first-container.md) |
 | See all commands | [Quick Reference](quick-reference.md) |
-| Understand containers | [Containers & Docker](background/containers-and-docker.md) |
+| Understand why packages disappear | [Containers and Images](concepts/containers-and-images.md) |
+| Understand why containers are temporary | [Ephemeral Containers](concepts/ephemeral-containers.md) |
 | Build a custom image | [Custom Images](guides/custom-images.md) |
-| Run Jupyter | [Jupyter Setup](guides/jupyter-setup.md) |
+| Run Jupyter | [Jupyter Setup](guides/jupyter.md) |
 | Fix an error | [Troubleshooting](troubleshooting/) |
 | Learn industry practices | [Industry Parallels](background/industry-parallels.md) |
+| Learn Linux commands | [Linux Basics](background/linux-basics.md) |

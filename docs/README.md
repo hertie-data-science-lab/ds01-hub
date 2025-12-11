@@ -1,8 +1,5 @@
 # DS01 User Documentation - Intro
 
-Hertie School Data Science Lab's GPU container platform for data science and machine learning.
-
----
 
 ## Documentation Structure
 
@@ -29,26 +26,28 @@ docs/
 
 ## Daily Routine
 
+**Already setup?** Here's how to use DS01
+
+
 > Basic principle: 
 > - Containers = disposable
 > - Images, `~/workspace` = persistent
 
 
-**Already setup?** Here's how to use DS01
 
-Deploy containers to run computationally-expensive jobs 
+Deploy containers to run specific computationally-expensive jobs 
 
 ```bash
 project launch my-project 
 ```
 
-Pull latest work from remote GitHub repo (automatically configured in `project-init`)
+Pull your latest files from remote GitHub repo (automatically configured in `project-init`)
 
 ```bash
 git pull --rebase
 ```
 
-Regularly push/pull work between server-local computer 
+Regularly push/pull work between server-local computer as you work
 
 ```bash
 git add <files> 
@@ -56,7 +55,7 @@ git commit -m "commit message"
 git push origin <branch>
 ```
 
-Retire containers when job is done:
+Retire containers when job is done
 
 ```bash
 container retire my-project
@@ -167,7 +166,7 @@ container-deploy --info
 - **Cloud-native**: Same workflow as AWS/GCP/Kubernetes
 - **Flexible**: Multiple projects with different environments
 
-→ [Learn more about containers](concepts/containers-and-images.md) *(optional)*
+- → [Learn more about containers](concepts/containers-and-images.md) *(optional)*
 
 ---
 

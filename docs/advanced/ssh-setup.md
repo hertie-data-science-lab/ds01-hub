@@ -40,17 +40,22 @@ ssh -T git@gitlab.com
 Create `~/.ssh/config`:
 ```
 Host ds01
-    HostName ds01-server.edu
-    User your-username
+    HostName 10.1.23.20
+    User <student-id>@students.hertie-school.org
     IdentityFile ~/.ssh/id_ed25519
 ```
 
 **Usage:**
 ```bash
-ssh ds01  # Instead of ssh user@ds01-server.edu
+ssh ds01  # Instead of the full format below
+```
+
+**Without SSH config:**
+```bash
+ssh <student-id>@students.hertie-school.org@10.1.23.20
 ```
 
 ## Next Steps
 
-→ [First-Time Setup](../getting-started/first-time-setup.md)
-→ [VSCode Remote](vscode-remote.md)
+- → [First-Time Setup](../getting-started/first-time-setup.md)
+- → [VSCode Remote](vscode-remote.md)

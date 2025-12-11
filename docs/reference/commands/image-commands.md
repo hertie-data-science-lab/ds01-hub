@@ -105,20 +105,26 @@ image-update <project-name> [OPTIONS]
 **Options:**
 | Option | Description |
 |--------|-------------|
+| `--rebuild` | Rebuild image without modifying Dockerfile |
 | `--no-cache` | Force rebuild without cache |
+| `--add "pkg1 pkg2"` | Add packages directly |
+| `-r, --requirements FILE` | Import from requirements.txt |
+| `--edit` | Edit Dockerfile manually |
 
 **Examples:**
 ```bash
-image-update my-project              # Rebuild with cache
+image-update my-project              # Interactive mode
+image-update my-project --rebuild    # Rebuild without changes
 image-update my-project --no-cache   # Force complete rebuild
+image-update my-project --add "wandb optuna"  # Add packages
 ```
 
 **When to use:**
-- Added packages to Dockerfile
-- Updated base image
-- Fixed image issues
+- `--rebuild`: Dockerfile was edited manually, or base image updated
+- Interactive: Add/remove packages with guided UI
+- `--add`: Quick package additions from command line
 
-**Note:** Uses existing Dockerfile at `~/dockerfiles/<project>.Dockerfile`
+**Note:** Uses existing Dockerfile at `~/dockerfiles/<project>.Dockerfile` or `~/workspace/<project>/Dockerfile`
 
 ---
 

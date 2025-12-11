@@ -101,6 +101,8 @@ container-create my-project          # Create container (& allocate resources)
 container-start my-project           # Start in background
 container-run my-project             # Start + enter
 container-attach my-project          # Enter running container
+container-pause my-project           # Freeze processes (GPU stays allocated)
+container-unpause my-project         # Resume frozen container
 container-stop my-project            # Stop only
 container-remove my-project          # Remove only
 ```
@@ -191,7 +193,7 @@ container-deploy exp-1 --background
 container-deploy exp-2 --background
 
 # View logs
-docker logs my-project._.$(whoami)
+docker logs <project-name>._.$(whoami)
 
 # Enter running container
 container-attach my-project
@@ -211,7 +213,7 @@ container-list
 dashboard
 
 # View logs
-docker logs my-project._.$(whoami)
+docker logs <project-name>._.$(whoami)
 
 # Recreate (fixes most issues)
 container-retire my-project

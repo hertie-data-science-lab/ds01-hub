@@ -1,6 +1,12 @@
-# Ephemeral Containers
+# Ephemeral Container Philosophy
 
-DS01 embraces an **ephemeral container model** - a philosophy that containers are temporary compute sessions, not permanent fixtures. This guide explains why and how to work effectively with this approach.
+**Why temporary containers are the industry standard and how this prepares you for cloud computing.**
+
+> **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
+>
+> **Just want the essentials?** See [Key Concepts: Ephemeral Containers](../concepts/ephemeral-containers.md) for a shorter overview.
+
+DS01 embraces an **ephemeral container model** - a philosophy that containers are temporary compute sessions, not permanent fixtures. This guide explains why this approach is the industry standard and how to work effectively with it.
 
 ---
 
@@ -226,12 +232,18 @@ Tuesday 9am: Dana, Eve, Frank deploy - GPUs available!
 
 ### "What if I have a long-running job?"
 
+> **⚠️ Contact DSL First**
+>
+> The workarounds below (`.keep-alive`, `nohup`, etc.) are available but should be **last resorts** as they can disrupt the system for other users by holding GPUs longer than necessary.
+>
+> **Please [open an issue on DS01 Hub](https://github.com/hertie-data-science-lab/ds01-hub/issues) first** to discuss your requirements. We can often find better solutions together (adjusted limits, scheduled runs, checkpointing strategies).
+
 **Solution 1: Keep container running**
 ```bash
 # Deploy in background
 container-deploy training --background
 
-# Prevent idle timeout
+# Prevent idle timeout (last resort - see warning above)
 touch ~/workspace/training/.keep-alive
 
 # Monitor remotely
@@ -606,7 +618,7 @@ sbatch train.sh        # Submit job
 
 ### "Container was auto-stopped"
 
-**Cause:** Idle timeout (typically 48 hours of low CPU usage)
+**Cause:** Idle timeout (30min-2h of low CPU/GPU usage, varies by user group)
 
 **Solution:**
 - For active work: `.keep-alive` file prevents auto-stop
@@ -640,18 +652,18 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 ### Understand Persistence
 
 **Critical knowledge:**
-→ [Workspaces & Persistence](../background/workspaces-and-persistence.md)
+- → [Workspaces & Persistence](../background/workspaces-and-persistence.md)
 
 ### Learn Daily Workflows
 
 **Put philosophy into practice:**
-→ [Daily Usage Patterns](../guides/daily-workflow.md)
-→ [Managing Containers](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Managing Containers](../guides/daily-workflow.md)
 
 ### Understand Resources
 
 **Fair sharing:**
-→ [Resource Management](resource-management.md)
+- → [Resource Management](resource-management.md)
 
 ---
 

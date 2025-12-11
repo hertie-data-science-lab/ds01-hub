@@ -1,6 +1,10 @@
 # Servers & High-Performance Computing
 
-> **Just want to deploy?** Skip to [First Container](../getting-started/first-container.md)
+**Understanding shared computing environments and how they prepare you for the cloud.**
+
+> **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
+>
+> **Just want to use DS01?** Skip to [First Container](../getting-started/first-container.md).
 
 Understanding servers and shared computing prepares you for cloud platforms, HPC clusters, and production ML systems.
 
@@ -103,8 +107,8 @@ check-limits
 Max GPUs: 2
 Max Containers: 3
 Memory per container: 64GB
-Max Runtime: 168h (1 week)
-Idle Timeout: 48h
+Max Runtime: 24h (varies by user)
+Idle Timeout: 0.5h (varies by user)
 ```
 
 ### HPC Terminology → DS01
@@ -159,14 +163,14 @@ Normal in shared systems. Plan alternative tasks.
 
 ### Time Limits
 ```
-Your container has been running for 160h (max: 168h)
-Warning: Will be stopped in 8 hours
+Your container has been running for 22h (max: 24h)
+Warning: Will be stopped in 2 hours
 ```
-Checkpoint your work.
+Checkpoint your work. Run `check-limits` to see your max runtime.
 
 ### Idle Timeouts
 ```
-Container idle for 47h (limit: 48h)
+Container idle for 25min (limit: 30min)
 Warning: Will be stopped if idle continues
 ```
 Frees unused resources for others.

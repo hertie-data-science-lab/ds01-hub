@@ -64,10 +64,10 @@ Resources assigned to you (GPUs, containers, memory). Checked via `check-limits`
 Maximum resources you can use. Configured per-user or per-group.
 
 **Idle Timeout**
-Time after which an idle container is automatically stopped. Typically 48 hours.
+Time after which an idle container is automatically stopped. Typically 30min-2h (varies by user). Run `check-limits` to see your current value.
 
 **Max Runtime**
-Maximum time a container can run. Typically 1 week.
+Maximum time a container can run. Typically 24h-72h (varies by user). Run `check-limits` to see your current value.
 
 ---
 

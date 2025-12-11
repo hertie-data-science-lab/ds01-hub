@@ -1,6 +1,10 @@
 # Linux Basics
 
-Essential Linux command line skills for DS01. If you're new to Linux, this guide will get you productive quickly.
+**Essential command line skills for servers and cloud computing.**
+
+> **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
+
+If you're new to Linux, this guide will get you productive quickly. These skills transfer to any server, cloud platform, or production system.
 
 ---
 
@@ -712,10 +716,10 @@ ls -a                       # Shows .bashrc
 ### Learn More
 
 **Container workflows:**
-→ [Containers Explained](containers-explained.md)
+- → [Containers Explained](containers-explained.md)
 
 **DS01 usage:**
-→ [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../guides/daily-workflow.md)
 
 **Advanced topics:**
 → 

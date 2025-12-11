@@ -87,4 +87,4 @@ source ~/.bashrc
 
 ## Next Steps
 
-→ [First Container](first-container.md) - Deploy in <30 minutes
+- → [First Container](first-container.md) - Deploy in <30 minutes

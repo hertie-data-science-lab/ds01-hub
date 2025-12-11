@@ -28,10 +28,12 @@ cat ~/.ds01-limits
 
 ### Time Limits
 
-**idle_timeout:** Auto-stop if idle (e.g., "48h")
+**idle_timeout:** Auto-stop if idle (e.g., "0.5h", "1h", "2h")
 **max_runtime:** Maximum container lifetime
 **gpu_hold_after_stop:** Hold GPU after stop
 **container_hold_after_stop:** Auto-remove after stop
+
+> **⚠️ Need different limits?** Please [open an issue on DS01 Hub](https://github.com/hertie-data-science-lab/ds01-hub/issues) to discuss your requirements with the Data Science Lab team. We can often find solutions together (adjusted limits, scheduled runs, checkpointing strategies).
 
 ### Priority
 
@@ -51,5 +53,5 @@ container-stats
 
 ## Next Steps
 
-→ [Resource Management](../background/resource-management.md)
-→ [Command Reference](command-reference.md)
+- → [Resource Management](../background/resource-management.md)
+- → [Command Reference](command-reference.md)

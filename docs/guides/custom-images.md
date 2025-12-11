@@ -22,6 +22,12 @@ image-create my-project
 
 ## Adding Packages
 
+### Best Practice
+Simplest, most robust:
+```
+Keep `requirements.txt` file up to date with any new pkg requirements, then use `image update` CLI to scan that and update. DS01 has developed this CLI abstrats this complexity layer away.
+```
+
 **Edit Dockerfile:**
 ```bash
 vim ~/dockerfiles/my-project.Dockerfile
@@ -34,7 +40,8 @@ RUN pip install transformers datasets accelerate
 
 **Rebuild:**
 ```bash
-image-update my-project
+image-update my-project            # Interactive mode
+image-update my-project --rebuild  # Rebuild without prompts
 ```
 
 ## Base Images
@@ -46,5 +53,5 @@ image-update my-project
 
 ## Next Steps
 
-→ [Dockerfile Guide](../advanced/dockerfile-guide.md)
-→ [Daily Usage Patterns](daily-usage.md)
+- → [Dockerfile Guide](../advanced/dockerfile-guide.md)
+- → [Daily Usage Patterns](daily-usage.md)

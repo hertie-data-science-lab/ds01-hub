@@ -1,5 +1,7 @@
 # Common Errors
 
+> **Note:** In examples below, replace `<project-name>` with your actual project name. The `$(whoami)` part auto-substitutes your username.
+
 ---
 
 ## File Issues
@@ -15,21 +17,21 @@
 1. **Check both locations:**
    ```bash
    # On host
-   ls ~/workspace/my-project/
+   ls ~/workspace/<project-name>/
 
    # In container
-   docker exec my-project._.$(whoami) ls /workspace/
+   docker exec <project-name>._.$(whoami) ls /workspace/
    ```
 
 2. **Remember the mapping:**
    ```
-   Host:      ~/workspace/my-project/
+   Host:      ~/workspace/<project-name>/
    Container: /workspace/
    ```
 
 3. **Verify workspace mount:**
    ```bash
-   docker inspect my-project._.$(whoami) | grep -A 5 "Mounts"
+   docker inspect <project-name>._.$(whoami) | grep -A 5 "Mounts"
    ```
 
 ---
@@ -46,13 +48,13 @@ Permission denied
 
 1. **Check ownership:**
    ```bash
-   ls -ld ~/workspace/my-project/
+   ls -ld ~/workspace/<project-name>/
    # Should be owned by you
    ```
 
 2. **Fix permissions (on host):**
    ```bash
-   sudo chown -R $(whoami):$(whoami) ~/workspace/my-project/
+   sudo chown -R $(whoami):$(whoami) ~/workspace/<project-name>/
    ```
 
 3. **Check disk space:**
@@ -156,12 +158,12 @@ bash: container-deploy: command not found
 
 1. **Check Jupyter is running:**
    ```bash
-   docker exec my-project._.$(whoami) ps aux | grep jupyter
+   docker exec <project-name>._.$(whoami) ps aux | grep jupyter
    ```
 
 2. **Check port:**
    ```bash
-   docker port my-project._.$(whoami)
+   docker port <project-name>._.$(whoami)
    ```
 
 3. **Set up SSH tunnel:**

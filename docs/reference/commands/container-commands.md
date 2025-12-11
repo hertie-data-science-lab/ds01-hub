@@ -163,6 +163,40 @@ Exit with `exit` or Ctrl+D. Container keeps running after you exit.
 
 ---
 
+## container-pause
+
+**Freeze container processes** (L2 atomic)
+
+```bash
+container-pause <project-name>
+```
+
+**Example:**
+```bash
+container-pause my-project
+```
+
+Freezes all processes (SIGSTOP). GPU stays allocated, memory preserved. Use `container-unpause` to resume.
+
+---
+
+## container-unpause
+
+**Resume frozen container** (L2 atomic)
+
+```bash
+container-unpause <project-name>
+```
+
+**Example:**
+```bash
+container-unpause my-project
+```
+
+Resumes all frozen processes. Container continues where it left off.
+
+---
+
 ## container-stop
 
 **Stop a running container** (L2 atomic)
@@ -335,9 +369,9 @@ container-retire exp-3
 
 ### Debugging
 ```bash
-container-list                        # Check status
-container-stats my-project            # Resource usage
-docker logs my-project._.$(whoami)    # View logs
+container-list                            # Check status
+container-stats <project-name>            # Resource usage
+docker logs <project-name>._.$(whoami)    # View logs (replace <project-name>)
 ```
 
 ---

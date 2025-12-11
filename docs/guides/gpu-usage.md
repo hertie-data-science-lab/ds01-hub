@@ -4,6 +4,8 @@ Practical guide to GPU usage on DS01.
 
 ## Requesting GPUs
 
+*NB: this is mostly applicable to PhDs, PostDocs, Researchers and studetns who have been given access to more than 1 full GPU. Most MDS students by default, do NOT have access to multiple full GPUs.*
+
 ```bash
 # Request 1 GPU (default)
 container-deploy my-project
@@ -49,7 +51,7 @@ with tf.device('/GPU:0'):
     # Your code
 ```
 
-## Optimizing GPU Usage
+## Optimising GPU Usage
 
 **Use mixed precision:**
 ```python
@@ -66,5 +68,5 @@ with autocast():
 
 ## Next Steps
 
-→ [Custom Environments](custom-environments.md)
-→ [Dockerfile Best Practices](../advanced/dockerfile-best-practices.md)
+- → [Custom Environments](custom-environments.md)
+- → [Dockerfile Best Practices](../advanced/dockerfile-best-practices.md)

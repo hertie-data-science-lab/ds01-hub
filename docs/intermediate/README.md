@@ -1,17 +1,17 @@
 # Intermediate Users Guide
 
-**For users who've mastered the basics and want more control.**
+**For users who've got the basics and want more control.**
 
 ---
 
 ## Who This Is For
 
 **You're ready for intermediate docs if:**
-- ✓ You've used DS01 for a few weeks
-- ✓ You're comfortable with `project launch` / `container retire`
-- ✓ You understand ephemeral containers and workspaces
-- ✓ You want more granular control
-- ✓ You're interested in CLI efficiency and scripting
+- You've used DS01 for a few weeks
+- You're comfortable with `project launch` / `container deploy|retire`
+- You understand ephemeral containers and workspaces
+- You want more granular control
+- You're interested in CLI efficiency and scripting
 
 **Not there yet?** Start with:
 - [Getting Started](../getting-started/) - Basics
@@ -31,7 +31,7 @@
 **Beginner level:**
 ```bash
 project launch my-project    # One command, multiple steps
-container retire my-project  # One command, cleanup
+container deploy|retire my-project  # One command, cleanup
 ```
 
 **Intermediate level:**
@@ -47,7 +47,7 @@ container-remove my-project  # Remove explicitly
 - Better debugging (isolate which step fails)
 - Required for automation/scripting
 
-- → [Atomic Commands Reference](atomic-commands.md)
+→ [Atomic Commands Reference](atomic-commands.md)
 
 ### 2. CLI Flags and Efficiency
 
@@ -66,12 +66,7 @@ container-deploy my-project --project=other      # Custom project
 container-deploy my-project --gpu=2              # Multi-GPU
 ```
 
-**Why learn this:**
-- Faster workflows
-- Scriptable commands
-- Better for automation
-
-- → [CLI Flags Reference](cli-flags.md)
+→ [CLI Flags Reference](cli-flags.md)
 
 ### 3. Full Container State Model
 
@@ -87,12 +82,7 @@ running ←→ removed
 created → running → stopped → removed
 ```
 
-**Why learn this:**
-- GPU hold timeout makes sense
-- Can pause work without losing allocation
-- Better control over resource usage
-
-- → [Container States](container-states.md)
+→ [Container States](container-states.md)
 
 ### 4. Scripting Workflows
 
@@ -123,12 +113,7 @@ for i in {1..5}; do
 done
 ```
 
-**Why learn this:**
-- Run many experiments efficiently
-- Reproducible workflows
-- Save time on repetitive tasks
-
-- → [Scripting Guide](scripting.md)
+→ [Scripting (Bash)](scripting-bash.md) | [Scripting (Python)](scripting-python.md)
 
 ---
 
@@ -148,16 +133,10 @@ DS01 has three interface levels:
 ### L2: Atomic (Intermediate) ← **You are here**
 
 **Single-step operations:**
-- `container-create` = create only
-- `container-start` = start only
-- `container-stop` = stop only
-- `container-remove` = remove only
-
-**Best for:**
-- Power users who want control
-- Debugging specific steps
-- Automation and scripting
-- Understanding system internals
+- `container create` = create only
+- `container start` = start only
+- `container stop` = stop only
+- `container remove` = remove only
 
 ### L1: Docker (Advanced)
 
@@ -165,42 +144,6 @@ DS01 has three interface levels:
 - `docker run` (with DS01 enforcement)
 - `docker exec` for direct access
 - `docker logs` for debugging
-
-**Best for:**
-- Terminal-native workflows
-- Advanced debugging
-- Non-interactive batch jobs
-
----
-
-## Learning Path
-
-### Week 1-2: Master the Basics
-
-**Start with beginner docs:**
-1. [Getting Started](../getting-started/first-time.md)
-2. [Daily Workflow](../getting-started/daily-workflow.md)
-3. [Creating Projects](../guides/creating-projects.md)
-
-**Goal:** Comfortable with `project launch` / `container retire`.
-
-### Week 3-4: Explore Atomic Commands
-
-**Graduate to intermediate:**
-1. [Atomic Commands](atomic-commands.md) - Full L2 reference
-2. [CLI Flags](cli-flags.md) - Stop using interactive mode
-3. [Container States](container-states.md) - Understand lifecycle
-
-**Goal:** Use atomic commands confidently, no interactive menus needed.
-
-### Week 5+: Optimize Workflows
-
-**Become a power user:**
-1. [Scripting](scripting.md) - Automate experiments
-2. [Efficiency Tips](efficiency-tips.md) - Keyboard shortcuts, aliases
-3. [Advanced](../advanced/) - Terminal workflows
-
-**Goal:** Fast, efficient, scriptable workflows.
 
 ---
 
@@ -212,8 +155,7 @@ DS01 has three interface levels:
 | **Mode** | Interactive | CLI flags | Scripted |
 | **Control** | Simple | Granular | Full |
 | **State model** | 2 states | 4 states | Docker native |
-| **Use case** | Daily work | Power users | Automation |
-| **Learning curve** | Easy | Moderate | Steep |
+| **Use case** | Beginner | Advanced users | Automation |
 
 ---
 
@@ -262,129 +204,44 @@ container-stop my-project
 container-start my-project
 container-attach my-project
 ```
-
-**GPU held during stop period (configurable).**
-
-### Scenario 3: Creating Containers in Background
-
-**Problem:** Want to create multiple containers, open one to work in.
-
-**Beginner approach:**
-```bash
-project launch exp-1 --open      # Work here
-# Can't easily create others without leaving
-```
-
-**Intermediate approach:**
-```bash
-# Create all containers
-container-create exp-1
-container-create exp-2
-container-create exp-3
-
-# Start all
-container-start exp-1
-container-start exp-2
-container-start exp-3
-
-# Attach to one
-container-attach exp-1
-```
-
-**More flexible workflow.**
-
 ---
 
-## Prerequisites
+## Documentation Structure & Next Steps
 
-**Before diving into intermediate docs:**
+### Start here: 
+**Core References**
 
-1. **Completed beginner tutorials:**
-   - [ ] Used `project launch` successfully
-   - [ ] Understand workspace persistence
-   - [ ] Know how to edit Dockerfiles
-   - [ ] Comfortable with `container-list` / `container-stats`
+1. **[Atomic Commands](atomic-commands.md)** - Learn L2 commands
+    - `container-create`, `start`, `stop`, `remove`, `run`, `attach`, `exit`
+    - `image-create`, `update`, `list`, `delete`
+    - All flags and options
 
-2. **Comfortable with Linux CLI:**
-   - [ ] Navigate directories (`cd`, `ls`, `pwd`)
-   - [ ] Edit files (`vim` or `nano`)
-   - [ ] Understand flags/options (`--flag`, `-f`)
-   - [ ] Basic shell scripting (`for`, `if`, variables)
+2. **[CLI Flags](cli-flags.md)** - Efficient command-line usage -> ditch interactive mode
+    - Common flags across commands
+    - Flag combinations
+    - Non-interactive usage
 
-3. **Understand DS01 concepts:**
-   - [ ] Images vs containers
-   - [ ] Ephemeral model
-   - [ ] `/workspace/` persistence
+3. **[Container States](container-states.md)** - Full lifecycle model
+    - Created vs running vs stopped vs removed
+    - GPU hold timeout behavior
+    - State transitions
 
-**Need to review?**
-- [Linux Basics](../background/linux-basics.md)
-- [Containers and Images](../concepts/containers-and-images.md)
-- [Ephemeral Containers](../concepts/ephemeral-containers.md)
+### Then: 
+**Practical Guides**
 
----
+4. **Scripting** - Automation patterns
+    - [Bash](scripting-bash.md) - Native shell scripting (simple, fast)
+    - [Python](scripting-python.md) - Structured automation (complex workflows)
 
-## Documentation Structure
+5. **[Efficiency Tips](efficiency-tips.md)** - Speed up your work w/ shortcuts
+    - Keyboard shortcuts
+    - Workflow optimizations
 
-### Core References
+6. **[Shell Aliases](shell-aliases.md)** - Command shortcuts for your `~/.bashrc`
+    - Short aliases (`pl`, `ca`, `cr`, etc.)
+    - Common patterns (`plo`, `crf`)
 
-- **[Atomic Commands](atomic-commands.md)** - Complete L2 command reference
-  - `container-create`, `start`, `stop`, `remove`, `run`, `attach`, `exit`
-  - `image-create`, `update`, `list`, `delete`
-  - All flags and options
+### Finally:
+**Beyond intermediate**
 
-- **[CLI Flags](cli-flags.md)** - Efficient command-line usage
-  - Common flags across commands
-  - Flag combinations
-  - Non-interactive usage
-
-- **[Container States](container-states.md)** - Full lifecycle model
-  - Created vs running vs stopped vs removed
-  - GPU hold timeout behavior
-  - State transitions
-
-### Practical Guides
-
-- **[Scripting](scripting.md)** - Automation patterns
-  - Bash scripts for common tasks
-  - Parallel experiments
-  - Error handling
-
-- **[Efficiency Tips](efficiency-tips.md)** - Power user shortcuts
-  - Shell aliases
-  - Keyboard shortcuts
-  - Workflow optimizations
-
----
-
-## Key Differences from Beginner Docs
-
-| Aspect | Beginner Docs | Intermediate Docs |
-|--------|---------------|-------------------|
-| **Pace** | Slow, explanatory | Faster, assumes knowledge |
-| **Commands** | Interactive mode | CLI flags emphasized |
-| **Depth** | Essential features | All options covered |
-| **Examples** | Copy-paste ready | Adapt to your needs |
-| **Audience** | Never used DS01 | Used DS01 for weeks |
-
----
-
-## Next Steps
-
-**Start here:**
-
-1. [Atomic Commands Reference](atomic-commands.md) - Learn L2 commands
-2. [CLI Flags Guide](cli-flags.md) - Ditch interactive mode
-3. [Container States](container-states.md) - Understand lifecycle
-
-**Then:**
-
-4. [Scripting Guide](scripting.md) - Automate workflows
-5. [Efficiency Tips](efficiency-tips.md) - Speed up your work
-
-**Beyond intermediate:**
-
-6. [Advanced Guide](../advanced/) - Docker interface, terminal workflows
-
----
-
-**Ready to level up? Start with [Atomic Commands](atomic-commands.md).**
+7. [Advanced Guide](../advanced/) - Docker interface, terminal workflows

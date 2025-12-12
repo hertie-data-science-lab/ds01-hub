@@ -347,12 +347,12 @@ Displays information about how to exit containers. This is an informational comm
 
 ## Common Patterns
 
-### Daily Workflow
+### Typical Workflow
 ```bash
-container-deploy my-project --open   # Morning
+container-deploy my-project --open   # Spin up for GPU work
 # Work...
 exit
-container-retire my-project          # Evening
+container-retire my-project          # Done, free GPU
 ```
 
 ### Parallel Experiments
@@ -379,5 +379,5 @@ docker logs <project-name>._.$(whoami)    # View logs (replace <project-name>)
 ## See Also
 
 - [Image Commands](image-commands.md)
-- [Daily Workflow Guide](../../guides/daily-workflow.md)
+- [Daily Workflow Guide](../../core-guides/daily-workflow.md)
 - [Troubleshooting](../../troubleshooting/)

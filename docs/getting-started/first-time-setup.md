@@ -373,12 +373,13 @@ GPU count: 1
 Want to add more packages?
 
 ```bash
-# Update your Dockerfile & rebuild image
-image-update my-first-project
+# Use interactive GUI to add packages (recommended)
+image-update                  # Select image, add packages
 
-# or if prefer manually inspect
-nano ~/dockerfiles/my-first-project.Dockerfile
+# Or manually edit Dockerfile (advanced)
+vim ~/dockerfiles/my-first-project.Dockerfile
+image-update my-first-project --rebuild
 
-# Recreate container
+# Then recreate container
 container-deploy my-first-project --open
 ```

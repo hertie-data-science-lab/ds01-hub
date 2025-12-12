@@ -2,7 +2,7 @@
 
 Build and customise Docker images for your specific research needs.
 
-> **Key concept:** DS01 containers ARE your Python environment - you don't need venv or conda inside containers. See [Python Environments in Containers](../concepts/python-environments.md) for why.
+> **Key concept:** DS01 containers ARE your Python environment - you don't need venv or conda inside containers. See [Python Environments in Containers](../key-concepts/python-environments.md) for why.
 
 ---
 
@@ -80,7 +80,8 @@ WORKDIR /workspace
 ### Step 2: Rebuild Image
 
 ```bash
-image-update my-thesis --rebuild
+image-update my-thesis --rebuild   # Rebuild without prompts
+# Or use: docker build -t ds01-<uid>/my-thesis:latest ~/workspace/my-thesis/
 ```
 
 **What happens:**
@@ -90,6 +91,8 @@ image-update my-thesis --rebuild
 - Old image replaced
 
 **Time:** 5-10 minutes (depends on packages)
+
+> **Note:** Most users should use `image-update` (interactive GUI) instead of editing Dockerfiles directly. See [Option 2](#option-2-use-image-update) below.
 
 ### Step 3: Recreate Container
 
@@ -150,7 +153,7 @@ container retire my-project --save-packages
 - ✗ Not version-controlled - can't track changes
 - ✗ Image bloat - auto-cleanup may remove dangling layers
 
-### Option 2: Use `image update` 
+### Option 2: Use `image-update` (Recommended)
 
 **Best Approach:**
 
@@ -159,21 +162,24 @@ container retire my-project --save-packages
 pip list | grep transformers
 # transformers==4.30.2
 
-# 2. Exit and edit Dockerfile via `image update`
+# 2. Exit and use interactive package manager
 exit
-image-update
-# opens interactive GUI
-# i) select image
-# ii) add transformers==4.30.2 
-# iii) rebuilds image for you
+image-update                  # Select image, add "transformers==4.30.2"
 
 # 3. Recreate container
 project launch my-project
 ```
 
-### Option 2: Add to Dockerfile (Reproducible)
+**Trade-offs:**
+- ✓ Reproducible - changes saved to Dockerfile
+- ✓ Version controlled - tracked in git
+- ✓ Shareable - colleagues can rebuild
+- ✓ User-friendly - no manual Dockerfile editing
+- ✗ Slower - requires rebuild
 
-**Better approach:**
+### Option 3: Edit Dockerfile Directly (Advanced)
+
+**For advanced users who prefer manual control:**
 
 ```bash
 # 1. Note what you installed
@@ -183,22 +189,15 @@ pip list | grep transformers
 # 2. Exit and edit Dockerfile
 exit
 vim ~/workspace/my-project/Dockerfile
+# Add: RUN pip install transformers>=4.30.0
 
-# 3. Add the package
-# RUN pip install transformers>=4.30.0
-
-# 4. Rebuild image
+# 3. Rebuild image
 image-update my-project --rebuild
+# Or: docker build -t ds01-<uid>/my-project:latest ~/workspace/my-project/
 
-# 5. Recreate container
+# 4. Recreate container
 project launch my-project
 ```
-
-**Trade-offs:**
-- ✓ Reproducible - Dockerfile = recipe
-- ✓ Version controlled - tracked in git
-- ✓ Shareable - colleagues can rebuild
-- ✗ Slower - requires rebuild
 
 ---
 
@@ -368,11 +367,16 @@ image-delete old-project-name
 
 **Cause:** Package not in Dockerfile - only existed in removed container.
 
-**Fix:** Add to Dockerfile and rebuild:
+**Fix:** Use `image-update` to add the package permanently:
+```bash
+image-update                  # Select image, add "foo"
+```
+
+**Advanced:** Edit Dockerfile directly:
 ```bash
 vim ~/workspace/my-project/Dockerfile
 # Add: RUN pip install foo
-image-update my-project
+image-update my-project --rebuild
 ```
 
 ### "Package conflict" During Build
@@ -431,8 +435,11 @@ image-create my-project
 # List your images
 image-list
 
-# Update/rebuild image
-image-update my-project
+# Update image (interactive GUI - recommended)
+image-update                  # Select image, add/remove packages
+
+# Rebuild image after manual Dockerfile edit (advanced)
+image-update my-project --rebuild
 
 # Delete image
 image-delete old-project
@@ -552,8 +559,7 @@ Install in container → Save to image → Done
 ```bash
 # After quick install testing, make it permanent
 pip list | grep package-name  # Check version
-# Add to Dockerfile with version
-image-update my-project
+image-update                  # Add package to image via GUI
 ```
 
 ---
@@ -623,4 +629,4 @@ project launch my-project --open
 
 **Understand the concepts:**
 
-- → [Containers and Images](../concepts/containers-and-images.md)
+- → [Containers and Images](../key-concepts/containers-and-images.md)

@@ -6,7 +6,7 @@
 
 ## What This Section Is
 
-These docs explain the **DS01-specific concepts** you need to understand to work productively. They're concise, practical, and focused on "just enough theory" to use the system well.
+These docs explain the **DS01-specific concepts** to understand to work productively. They're concise, practical, and focused on "just enough theory" to use the system well.
 
 **Read these when:**
 - You want to understand DS01 before diving in
@@ -27,8 +27,6 @@ These docs explain the **DS01-specific concepts** you need to understand to work
 
 **Quick version:** Images are blueprints (permanent). Containers are instances (temporary). Changing the blueprint doesn't change existing instances.
 
-**Read this if:** You're confused about why packages disappear, or why you need to rebuild images.
-
 ### 2. Ephemeral Containers
 
 **Why containers are temporary, and why that's good.**
@@ -37,7 +35,6 @@ These docs explain the **DS01-specific concepts** you need to understand to work
 
 **Quick version:** Containers = temporary compute sessions. Workspace = permanent storage. Remove containers when done to free resources.
 
-**Read this if:** You're worried about losing work, or confused about container lifecycle.
 
 ### 3. Workspaces and Persistence
 
@@ -46,8 +43,6 @@ These docs explain the **DS01-specific concepts** you need to understand to work
 - [Workspaces and Persistence](workspaces-persistence.md)
 
 **Quick version:** `/workspace/` is permanent (survives container removal). Everything else in the container is temporary.
-
-**Read this if:** You've lost files, or want to understand what persists.
 
 ### 4. Python Environments
 
@@ -80,7 +75,7 @@ These docs explain the **DS01-specific concepts** you need to understand to work
 
 ---
 
-## How These Differ from Background
+## How These Differ from the `Background` Seection of this Repo
 
 | This Section (Concepts) | Background Section |
 |------------------------|-------------------|
@@ -100,7 +95,8 @@ These docs explain the **DS01-specific concepts** you need to understand to work
 1. [Containers and Images](containers-and-images.md) - 10 min
 2. [Workspaces and Persistence](workspaces-persistence.md) - 8 min
 
-**After first week:**
+**After some initial use for familiarity:**
+
 3. [Ephemeral Containers](ephemeral-containers.md) - 10 min
 4. [Python Environments](python-environments.md) - 5 min
 

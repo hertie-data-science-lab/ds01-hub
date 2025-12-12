@@ -204,4 +204,4 @@ No devices found
 ## See Also
 
 - [Container Issues](container-issues.md)
-- [GPU Usage Guide](../guides/gpu-usage.md)
+- [GPU Usage Guide](../core-guides/gpu-usage.md)

@@ -466,35 +466,39 @@ image-list
 
 ### image-update
 
-**Rebuild existing image** (L2 atomic)
+**Update existing image with package management** (L2 atomic)
 
 **Syntax:**
 ```bash
-image-update <project-name> [OPTIONS]
+image-update [project-name] [OPTIONS]
 ```
 
 **Options:**
+- `--rebuild` - Rebuild image without modifying Dockerfile
 - `--no-cache` - Force rebuild without cache
+- `--add "pkg1 pkg2"` - Add packages directly
+- `--edit` - Edit Dockerfile manually (advanced)
 - `--help` - Show help
 
 **Examples:**
 ```bash
-# Rebuild image
-image-update my-project
+# Recommended: Interactive GUI
+image-update                         # Select image, add/remove packages
 
-# Force complete rebuild
-image-update my-project --no-cache
+# Advanced: After manual Dockerfile edit
+image-update my-project --rebuild    # Rebuild without prompts
+image-update my-project --no-cache   # Force complete rebuild
 ```
 
 **What it does:**
-1. Finds existing Dockerfile (`~/dockerfiles/<project>.Dockerfile`)
-2. Rebuilds image with same name
+1. Without arguments: Opens interactive GUI to add/remove packages
+2. With `--rebuild`: Rebuilds from existing Dockerfile
 3. Uses layer cache for speed (unless --no-cache)
 
 **When to use:**
-- Added packages to Dockerfile
-- Updated base image
-- Fixed image issues
+- **No arguments** (recommended): Add/remove packages via GUI
+- `--rebuild`: After manual Dockerfile edit
+- `--no-cache`: Force clean rebuild
 
 ---
 
@@ -935,13 +939,13 @@ alias clist='container-list'
 ### Learn Workflows
 
 **Daily patterns:**
-- → [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 
 **Project setup:**
-- → [Creating Projects](../guides/creating-projects.md)
+- → [Creating Projects](../core-guides/creating-projects.md)
 
 **Container management:**
-- → [Managing Containers](../guides/daily-workflow.md)
+- → [Managing Containers](../core-guides/daily-workflow.md)
 
 ### Troubleshooting
 
@@ -970,7 +974,8 @@ container-stats                     # Resource usage
 
 # Image management
 image-create                        # Build custom image
-image-update <project>              # Rebuild image
+image-update                        # Interactive GUI (recommended)
+image-update <project> --rebuild    # After manual Dockerfile edit
 
 # System
 ds01-dashboard                      # System status
@@ -980,6 +985,6 @@ ds01-dashboard                      # System status
 
 **Complete reference for all DS01 commands with examples!**
 
-**Need examples?** → [Daily Usage Patterns](../guides/daily-workflow.md)
+**Need examples?** → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 
 **Having issues?** → [Troubleshooting](troubleshooting.md)

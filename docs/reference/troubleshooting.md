@@ -276,12 +276,13 @@ docker images | grep aime-pytorch
 
 **2. Package installation fails**
 ```bash
-# Check Dockerfile
-cat ~/dockerfiles/my-project.Dockerfile
+# Use interactive GUI to fix packages
+image-update                  # Select image, fix package names/versions
 
-# Fix package name/version
+# Or check Dockerfile manually
+cat ~/dockerfiles/my-project.Dockerfile
 vim ~/dockerfiles/my-project.Dockerfile
-image-update my-project
+image-update my-project --rebuild
 ```
 
 **3. Disk space**
@@ -311,7 +312,7 @@ ModuleNotFoundError: No module named 'transformers'
 - Package not in image
 - Package name typo
 
-> **Note:** DS01 containers ARE your Python environment - you don't need venv or conda. See [Python Environments](../concepts/python-environments.md).
+> **Note:** DS01 containers ARE your Python environment - you don't need venv or conda. See [Python Environments](../key-concepts/python-environments.md).
 
 **Solutions:**
 1. **Check if installed:**
@@ -327,8 +328,7 @@ ModuleNotFoundError: No module named 'transformers'
 3. **Permanent fix (add to image):**
    ```bash
    exit  # Exit container
-   # Edit ~/workspace/<project-name>/Dockerfile to add: RUN pip install transformers
-   image-update <project-name>
+   image-update                  # Select image, add package
    container-retire <project-name>
    container-deploy <project-name>
    ```
@@ -725,7 +725,7 @@ Permission denied (publickey)
 
 5. **Keep environments updated:**
    ```bash
-   image-update my-project  # Periodically
+   image-update                  # Add packages as needed
    ```
 
 6. **Check limits before starting:**
@@ -840,7 +840,7 @@ Permission denied (publickey)
 
 **Learn best practices:**
 → 
-- → [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 
 **Command reference:**
 - → [Command Reference](command-reference.md)

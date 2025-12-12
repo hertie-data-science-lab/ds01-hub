@@ -4,7 +4,7 @@
 
 > **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
 >
-> **Just want the essentials?** See [Key Concepts: Workspaces and Persistence](../concepts/workspaces-persistence.md) for a shorter overview.
+> **Just want the essentials?** See [Key Concepts: Workspaces and Persistence](../key-concepts/workspaces-persistence.md) for a shorter overview.
 
 Understanding stateless/stateful separation is critical for cloud computing. This guide explains persistence patterns, file organisation, and how these concepts transfer to AWS, Kubernetes, and production systems.
 
@@ -68,7 +68,7 @@ Understanding stateless/stateful separation is critical for cloud computing. Thi
 
 ```
 /                             # Container root
-├── workspace/                # ← MOUNTED from ~/workspace/<project>/
+├── workspace/                # ← MOUNTED from ~/workspace/<container-name>/
 │   ├── data/                 #    Files here = PERSISTENT
 │   ├── notebooks/
 │   └── train.py
@@ -79,7 +79,7 @@ Understanding stateless/stateful separation is critical for cloud computing. Thi
     └── conda/                # ← EPHEMERAL (but can rebuild from image)
 ```
 
-**Key insight:** `/workspace` in container is actually `~/workspace/<project>/` on host, mounted into the container.
+**Key insight:** `/workspace` in container is actually `~/workspace/<container-name>/` on host, mounted into the container. DS01 containers are designed to be project-associated - each container maps to one project directory by default.
 
 ---
 
@@ -95,14 +95,20 @@ container-deploy my-project
 DS01 automatically runs (internally):
 ```bash
 docker run \
-  -v ~/workspace/my-project:/workspace \  # ← This line
+  -v ~/workspace/my-project:/workspace \  # ← Project dir → /workspace
   ...
 ```
 
 **This means:**
-- Files you save to `/workspace` (inside container)
+- Files you save to `/workspace/` (inside container)
 - Actually saved to `~/workspace/my-project/` (on host)
 - Survive container removal
+
+**Why project-specific?** DS01's mental model is that containers are project-associated. This keeps projects isolated and encourages good organisation. If you need different behaviour, use the `--workspace` flag:
+```bash
+container-create my-container --workspace ~/workspace  # Mount all projects
+container-create my-container --workspace ~/other/path # Custom location
+```
 
 ### Visualisation
 
@@ -115,7 +121,7 @@ docker run \
 │  ├── models/                            │
 │  └── train.py                           │
 │         ↕                                │
-│     (mounted)                           │
+│     (mounted as /workspace)             │
 │         ↕                                │
 │  ┌────────────────────────────────┐    │
 │  │  Container (Ephemeral)         │    │
@@ -201,7 +207,7 @@ docker run \
 ### Always Start in Workspace
 
 ```bash
-# Inside container
+# Inside container - you should already be here by default
 alice@my-project:~$ pwd
 /workspace
 
@@ -272,27 +278,27 @@ data_dir = os.environ['DATA_DIR']
 
 **3. Workspace (Persistent Data)**
 - Contains: Your code, data, results
-- Created with: `mkdir ~/workspace/<project>`
+- Created with: `mkdir ~/workspace/<project>` (or via `project init`)
 - Survives: Everything (container removal, image deletion, reboots)
-- Location: `~/workspace/<project>/` on host, `/workspace` in container
+- Location: `~/workspace/<project>/` on host → `/workspace/` in container
 - Purpose: Permanent storage
 
 ### Lifecycle Example
 
 ```bash
-# Day 1: Setup
+# Setup
 image-create                          # Create image (PERSISTENT)
 container-deploy my-project           # Create container (EPHEMERAL)
 cd /workspace
 echo "Hello" > file.txt               # Save to workspace (PERSISTENT)
 exit
 
-# Day 1 Evening: Free GPU
+# Done with GPU work
 container-retire my-project           # Container DELETED
                                       # Image STILL EXISTS
                                       # Workspace STILL EXISTS
 
-# Day 2: Resume work
+# Later: Need GPU again
 container-deploy my-project           # New container from same image
 cd /workspace
 cat file.txt                          # "Hello" - file persists!
@@ -637,12 +643,12 @@ docker image prune
 ### Learn Daily Workflow
 
 **Put knowledge into practice:**
-- → [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 
 ### Advanced Organisation
 
 **Project structure:**
-- → [Project Structure](../guides/creating-projects.md)
+- → [Project Structure](../core-guides/creating-projects.md)
 
 ---
 
@@ -659,6 +665,6 @@ docker image prune
 
 **The golden rule: If it's important, save it to `/workspace`!**
 
-**Ready to start working?** → [Daily Usage Patterns](../guides/daily-workflow.md)
+**Ready to start working?** → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 
 **Want to understand the philosophy?** → [Ephemeral Containers](../background/ephemeral-philosophy.md)

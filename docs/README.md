@@ -155,4 +155,4 @@ container-deploy --info
 - **Cloud-native**: Same workflow as AWS/GCP/Kubernetes
 - **Flexible**: Multiple projects with different environments
 
-→ [Learn more about containers](concepts/containers-and-images.md) *(optional)*
+→ [Learn more about containers](key-concepts/containers-and-images.md) *(optional)*

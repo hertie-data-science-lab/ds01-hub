@@ -6,13 +6,15 @@
 
 ## The Golden Rule
 
-**Save everything important to `/workspace/<project>/`**
+**Save everything important to `/workspace/`**
 
 Everything else in the container is temporary.
 
 ---
 
 ## Two Filesystems
+
+> NB: DS01 automatically mounts the project dir as its `workspace/` and then opens up at that location, so you do not nee to worry too much about managing this distinction!
 
 When you work in a container, there are two places files can be:
 
@@ -29,30 +31,37 @@ When you work in a container, there are two places files can be:
 ### 2. Workspace (permanent)
 
 ```
-/workspace/my-project/    ← Your files (permanent!)
+/workspace/               ← Your project files (permanent!)
 ├── code/
 ├── data/
 ├── models/
-└── Dockerfile
+├── Dockerfile
+└── requirements.txt
 ```
 
-**Maps to:** `~/workspace/my-project/` on the host
+**Maps to:** `~/workspace/<container-name>/` on the host
 
 **Survives:** Container removal, system reboots, everything
+
+> **Why project-specific?** DS01 containers are designed to be project-associated. Each container maps to one project directory. This keeps projects isolated and encourages good organisation. If you need different behaviour, use the `--workspace` flag (see below).
 
 ---
 
 ## How It Works
 
-Your workspace is "mounted" into the container:
+Your project directory is "mounted" into the container as `/workspace`:
 
 ```
-Host Machine                Container
-────────────                ─────────
-~/workspace/my-project/ ←→ /workspace/my-project/
+Host Machine                    Container
+────────────                    ─────────
+~/workspace/my-project/    ←→   /workspace/
 ```
 
 **Same files, different path.** Changes in one appear in the other.
+
+This means when you're inside a container called `my-project`:
+- `/workspace/train.py` in the container = `~/workspace/my-project/train.py` on the host
+- `/workspace/data/` in the container = `~/workspace/my-project/data/` on the host
 
 ---
 
@@ -69,7 +78,7 @@ torch.save(model, '/tmp/checkpoint.pt')   # Saves to /tmp/
 
 **Right (files persist):**
 ```python
-torch.save(model, '/workspace/my-project/models/checkpoint.pt')
+torch.save(model, '/workspace/models/checkpoint.pt')
 ```
 
 ### Downloading datasets
@@ -82,7 +91,7 @@ wget https://example.com/data.tar.gz
 
 **Right (download once):**
 ```bash
-cd /workspace/my-project/data
+cd /workspace/data
 wget https://example.com/data.tar.gz
 ```
 
@@ -90,7 +99,7 @@ wget https://example.com/data.tar.gz
 
 **Always start from workspace:**
 ```bash
-cd /workspace/my-project
+cd /workspace
 jupyter lab
 ```
 
@@ -103,7 +112,7 @@ Notebooks auto-save to the current directory.
 ```bash
 # Where am I?
 pwd
-# /workspace/my-project ← Good
+# /workspace ← Good
 # /root ← Bad (temporary!)
 
 # Is this file safe?
@@ -116,19 +125,19 @@ realpath my-file.txt
 
 ## Workspace Structure
 
-Recommended layout:
+Recommended layout for your project (shown as seen on the host):
 
 ```
-~/workspace/my-project/
-├── Dockerfile           # Environment definition
-├── requirements.txt     # Python packages
+~/workspace/my-project/       # On host (= /workspace/ inside container)
+├── Dockerfile                # Environment definition
+├── requirements.txt          # Python packages
 ├── README.md
 ├── .gitignore
-├── data/                # Datasets
-├── notebooks/           # Jupyter notebooks
-├── src/                 # Source code
-├── models/              # Saved checkpoints
-└── results/             # Outputs, logs, plots
+├── data/                     # Datasets
+├── notebooks/                # Jupyter notebooks
+├── src/                      # Source code
+├── models/                   # Saved checkpoints
+└── results/                  # Outputs, logs, plots
 ```
 
 ---
@@ -140,7 +149,7 @@ Recommended layout:
 | `/workspace/` | Yes | **Yes** | All important work |
 | `/root/` (home) | Yes | No | Temporary config |
 | `/tmp/` | Yes | No | Scratch space |
-| `~/workspace/` | Host only | **Yes** | Same as /workspace/ |
+| `~/workspace/<project>/` | Host only | **Yes** | Maps to /workspace/ in container |
 
 ---
 
@@ -153,7 +162,10 @@ Recommended layout:
 > Yes. It's at `~/workspace/<project>/` on the host.
 
 **"Can I share files between projects?"**
-> Yes. All projects are in `~/workspace/`. You can symlink or reference paths.
+> Yes. Use the `--workspace` flag to mount a different directory, or access other projects via symlinks.
+
+**"Can I mount my entire ~/workspace/ instead of one project?"**
+> Yes. Use `container-create my-container --workspace ~/workspace` to mount all projects at once.
 
 **"How much space do I have?"**
 > Check with `du -sh ~/workspace/*`
@@ -166,13 +178,13 @@ Recommended layout:
 
 ```bash
 # Were they in workspace?
-ls /workspace/my-project/
+ls /workspace/
 
 # Or somewhere temporary?
 # If temporary → they're gone
 ```
 
-**Prevention:** Always `cd /workspace/my-project` before working.
+**Prevention:** Always `cd /workspace` before working.
 
 ### Workspace looks empty in container
 
@@ -193,6 +205,6 @@ project launch my-project
 
 - [Containers and Images](containers-and-images.md) - Why containers are temporary
 - [Ephemeral Containers](ephemeral-containers.md) - The design philosophy
-- [Creating Projects](../guides/creating-projects.md) - Set up a new project
+- [Creating Projects](../core-guides/creating-projects.md) - Set up a new project
 
 **Want deeper understanding?** See [Workspaces & Persistence](../background/workspaces-and-persistence.md) in Educational Computing Context.

@@ -16,19 +16,19 @@ Like shutting down your laptop when done - your files are safe on the disk.
 ## The DS01 Workflow
 
 ```bash
-# Morning: Start working
+# Need GPU? Spin up a container
 project launch my-thesis --open
 
-# During the day: Work
+# Do your compute-intensive work
 # (files saved to /workspace/)
 
-# Evening: Done for the day
+# Done? Clean up
 exit
 container retire my-thesis    # Frees GPU for others
 ```
 
 ```bash
-# Next morning: Resume
+# Need GPU again later? Spin up another container
 project launch my-thesis --open
 # All your files are exactly where you left them
 ```
@@ -47,7 +47,7 @@ project launch my-thesis --open
 - GPU allocation
 
 ### Permanent (always safe)
-- Files in `/workspace/<project>/`
+- Files in `/workspace/` (maps to `~/workspace/<project>/` on host)
 - Dockerfile
 - Docker image
 - Git history
@@ -58,19 +58,7 @@ project launch my-thesis --open
 
 ### 1. Resource fairness
 
-DS01 has limited GPUs. If everyone leaves containers running:
-
-```
-Monday 5pm: Alice, Bob, Charlie go home (containers idle)
-Tuesday 9am: Dana wants GPU - none available!
-            (All "allocated" but not being used)
-```
-
-With ephemeral model:
-```
-Monday 5pm: Everyone retires containers
-Tuesday 9am: GPUs available for anyone who needs them
-```
+DS01 has limited GPUs.
 
 ### 2. Clean state
 
@@ -78,7 +66,8 @@ Every container launch:
 - Fresh environment
 - No stale processes
 - No mysterious state from last week
-- Matches your image exactly
+
+= Matches your image exactly
 
 ### 3. Industry standard
 
@@ -86,8 +75,6 @@ This is how production systems work:
 - AWS: Terminate instances to stop paying
 - Kubernetes: Pods are ephemeral, volumes persist
 - HPC: Jobs complete, resources freed
-
-**You're learning cloud-native patterns.**
 
 ---
 
@@ -107,6 +94,8 @@ container-attach training
 # When training completes: retire
 container retire training
 ```
+
+*NB: DS01 applies user-specific `max_runtime` limits. You can check these at any point with the `check limits` command. Should you need more runtime that currently provided, just [raise a ticket](https://github.com/hertie-data-science-lab/ds01-hub/issues) on the ds01 hub repo (ideally in advance!).
 
 ### Checkpointing
 
@@ -138,7 +127,7 @@ Everything in the image is reproducible.
 
 ```bash
 # Deploy (create + start)
-project launch my-project --open
+project launch my-project 
 
 # Retire (stop + remove + free GPU)
 container retire my-project
@@ -171,7 +160,7 @@ Think of it like a laptop:
 > About 30 seconds. Image is already built.
 
 **"What if I need a GPU for 3 days?"**
-> Keep the container running. Retire when actually done.
+> Raise a ticket in advance to the DSL to change your default configs. Then just keep the container running. Retire when actually done.
 
 **"What if container stops unexpectedly?"**
 > Load your checkpoint and resume. This is why checkpointing matters.
@@ -182,6 +171,6 @@ Think of it like a laptop:
 
 - [Workspaces and Persistence](workspaces-persistence.md) - Where to save files
 - [Containers and Images](containers-and-images.md) - How images work
-- [Long-Running Jobs](../guides/long-running-jobs.md) - Multi-day training
+- [Long-Running Jobs](../core-guides/long-running-jobs.md) - Multi-day training
 
 **Want to understand the industry context?** See [Ephemeral Philosophy](../background/ephemeral-philosophy.md) in Educational Computing Context.

@@ -498,27 +498,29 @@ image-create
 
 ---
 
-### `image-update` - Rebuild Image
+### `image-update` - Update Image
 
-**Rebuilds existing image (alias for `image-create`).**
+**Interactive package management and image rebuilding.**
 
 **Syntax:**
 ```bash
-image-update <project> [options]
+image-update [project] [options]
 ```
 
 **Use when:**
-- Modified Dockerfile
+- Need to add/remove packages
+- Modified Dockerfile manually
 - Want newer package versions
 - Previous build had errors
 
 **Example:**
 ```bash
-# Edit Dockerfile
-vim ~/workspace/my-thesis/Dockerfile
+# Recommended: Interactive GUI
+image-update                  # Select image, add/remove packages
 
-# Rebuild
-image-update my-thesis
+# Advanced: After manual Dockerfile edit
+vim ~/workspace/my-thesis/Dockerfile
+image-update my-thesis --rebuild
 
 # Recreate containers to use new image
 container-remove my-thesis
@@ -703,11 +705,12 @@ container-stop exp-3 && container-remove exp-3
 ### Workflow 4: Rebuild and Recreate
 
 ```bash
-# Modify environment
-vim ~/workspace/my-thesis/Dockerfile
+# Modify environment (option 1: interactive GUI)
+image-update                  # Select image, add/remove packages
 
-# Rebuild image
-image-update my-thesis
+# Modify environment (option 2: manual Dockerfile edit)
+vim ~/workspace/my-thesis/Dockerfile
+image-update my-thesis --rebuild
 
 # Remove old container
 container-remove my-thesis --stop

@@ -195,7 +195,7 @@ WORKDIR /workspace
 
 **After editing:**
 ```bash
-# Rebuild image
+# Rebuild image after manual Dockerfile edit
 image-update my-thesis --rebuild
 
 # Recreate containers
@@ -203,6 +203,8 @@ project launch my-thesis
 # Or
 container-deploy my-thesis
 ```
+
+> **Tip:** For simpler package management, use `image-update` (no arguments) to open the interactive GUI.
 
 → [Custom environments guide](custom-environments.md) for details
 
@@ -490,5 +492,5 @@ project launch my-thesis --open
 - → [Custom Environments Guide](custom-environments.md)
 - → [Jupyter Setup](jupyter-notebooks.md)
 - → [VS Code Remote](vscode-remote.md)
-- → [Containers and Images](../concepts/containers-and-images.md)
-- → [Workspaces and Persistence](../concepts/workspaces-persistence.md)
+- → [Containers and Images](../key-concepts/containers-and-images.md)
+- → [Workspaces and Persistence](../key-concepts/workspaces-persistence.md)

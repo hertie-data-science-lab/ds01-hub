@@ -3,7 +3,7 @@
 **Deeper knowledge for career development and technical understanding.**
 
 > **Just want to use DS01?** Skip this section entirely.
-> Go to [Quickstart](../quickstart.md) or [Key Concepts](../concepts/).
+> Go to [Quickstart](../quickstart.md) or [Key Concepts](../key-concepts/).
 
 ---
 
@@ -100,7 +100,7 @@ See how DS01 maps to production systems.
 | 2-3 hours total | 30-45 min total |
 | Optional but valuable | Recommended |
 
-**Just need to use DS01?** See [Key Concepts](../concepts/).
+**Just need to use DS01?** See [Key Concepts](../key-concepts/).
 
 ---
 
@@ -184,11 +184,11 @@ By using DS01 and reading these docs, you're learning:
 
 **Ready to use DS01?**
 - [Quickstart](../quickstart.md) - Start immediately
-- [Key Concepts](../concepts/) - Essential mental models
+- [Key Concepts](../key-concepts/) - Essential mental models
 
 **Want practical guides?**
-- [Daily Workflow](../guides/daily-workflow.md) - Common patterns
-- [Custom Images](../guides/custom-images.md) - Build your environment
+- [Daily Workflow](../core-guides/daily-workflow.md) - Common patterns
+- [Custom Images](../core-guides/custom-images.md) - Build your environment
 
 **Need reference?**
 - [Command Reference](../reference/command-quick-ref.md) - All commands

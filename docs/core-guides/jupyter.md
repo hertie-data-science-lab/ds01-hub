@@ -212,7 +212,7 @@ Start with systemd (if enabled in container).
 - All packages installed in container are available
 - **You don't need venv or conda** - the container IS your environment
 
-→ See [Python Environments in Containers](../concepts/python-environments.md) for details
+→ See [Python Environments in Containers](../key-concepts/python-environments.md) for details
 
 **Check available kernels:**
 ```bash
@@ -431,7 +431,7 @@ ssh -L 8888:localhost:8888 ds01
 
 # Work in notebooks...
 
-# Done for the day
+# Done with GPU work
 exit
 container retire analysis
 ```
@@ -588,12 +588,12 @@ ssh ds01-jupyter
 **Permanent (add to Dockerfile):**
 ```bash
 # Exit Jupyter
-# Edit Dockerfile
-vim ~/workspace/my-project/Dockerfile
+# Use interactive GUI to add packages (recommended)
+image-update                  # Select image, add packages
 
-# Add: RUN pip install package-name
-# Rebuild
-image-update my-project
+# Or edit Dockerfile directly (advanced)
+vim ~/workspace/my-project/Dockerfile
+image-update my-project --rebuild
 
 # Recreate container
 container retire my-project
@@ -618,4 +618,4 @@ if epoch % 5 == 0:
 - → [VS Code Remote Guide](vscode-remote.md)
 - → [Long-Running Jobs](long-running-jobs.md)
 - → [Daily Workflow](../getting-started/daily-workflow.md)
-- → [Containers and Images](../concepts/containers-and-images.md)
+- → [Containers and Images](../key-concepts/containers-and-images.md)

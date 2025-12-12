@@ -4,7 +4,7 @@
 
 > **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
 >
-> **Just want to use DS01?** See [Key Concepts: Containers and Images](../concepts/containers-and-images.md) for a shorter overview, or skip to [First Container](../getting-started/first-container.md).
+> **Just want to use DS01?** See [Key Concepts: Containers and Images](../key-concepts/containers-and-images.md) for a shorter overview, or skip to [First Container](../getting-started/first-container.md).
 
 Containers are the foundation of DS01 and modern cloud computing. This guide explains what they are, why we use them, and how they work.
 
@@ -419,8 +419,11 @@ docker tag ds01-alice/project:latest ds01-alice/project:working-baseline
 # List images
 image-list
 
-# Rebuild image
-image-update my-project
+# Update image (interactive GUI - recommended)
+image-update                  # Select image, add/remove packages
+
+# Rebuild after manual Dockerfile edit (advanced)
+image-update my-project --rebuild
 
 # Remove image
 image-delete my-project
@@ -450,9 +453,9 @@ docker rmi <image>
 - [Ephemeral Philosophy](ephemeral-philosophy.md) - Why containers are temporary
 
 **Start building:**
-- [Custom Images Guide](../guides/custom-images.md) - Build your environment
+- [Custom Images Guide](../core-guides/custom-images.md) - Build your environment
 - [Dockerfile Best Practices](../advanced/dockerfile-best-practices.md) - Advanced builds
 
 **Start using:**
 - [First Container](../getting-started/first-container.md) - Deploy now
-- [Daily Workflow](../guides/daily-workflow.md) - Common patterns
+- [Daily Workflow](../core-guides/daily-workflow.md) - Common patterns

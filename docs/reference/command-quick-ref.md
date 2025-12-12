@@ -4,16 +4,16 @@ One-page cheat sheet for DS01 commands.
 
 ---
 
-## Daily Workflow
+## Typical Workflow
 
 ```bash
-# Morning - Start working
+# Spin up container for GPU work
 project launch my-project --open
 
-# During work - Reconnect if disconnected
+# Reconnect if disconnected
 container-attach my-project
 
-# Evening - Done for the day
+# Done with GPU work
 exit
 container retire my-project
 ```
@@ -106,8 +106,10 @@ image-create <project>
 image-create <project> --guided
 image-create                 # Interactive
 
-# Update/rebuild image
-image-update <project>
+# Update image (interactive GUI - recommended)
+image-update                  # Select image, add/remove packages
+
+# Rebuild after manual Dockerfile edit (advanced)
 image-update <project> --rebuild
 
 # Quick install (non-reproducible)
@@ -354,8 +356,8 @@ project launch my-project
 # Check logs
 docker logs <container-name>._.$(id -u)
 
-# Rebuild image
-image-update my-project
+# Rebuild image (if package issue)
+image-update                  # Fix packages via GUI
 container retire my-project
 project launch my-project
 ```
@@ -605,11 +607,11 @@ ls /opt/ds01-infra/docs-user/
 
 - → [Daily Workflow](../getting-started/daily-workflow.md)
 
-- → [Creating Projects](../guides/creating-projects.md)
+- → [Creating Projects](../core-guides/creating-projects.md)
 
-- → [Custom Environments](../guides/custom-environments.md)
+- → [Custom Environments](../core-guides/custom-environments.md)
 
-- → [Jupyter Notebooks](../guides/jupyter.md)
+- → [Jupyter Notebooks](../core-guides/jupyter.md)
 
 - → [Troubleshooting](../troubleshooting/)
 

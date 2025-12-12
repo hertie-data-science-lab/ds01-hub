@@ -84,7 +84,7 @@ SSH lets you connect from anywhere. Leave experiments running, check from home.
 
 **HPC** = Using powerful, shared computing resources for intensive workloads.
 
-DS01 is an HPC system specialized for data science and ML.
+DS01 is an HPC system specialised for data science and ML.
 
 ### Core HPC Principles
 
@@ -257,4 +257,4 @@ Same workflow, different billing model.
 
 **Start using DS01:**
 - [First Container](../getting-started/first-container.md) - Deploy in 5 minutes
-- [Daily Workflow](../guides/daily-workflow.md) - Common patterns
+- [Daily Workflow](../core-guides/daily-workflow.md) - Common patterns

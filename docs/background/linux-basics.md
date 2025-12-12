@@ -719,7 +719,7 @@ ls -a                       # Shows .bashrc
 - → [Containers Explained](containers-explained.md)
 
 **DS01 usage:**
-- → [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 
 **Advanced topics:**
 → 

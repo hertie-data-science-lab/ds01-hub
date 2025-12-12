@@ -80,7 +80,7 @@ When opening a notebook, VS Code prompts you to select a kernel:
 **DS01 containers replace virtual environments** - you don't need venv or conda inside containers.
 
 For details on installing packages and environment management:
-- → [Python Environments in Containers](../concepts/python-environments.md)
+- → [Python Environments in Containers](../key-concepts/python-environments.md)
 
 ---
 
@@ -104,4 +104,4 @@ For details on installing packages and environment management:
 ## Next Steps
 
 - → [SSH Setup](ssh-setup.md)
-- → [Daily Usage Patterns](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../core-guides/daily-workflow.md)

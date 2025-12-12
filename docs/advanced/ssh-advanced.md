@@ -277,5 +277,5 @@ Host ds01
 ## See Also
 
 - [Prerequisites](../getting-started/prerequisites.md)
-- [Jupyter Setup](../guides/jupyter.md)
-- [VSCode Remote](../guides/vscode-remote.md)
+- [Jupyter Setup](../core-guides/jupyter.md)
+- [VSCode Remote](../core-guides/vscode-remote.md)

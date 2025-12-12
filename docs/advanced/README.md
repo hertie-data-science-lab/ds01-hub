@@ -4,12 +4,12 @@
 
 ---
 
-## You're Ready If
+## This is aimed at those who 
 
-- You're comfortable with Docker (`docker run`, `docker exec`)
-- You prefer CLI over IDE/GUI
-- You want to build batch job pipelines
-- You need custom container configuration
+- Are comfortable with Docker (`docker run`, `docker exec`)
+- Prefer CLI over IDE/GUI
+- Want to build batch job pipelines
+- Need custom container configuration
 
 **Not there yet?** → [Intermediate](../intermediate/)
 
@@ -33,12 +33,11 @@
 | [Dockerfile Best Practices](dockerfile-best-practices.md) | Build optimisation, layer caching |
 | [SSH Advanced](ssh-advanced.md) | Config files, port forwarding |
 
-### Specialized
+### Specialised
 
 | Guide | What You'll Learn |
 |-------|-------------------|
 | [Multi-MIG Training](multi-mig-training.md) | Distributed GPU training |
-| [VS Code Remote](vscode-remote.md) | Advanced VS Code setup |
 
 ---
 
@@ -69,7 +68,7 @@ docker logs my-project._.$(id -u)
 1. [Efficiency Tips](efficiency-tips.md) → [Dockerfile Best Practices](dockerfile-best-practices.md)
 
 **Remote access:**
-1. [SSH Advanced](ssh-advanced.md) → [VS Code Remote](vscode-remote.md)
+1. [SSH Advanced](ssh-advanced.md)
 
-**Specialized:**
+**Specialised:**
 1. [Multi-MIG Training](multi-mig-training.md)

@@ -22,26 +22,28 @@ image-create my-project
 
 ## Adding Packages
 
-### Best Practice
-Simplest, most robust:
-```
-Keep `requirements.txt` file up to date with any new pkg requirements, then use `image update` CLI to scan that and update. DS01 has developed this CLI abstrats this complexity layer away.
+### Recommended: Interactive GUI
+
+```bash
+image-update                  # Select image, add/remove packages
 ```
 
-**Edit Dockerfile:**
+The interactive GUI lets you:
+- View current packages
+- Add Python packages (pip)
+- Add system packages (apt)
+- Import from requirements.txt
+- Rebuild automatically
+
+### Advanced: Edit Dockerfile Directly
+
 ```bash
 vim ~/dockerfiles/my-project.Dockerfile
-```
+# Add: RUN pip install transformers datasets accelerate
 
-**Add packages:**
-```dockerfile
-RUN pip install transformers datasets accelerate
-```
-
-**Rebuild:**
-```bash
-image-update my-project            # Interactive mode
-image-update my-project --rebuild  # Rebuild without prompts
+# Then rebuild:
+image-update my-project --rebuild
+# Or: docker build -t ds01-<uid>/my-project:latest -f ~/dockerfiles/my-project.Dockerfile ~/dockerfiles/
 ```
 
 ## Base Images

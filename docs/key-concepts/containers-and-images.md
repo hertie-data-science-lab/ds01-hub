@@ -6,8 +6,8 @@
 
 ## The Key Insight
 
-**Image = Blueprint (permanent)**
-**Container = Instance (temporary)**
+- **Image = Blueprint (permanent)**
+- **Container = Instance (temporary)**
 
 Changing the blueprint doesn't change existing instances.
 
@@ -45,12 +45,8 @@ import transformers  # ModuleNotFoundError!
 ### How to make packages permanent
 
 ```bash
-# Edit your Dockerfile
-vim ~/workspace/my-project/Dockerfile
-# Add: RUN pip install transformers
-
-# Rebuild the image (blueprint)
-image-update my-project
+# Use the interactive package manager
+image-update                  # Select image, add "transformers"
 
 # Recreate container from new image
 container retire my-project
@@ -60,6 +56,12 @@ import transformers  # Works!
 ```
 
 **Why?** Now the package is in the image (blueprint).
+
+**Advanced:** Edit Dockerfile directly, then rebuild:
+```bash
+vim ~/workspace/my-project/Dockerfile
+image-update my-project --rebuild
+```
 
 ---
 
@@ -82,9 +84,8 @@ import transformers  # Works!
 ```
 
 **To change your environment:**
-1. Edit Dockerfile
-2. Rebuild image (`image-update`)
-3. Recreate container (`container retire` + `project launch`)
+1. Run `image-update` (interactive GUI to add/remove packages)
+2. Recreate container (`container retire` + `project launch`)
 
 ---
 
@@ -98,11 +99,17 @@ pip install new-package  # Works now, gone after retire
 ```
 
 **Permanent (recommended):**
-```dockerfile
-# In Dockerfile
-RUN pip install new-package
+```bash
+image-update                  # Interactive GUI to add packages
 ```
-Then: `image-update my-project`
+
+**Alternative:** If you prefer `requirements.txt`-based workflows, keep your `requirements.txt` as the single source of truth - `image-update` can import packages directly from it.
+
+**Advanced:** Edit Dockerfile directly:
+```bash
+vim ~/workspace/my-project/Dockerfile
+image-update my-project --rebuild
+```
 
 ### Multiple projects
 
@@ -130,7 +137,7 @@ Different projects = different environments = no conflicts.
 ## Common Questions
 
 **"Can I modify an image directly?"**
-> No. Edit the Dockerfile, then rebuild.
+> No. Use `image-update` to add packages, or edit the Dockerfile then rebuild.
 
 **"Do changes in container affect the image?"**
 > No. Container changes are isolated and temporary.
@@ -144,6 +151,6 @@ Different projects = different environments = no conflicts.
 
 - [Ephemeral Containers](ephemeral-containers.md) - Why containers are temporary
 - [Workspaces and Persistence](workspaces-persistence.md) - Where files are saved
-- [Custom Images Guide](../guides/custom-images.md) - Practical how-to
+- [Custom Images Guide](../core-guides/custom-images.md) - Practical how-to
 
 **Want deeper Docker knowledge?** See [Containers & Docker](../background/containers-and-docker.md) in Educational Computing Context.

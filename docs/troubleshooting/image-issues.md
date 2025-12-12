@@ -25,12 +25,13 @@ docker images | grep aime-pytorch
 
 ### Package Installation Fails
 ```bash
-# Check Dockerfile
-cat ~/dockerfiles/my-project.Dockerfile
+# Use interactive GUI to fix packages
+image-update                  # Select image, fix package names/versions
 
-# Fix package name/version
+# Or check Dockerfile manually
+cat ~/dockerfiles/my-project.Dockerfile
 vim ~/dockerfiles/my-project.Dockerfile
-image-update my-project
+image-update my-project --rebuild
 ```
 
 ### Disk Space
@@ -62,7 +63,7 @@ ModuleNotFoundError: No module named 'transformers'
 - Package not in image
 - Package name typo
 
-> **Note:** DS01 containers ARE your Python environment - you don't need venv or conda. See [Python Environments](../concepts/python-environments.md).
+> **Note:** DS01 containers ARE your Python environment - you don't need venv or conda. See [Python Environments](../key-concepts/python-environments.md).
 
 **Solutions:**
 
@@ -79,7 +80,7 @@ ModuleNotFoundError: No module named 'transformers'
 3. **Permanent fix (add to image):**
    ```bash
    exit  # Exit container
-   image-update <project-name>
+   image-update                  # Select image, add package
    container-retire <project-name>
    container-deploy <project-name>
    ```
@@ -201,5 +202,5 @@ ERROR: Cannot install package-a and package-b because these package versions hav
 ## See Also
 
 - [Container Issues](container-issues.md)
-- [Custom Images Guide](../guides/custom-images.md)
+- [Custom Images Guide](../core-guides/custom-images.md)
 - [Dockerfile Best Practices](../advanced/dockerfile-best-practices.md)

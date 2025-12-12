@@ -9,17 +9,15 @@ Resource management is a core concept in cloud computing, HPC, and multi-tenant 
 ## Your Resource Limits
 
 ```bash
-cat ~/.ds01-limits
+check-limits
 ```
 
-**Typical limits:**
+This command shows your current limits and resource usage. Typical limits:
 - Max GPUs: 1-2
 - Max Containers: 2-3
 - Memory: 32-128GB per container
 - Idle Timeout: 30min-2h (varies by user)
 - Max Runtime: 24h-72h (varies by user)
-
-Run `check-limits` to see your current values.
 
 ## How Limits Work
 
@@ -70,4 +68,3 @@ container-deploy new-project
 ## Next Steps
 
 - → [Ephemeral Containers](ephemeral-containers.md)
-- → [Resource Limits Reference](../reference/resource-limits.md)

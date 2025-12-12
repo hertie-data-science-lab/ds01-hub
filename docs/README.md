@@ -1,20 +1,21 @@
 # DS01 User Documentation
 
-**→ [Index & Learning Paths](index.md)** - Documentation structure, reading paths, and section overview.
+## Understand What's Here
+**The [Index & Learning Paths](index.md) doc covers everything you need to navigate this repo**: incl documentations structure, reading paths, and section overviews.
 
-> This contains everything you need to navigate this repo - from practical basics of deploying a container, advanced scripting and automation patterns, all the way through to explanations of core CS concepts behind DS01's architecture, and bridges to parallel industry practices.
+> Documentation content ranges from practical basics of deploying a container, advanced scripting and automation patterns, all the way through to explanations of core CS concepts behind DS01's architecture, and bridges to parallel industry practices.
 
 ---
 
 ## Get Started in <30 Minutes
 
-**Never used DS01 before?** See [quickstart](quickstart.md)
+**Never used DS01 before, but want to dive right in with minimal setup overhead?** See [quickstart](quickstart.md)
 
-> This walks you through everything: SSH keys, connecting from your laptop, and deploying your first containerised project.
+> This walks you through everything: SSH keys, connecting from your laptop, and deploying your first containerised project - all with minimal fuss.
 
 ---
 
-## Daily Routine
+## Build a Daily Routine
 
 **Already setup?** Here's how to use DS01
 

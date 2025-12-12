@@ -112,7 +112,7 @@ image-create --guided     # Create with explanations
 
 ### "No GPUs available/Resource limits reached"
 ```bash
-ds01-dashboard      # Check availability
+dashboard      # Check availability
 container-retire old-project  # Free your old containers
 ```
 

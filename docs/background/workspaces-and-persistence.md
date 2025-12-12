@@ -27,7 +27,6 @@ Understanding stateless/stateful separation is critical for cloud computing. Thi
 | `~/dockerfiles/` | Image blueprints | ✅ Yes |
 | Docker images | Environment blueprints | ✅ Yes |
 | `~/.ssh/` | SSH keys | ✅ Yes |
-| `~/.ds01-limits` | Resource quotas | ✅ Yes |
 
 ### Ephemeral (Temporary) ❌
 
@@ -58,10 +57,9 @@ Understanding stateless/stateful separation is critical for cloud computing. Thi
 ├── dockerfiles/              # ← PERSISTENT: Image blueprints
 │   ├── project-1.Dockerfile
 │   └── project-2.Dockerfile
-├── .ssh/                     # ← PERSISTENT: SSH keys
-│   ├── id_ed25519
-│   └── id_ed25519.pub
-└── .ds01-limits              # ← PERSISTENT: Your quotas
+└── .ssh/                     # ← PERSISTENT: SSH keys
+    ├── id_ed25519
+    └── id_ed25519.pub
 ```
 
 ### Inside a Container

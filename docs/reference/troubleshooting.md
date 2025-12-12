@@ -24,7 +24,7 @@ Error: No GPUs available for allocation
 **Solutions:**
 1. **Check availability:**
    ```bash
-   ds01-dashboard
+   dashboard
    # or
    python3 /opt/ds01-infra/scripts/docker/gpu_allocator.py status
    ```
@@ -649,7 +649,7 @@ Permission denied (publickey)
 
 3. **Check system status:**
    ```bash
-   ds01-dashboard
+   dashboard
    container-list
    container-stats
    ```
@@ -799,7 +799,7 @@ Permission denied (publickey)
 **Steps:**
 1. **Check system status:**
    ```bash
-   ds01-dashboard
+   dashboard
    ```
 
 2. **Check your account:**

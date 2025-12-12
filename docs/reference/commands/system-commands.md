@@ -8,7 +8,7 @@ Commands for system status, user setup, and configuration.
 
 ```bash
 # System dashboard
-dashboard                # Or: ds01-dashboard
+dashboard
 
 # First-time setup
 user-setup
@@ -27,61 +27,58 @@ version                  # Show version
 
 ---
 
-## ds01-dashboard
+## dashboard
 
 **System status dashboard**
 
 ```bash
-ds01-dashboard [OPTIONS]
+dashboard [SECTION] [OPTIONS]
 ```
+
+View GPU availability, container status, and system resources.
 
 **Options:**
 | Option | Description |
 |--------|-------------|
-| `--watch` | Continuous monitoring |
-| `--json` | JSON output |
-
-**Examples:**
-```bash
-ds01-dashboard           # View status
-ds01-dashboard --watch   # Live monitoring
-```
-
-**Shows:**
-- GPU availability and allocation
-- System resource usage
-- Active containers
-- User quotas
-
----
-
-## dashboard
-
-**User-friendly system dashboard** (alias for ds01-dashboard)
-
-```bash
-dashboard [OPTIONS]
-```
-
-Same as `ds01-dashboard` but shorter to type.
-
-**Options:**
-| Option | Description |
-|--------|-------------|
-| `--watch`, `-w` | Continuous monitoring (2s refresh) |
+| `--watch`, `-w` | Watch mode (2s refresh) |
 | `--full` | Show all sections expanded |
 | `--json` | JSON output for scripting |
-| `gpu` | GPU/MIG utilisation only |
-| `system` | System resources only |
-| `containers` | Container list only |
-| `users` | Per-user breakdown |
+
+**Modular Sections:**
+| Section | Description |
+|---------|-------------|
+| `gpu` | GPU/MIG utilization diagram |
+| `cpu` | CPU usage by user diagram |
+| `system` | CPU, Memory, Disk bars |
+| `mig-config` | MIG partition configuration |
+| `containers` | All containers with stats |
+| `users` | Per-user resource summary |
+| `temp` | GPU temperatures and power |
+
+**Additional Views:**
+| Command | Description |
+|---------|-------------|
+| `allocations [N]` | Recent N GPU allocations (default: 10) |
+| `alerts` | Active alerts and warnings (idle containers, etc.) |
 
 **Examples:**
 ```bash
-dashboard              # Default view
-dashboard --watch      # Live monitoring
-dashboard gpu          # GPU section only
-dashboard users        # User resource summary
+dashboard                    # Default compact view (GPU, CPU by user, system)
+dashboard --full             # All sections expanded
+dashboard --watch            # Live monitoring
+dashboard --json             # JSON output for scripting
+
+# Individual sections
+dashboard gpu                # GPU/MIG utilization
+dashboard cpu                # CPU usage by user
+dashboard system             # System resources
+dashboard containers         # All containers
+dashboard users              # Per-user summary
+dashboard temp               # GPU temperatures
+
+# Additional views
+dashboard alerts             # Check for issues
+dashboard allocations 20     # Last 20 GPU allocations
 ```
 
 ---
@@ -91,8 +88,13 @@ dashboard users        # User resource summary
 **Complete onboarding wizard** (L4 wizard)
 
 ```bash
-user-setup
+user-setup [OPTIONS]
 ```
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--quick` | Expert mode: skip skill assessment, minimal prompts |
 
 **Aliases:** `user setup`, `new-user`
 
@@ -131,6 +133,32 @@ Containers: 2 / 3
 
 ---
 
+## ssh-config
+
+**SSH configuration utility**
+
+```bash
+ssh-config <command>
+```
+
+**Commands:**
+| Command | Description |
+|---------|-------------|
+| `generate` | Generate new SSH keys (ed25519) |
+| `test` | Test SSH connection to localhost |
+| `show` | Display public key and connection info |
+| `vscode` | Show VS Code Remote-SSH setup instructions |
+
+**Examples:**
+```bash
+ssh-config generate    # Create new SSH keys
+ssh-config test        # Test if SSH is working
+ssh-config show        # Display your public key
+ssh-config vscode      # Get VS Code setup instructions
+```
+
+---
+
 ## ssh-setup
 
 **Configure SSH keys** (L2 atomic)
@@ -142,19 +170,21 @@ ssh-setup [OPTIONS]
 **Options:**
 | Option | Description |
 |--------|-------------|
-| `--key-type <type>` | Key type (default: ed25519) |
-| `--no-passphrase` | Create without passphrase |
+| `--guided` | Show detailed explanations for beginners |
+| `--force` | Regenerate keys even if they exist |
+| `--verify` | Just verify existing setup |
 
 **Examples:**
 ```bash
-ssh-setup                              # Interactive
-ssh-setup --key-type ed25519           # Specify key type
+ssh-setup              # Interactive setup
+ssh-setup --guided     # With explanations
+ssh-setup --verify     # Check existing setup
 ```
 
 **What it does:**
-1. Generates SSH key pair
+1. Generates SSH key pair (ed25519)
 2. Displays public key (add to GitHub/GitLab)
-3. Configures SSH agent (optional)
+3. Verifies configuration
 
 ---
 
@@ -163,13 +193,21 @@ ssh-setup --key-type ed25519           # Specify key type
 **Configure VSCode Remote** (L2 atomic)
 
 ```bash
-vscode-setup
+vscode-setup [OPTIONS]
 ```
 
-**Example:**
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--project=NAME` | Project-specific instructions |
+| `--container=NAME` | Container-specific instructions |
+| `--guided` | Educational mode |
+
+**Examples:**
 ```bash
-vscode-setup
-# Generates VSCode config for remote development
+vscode-setup                        # General setup guide
+vscode-setup --project=my-thesis    # Project-specific instructions
+vscode-setup --guided               # With explanations
 ```
 
 **See:** [VSCode Remote Guide](../../core-guides/vscode-remote.md)
@@ -188,118 +226,17 @@ shell-setup [OPTIONS]
 | Option | Description |
 |--------|-------------|
 | `--check` | Verify PATH only |
-| `--force` | Overwrite existing config |
+| `--force` | Reconfigure even if PATH already correct |
+| `--guided` | Educational mode |
 
 **Examples:**
 ```bash
 shell-setup --check   # Verify PATH
 shell-setup           # Fix PATH
+shell-setup --guided  # With explanations
 ```
 
 **Use when:** DS01 commands not found in PATH
-
----
-
-## ds01-health-check
-
-**System health diagnostics**
-
-```bash
-ds01-health-check
-```
-
-**Checks:**
-- Docker daemon status
-- GPU driver availability
-- Systemd slices
-- Network connectivity
-
-**Use when:** Troubleshooting system issues
-
----
-
-## gpu-queue
-
-**GPU queue management**
-
-```bash
-gpu-queue [subcommand] [args]
-```
-
-**Subcommands:**
-| Command | Description |
-|---------|-------------|
-| `position <user>` | Check queue position for user |
-| `status` | View overall queue status |
-| `list` | List all queued requests |
-
-**Examples:**
-```bash
-gpu-queue position $USER   # Check your queue position
-gpu-queue status           # View queue status
-```
-
-**Use when:** All GPUs are allocated and you're waiting for availability.
-
----
-
-## ds01-gpu-util
-
-**GPU utilization monitor**
-
-```bash
-ds01-gpu-util [OPTIONS]
-```
-
-Shows actual GPU usage (not just allocation). Helps identify underutilized GPUs.
-
-**Options:**
-| Option | Description |
-|--------|-------------|
-| `--json` | JSON output for scripting |
-
-**Examples:**
-```bash
-ds01-gpu-util           # Current GPU utilization snapshot
-ds01-gpu-util --json    # JSON output
-```
-
-**Shows:**
-- Current GPU utilization percentage
-- Memory usage per GPU
-- Which containers are using each GPU
-
-**Use when:** You want to see if GPUs are being actively used vs just allocated.
-
----
-
-## ds01-mig-util
-
-**MIG instance utilization monitor**
-
-```bash
-ds01-mig-util [OPTIONS]
-```
-
-Shows actual MIG instance utilization (not just allocation). Useful for tracking per-instance usage on partitioned GPUs.
-
-**Options:**
-| Option | Description |
-|--------|-------------|
-| `--json` | JSON output for scripting |
-
-**Examples:**
-```bash
-ds01-mig-util           # Current MIG utilization snapshot
-ds01-mig-util --json    # JSON output
-```
-
-**Shows:**
-- Per-MIG instance utilization
-- Memory usage per instance
-- Container assignments
-
-**Use when:** Your system uses MIG (Multi-Instance GPU) and you want to see actual usage.
 
 ---
 
@@ -331,75 +268,30 @@ jupyter-setup --port-forward  # Just port forwarding commands
 
 ---
 
-## quota-check
-
-**Check disk quota usage**
-
-```bash
-quota-check [OPTIONS]
-```
-
-Shows your current disk usage against your quota limit.
-
-**Options:**
-| Option | Description |
-|--------|-------------|
-| `--all` | Check all users (admin only) |
-
-**Examples:**
-```bash
-quota-check           # Check your quota
-```
-
-**Shows:**
-- Current disk usage
-- Quota limit
-- Percentage used
-- Warning if near limit
-
----
-
-## install-to-image
-
-**Install packages to running container and update image**
-
-```bash
-install-to-image <container-name> <packages...>
-```
-
-Installs Python packages to a running container and optionally commits the changes to the Docker image.
-
-**Examples:**
-```bash
-install-to-image my-project wandb optuna
-install-to-image thesis transformers datasets
-```
-
-**What it does:**
-1. Starts the container (if stopped)
-2. Runs `pip install` inside the container
-3. Optionally commits changes to create new image version
-
-**Note:** For reproducible environments, prefer updating your Dockerfile with `image-update --add "packages"`.
-
----
-
 ## help
 
 **Show all available commands**
 
 ```bash
-help
+help [OPTIONS]
 ```
 
-Lists all DS01 commands organised by category (containers, images, system, etc.).
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--atomic` | Show atomic container commands (advanced) |
+| `--admin` | Show admin commands (ds01-* prefix) |
+| `--inside` | Show inside-container commands |
+| `--full` | Show everything |
 
 **Alias:** `commands` (identical functionality)
 
-**Example:**
+**Examples:**
 ```bash
-help
-# Shows categorised list of all DS01 commands
+help              # Show main commands
+help --atomic     # Show advanced L2 commands
+help --admin      # Show admin tools
+help --full       # Show all commands
 ```
 
 ---
@@ -443,7 +335,6 @@ image-create --guided
 
 ### DS01 Variables
 ```bash
-DS01_LIMITS_FILE=~/.ds01-limits
 DS01_INSTALL_DIR=/opt/ds01-infra
 DS01_WORKSPACE=~/workspace
 ```

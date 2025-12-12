@@ -39,7 +39,7 @@ Complete reference for all DS01 commands with examples and options.
 - [vscode-setup](#vscode-setup) - Configure VSCode Remote (L2)
 
 **System:**
-- [ds01-dashboard](#ds01-dashboard) - System status dashboard
+- [dashboard](#dashboard) - System status dashboard
 
 ---
 
@@ -288,16 +288,22 @@ container-unpause my-project
 
 **Syntax:**
 ```bash
-container-stop <project-name>
+container-stop [project-name] [OPTIONS]
 ```
+
+**Options:**
+- `-f, --force` - Force stop (kill immediately)
+- `-t, --timeout SECS` - Timeout before force kill (default: 10)
+- `-a, --all` - Stop all your containers
+- `-v, --verbose` - Show detailed shutdown process
+- `--keep-container` - Don't prompt to remove container
+- `--guided` - Educational mode
 
 **Examples:**
 ```bash
-# Stop container
-container-stop my-project
-
-# Container stopped but not removed
-# GPU held for configured duration (gpu_hold_after_stop)
+container-stop my-project              # Graceful stop
+container-stop my-project --force      # Force stop immediately
+container-stop --all                   # Stop all your containers
 ```
 
 **What it does:**
@@ -315,19 +321,24 @@ container-stop my-project
 
 **Syntax:**
 ```bash
-container-remove <project-name> [--force]
+container-remove [project-name] [OPTIONS]
 ```
 
 **Options:**
-- `--force` - Remove even if running
+- `-a, --all` - Remove all your stopped containers
+- `-i, --images` - Also remove associated Docker images
+- `-v, --volumes` - Also remove anonymous volumes
+- `-f, --force` - Skip all prompts
+- `--skip-removal-confirm` - Skip removal confirmation only
+- `--dry-run` - Show what would be removed
+- `--guided` - Educational mode
 
 **Examples:**
 ```bash
-# Remove stopped container
-container-remove my-project
-
-# Force remove running container
-container-remove my-project --force
+container-remove my-project              # Remove specific container
+container-remove my-project --images     # Also remove Docker image
+container-remove --all                   # Remove all stopped containers
+container-remove --all --images --dry-run  # Preview bulk removal
 ```
 
 **What it does:**
@@ -449,12 +460,16 @@ image-list [OPTIONS]
 ```
 
 **Options:**
-- `--all` - Include system images (default: user images only)
+- `-a, --all` - Show all images (not just yours)
+- `-s, --size` - Show image sizes
+- `-d, --detailed` - Show detailed info with Dockerfile locations
+- `--guided` - Educational mode
 
 **Examples:**
 ```bash
-# List your images
-image-list
+image-list              # List your images
+image-list --all        # List all images on server
+image-list --detailed   # Show detailed info with Dockerfile locations
 
 # Example output:
 # REPOSITORY              TAG      SIZE     CREATED
@@ -508,20 +523,22 @@ image-update my-project --no-cache   # Force complete rebuild
 
 **Syntax:**
 ```bash
-image-delete <project-name> [OPTIONS]
+image-delete [image-name...] [OPTIONS]
 ```
 
 **Options:**
-- `--force` - Delete even if containers exist
-- `--help` - Show help
+- `--all` - Delete all your images (with confirmation)
+- `-f, --force` - Force removal (stop/remove containers first)
+- `--keep-dockerfile` - Don't delete the associated Dockerfile
+- `--guided` - Educational mode
 
 **Examples:**
 ```bash
-# Delete image
-image-delete my-project
-
-# Force delete
-image-delete my-project --force
+image-delete my-project                    # Remove image (with confirmation)
+image-delete img1 img2 img3                # Bulk delete multiple images
+image-delete --all                         # Remove all your images
+image-delete my-project --force            # Force remove (stops containers first)
+image-delete my-project --keep-dockerfile  # Keep Dockerfile for later rebuild
 ```
 
 **Warning:** Containers using this image must be removed first (or use --force)
@@ -748,34 +765,41 @@ vscode-setup
 
 ## System Commands
 
-### ds01-dashboard
+### dashboard
 
 **System status dashboard**
 
 **Syntax:**
 ```bash
-ds01-dashboard [OPTIONS]
+dashboard [SECTION] [OPTIONS]
 ```
 
 **Options:**
-- `--watch` - Continuous monitoring
-- `--json` - JSON output
-- `--help` - Show help
+- `--watch`, `-w` - Watch mode (2s refresh)
+- `--full` - Show all sections expanded
+- `--json` - JSON output for scripting
+
+**Sections:**
+- `gpu` - GPU/MIG utilization diagram
+- `cpu` - CPU usage by user diagram
+- `system` - CPU, Memory, Disk bars
+- `mig-config` - MIG partition configuration
+- `containers` - All containers with stats
+- `users` - Per-user resource summary
+- `temp` - GPU temperatures and power
+- `allocations [N]` - Recent N GPU allocations
+- `alerts` - Active alerts and warnings
 
 **Examples:**
 ```bash
-# View system status
-ds01-dashboard
-
-# Continuous monitoring
-ds01-dashboard --watch
+dashboard                    # Default compact view
+dashboard --full             # All sections expanded
+dashboard --watch            # Live monitoring
+dashboard gpu                # GPU section only
+dashboard containers         # Container list
+dashboard alerts             # Check for issues
+dashboard allocations 20     # Last 20 GPU allocations
 ```
-
-**What it shows:**
-- GPU availability and allocation
-- System resource usage
-- Active containers
-- User quotas
 
 ---
 
@@ -862,9 +886,6 @@ image-create --guided
 ### DS01 Variables
 
 ```bash
-# Your resource limits file
-DS01_LIMITS_FILE=~/.ds01-limits
-
 # System installation
 DS01_INSTALL_DIR=/opt/ds01-infra
 

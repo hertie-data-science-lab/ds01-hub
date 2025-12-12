@@ -130,7 +130,7 @@ See [Index & Learning Paths](index.md) for entry points, or jump right in:
 
 - → [First Container Guide](getting-started/first-container.md) for step-by-step
 
-- → [Understand the daily workflow](getting-started/daily-workflow.md) - Deploying & retiring containerised compute environments with ease
+- → [Understand the daily workflow](core-guides/daily-workflow.md) - Deploying & retiring containerised compute environments with ease
 
 - → [Create additional projects](core-guides/creating-projects.md) - `project init`
 

@@ -53,21 +53,36 @@ container-deploy <project-name> [OPTIONS]
 |--------|-------------|
 | `--open` | Create and enter terminal immediately |
 | `--background` | Create and start in background |
-| `--guided` | Educational mode |
-| `--project=NAME` | Mount ~/workspace/NAME as workspace |
+| `--framework=NAME` | Use AIME base framework (pytorch, tensorflow) |
+| `--image=NAME` | Use specific Docker image |
+| `--cpu-only` | Create CPU-only container (no GPU) |
 | `-w, --workspace` | Mount custom workspace directory |
+| `--project=NAME` | Mount ~/workspace/NAME as workspace |
+| `-d, --data` | Additional data directory to mount |
+| `--dry-run` | Preview without executing |
+| `--guided` | Educational mode |
 
 **Examples:**
 ```bash
-container-deploy my-project              # Interactive
-container-deploy my-project --open       # Create and enter
-container-deploy my-project --background # Background mode
+container-deploy my-project              # Interactive (requires custom image)
+container-deploy my-project --open       # Create and enter terminal
+container-deploy my-project --background # Start in background
+
+# Using base frameworks (no custom image needed)
+container-deploy test --framework=pytorch     # Quick test with PyTorch
+container-deploy test --framework=tensorflow  # Quick test with TensorFlow
+
+# Other options
+container-deploy data-prep --cpu-only    # CPU only (no GPU)
+container-deploy my-project --dry-run    # Preview what would happen
 ```
 
 **What it does:**
 1. Checks resource availability
-2. Runs `container-create` (allocates GPU)
+2. Runs `container-create` (allocates GPU unless --cpu-only)
 3. Runs `container-start` or `container-run` based on flags
+
+**Note:** By default, requires a custom image (`ds01-{uid}/{name}:latest`). Use `--framework` or `--image` to bypass.
 
 ---
 
@@ -109,20 +124,25 @@ container-retire my-project --save-packages  # Auto-save new packages
 **Create container with GPU allocation** (L2 atomic)
 
 ```bash
-container-create <project-name> [OPTIONS]
+container-create <project-name> [image] [OPTIONS]
 ```
 
 **Options:**
 | Option | Description |
 |--------|-------------|
-| `--gpu <N>` | Request N GPUs (default: 1) |
-| `--framework <name>` | Base framework |
-| `--image <name>` | Specific Docker image |
+| `--cpu-only` | CPU-only container (no GPU) |
+| `--num-migs=N` | Request N MIG partitions (default: 1) |
+| `--prefer-full` | Prefer full GPU over MIG partitions |
+| `-w, --workspace` | Custom workspace directory |
+| `-d, --data` | Additional data directory to mount |
+| `--dry-run` | Preview without executing |
+| `--guided` | Educational mode |
 
 **Examples:**
 ```bash
-container-create my-project            # Default settings
-container-create my-project --gpu 2    # Multiple GPUs
+container-create my-project              # Create from custom image
+container-create my-project pytorch      # Create with PyTorch framework
+container-create data-prep --cpu-only    # CPU only
 ```
 
 **Note:** Does not start the container. Use `container-start` or `container-run` after.
@@ -171,12 +191,20 @@ Exit with `exit` or Ctrl+D. Container keeps running after you exit.
 **Freeze container processes** (L2 atomic)
 
 ```bash
-container-pause <project-name>
+container-pause [project-name] [OPTIONS]
 ```
 
-**Example:**
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `-a, --all` | Pause all your running containers |
+| `--guided` | Educational mode |
+
+**Examples:**
 ```bash
-container-pause my-project
+container-pause my-project    # Pause specific container
+container-pause --all         # Pause all your containers
+container-pause               # Interactive selection
 ```
 
 Freezes all processes (SIGSTOP). GPU stays allocated, memory preserved. Use `container-unpause` to resume.
@@ -188,12 +216,20 @@ Freezes all processes (SIGSTOP). GPU stays allocated, memory preserved. Use `con
 **Resume frozen container** (L2 atomic)
 
 ```bash
-container-unpause <project-name>
+container-unpause [project-name] [OPTIONS]
 ```
 
-**Example:**
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `-a, --all` | Unpause all your paused containers |
+| `--guided` | Educational mode |
+
+**Examples:**
 ```bash
-container-unpause my-project
+container-unpause my-project  # Unpause specific container
+container-unpause --all       # Unpause all your containers
+container-unpause             # Interactive selection
 ```
 
 Resumes all frozen processes. Container continues where it left off.
@@ -205,12 +241,25 @@ Resumes all frozen processes. Container continues where it left off.
 **Stop a running container** (L2 atomic)
 
 ```bash
-container-stop <project-name>
+container-stop [project-name] [OPTIONS]
 ```
 
-**Example:**
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `-f, --force` | Force stop (kill immediately) |
+| `-t, --timeout SECS` | Timeout in seconds before force kill (default: 10) |
+| `-a, --all` | Stop all your containers |
+| `-v, --verbose` | Show detailed shutdown process |
+| `--keep-container` | Don't prompt to remove container |
+| `--guided` | Educational mode |
+
+**Examples:**
 ```bash
-container-stop my-project
+container-stop my-project              # Graceful stop
+container-stop my-project --force      # Force stop immediately
+container-stop --all                   # Stop all your containers
+container-stop my-project -t 30        # Wait 30 seconds before force kill
 ```
 
 Container stopped but not removed. GPU held for configured duration.
@@ -224,17 +273,26 @@ Container stopped but not removed. GPU held for configured duration.
 **Remove container and free GPU** (L2 atomic)
 
 ```bash
-container-remove <project-name> [--force]
+container-remove [project-name] [OPTIONS]
 ```
 
 **Options:**
 | Option | Description |
 |--------|-------------|
-| `--force` | Remove even if running |
+| `-a, --all` | Remove all your stopped containers |
+| `-i, --images` | Also remove associated Docker images |
+| `-v, --volumes` | Also remove anonymous volumes |
+| `-f, --force` | Skip all prompts |
+| `--skip-removal-confirm` | Skip removal confirmation only |
+| `--dry-run` | Show what would be removed |
+| `--guided` | Educational mode |
 
-**Example:**
+**Examples:**
 ```bash
-container-remove my-project
+container-remove my-project              # Remove specific container
+container-remove my-project --images     # Also remove Docker image
+container-remove --all                   # Remove all stopped containers
+container-remove --all --images --dry-run  # Preview bulk removal
 ```
 
 Workspace files remain safe.
@@ -246,13 +304,23 @@ Workspace files remain safe.
 **List your containers** (L2 atomic)
 
 ```bash
-container-list [--all]
+container-list [OPTIONS]
 ```
 
 **Options:**
 | Option | Description |
 |--------|-------------|
-| `--all` | Include stopped containers |
+| `-a, --all` | Include stopped containers |
+| `-d, --detailed` | Show detailed information |
+| `--format FORMAT` | Output format (table, simple, json) |
+| `--guided` | Educational mode |
+
+**Examples:**
+```bash
+container-list              # Running containers
+container-list --all        # Include stopped
+container-list --detailed   # Show detailed info
+```
 
 **Example output:**
 ```
@@ -268,7 +336,23 @@ experiment-1    Running     0:2     45m
 **Show resource usage** (L2 atomic)
 
 ```bash
-container-stats [project-name]
+container-stats [project-name] [OPTIONS]
+```
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `-w, --watch` | Continuous monitoring (refresh every 2s) |
+| `-g, --gpu` | Include GPU statistics |
+| `--no-trunc` | Don't truncate output |
+| `--guided` | Educational mode |
+
+**Examples:**
+```bash
+container-stats             # All your containers
+container-stats my-project  # Specific container
+container-stats --watch     # Live monitoring
+container-stats --gpu       # Include GPU usage
 ```
 
 **Example output:**
@@ -287,6 +371,8 @@ my-project     245%    12.5GB / 64GB       19.5%   18.2GB
 container-attach <project-name>
 ```
 
+**Alias:** `container-open`
+
 Similar to `container-run` but doesn't start the container if it's stopped.
 
 **Example:**
@@ -299,29 +385,6 @@ user@my-project:/workspace$
 Exit with `exit` or Ctrl+D. Container keeps running after you exit.
 
 **Use when:** You want to enter a container that's already running, without auto-starting stopped containers.
-
----
-
-## container-pause
-
-**Pause container processes** (L2 atomic)
-
-```bash
-container-pause <project-name>
-```
-
-Freezes all processes in the container without stopping it. The container remains in memory but uses no CPU.
-
-**Example:**
-```bash
-container-pause my-project
-# Container paused - processes frozen
-
-container-start my-project
-# Container unpaused - processes resume
-```
-
-**Use when:** Temporarily freeing CPU for other work while keeping container state in memory.
 
 ---
 
@@ -344,6 +407,7 @@ Displays information about how to exit containers. This is an informational comm
 **Options:**
 | Option | Description |
 |--------|-------------|
+| `--info` | Show exit information (default) |
 | `--guided` | Show detailed explanations |
 
 ---

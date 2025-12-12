@@ -74,12 +74,6 @@ container-deploy my-project --open
 # Background mode
 container-deploy my-project --background
 
-# Request specific GPU count
-container-deploy my-project --gpu 2
-
-# Use specific framework
-container-deploy my-project --framework pytorch --open
-
 # Guided mode
 container-deploy my-project --guided
 ```
@@ -108,8 +102,11 @@ container-retire <project-name> [OPTIONS]
 ```
 
 **Options:**
-- `--force` - Skip confirmation prompts
-- `--images` - Also remove Docker image
+- `-f, --force` - Skip confirmation prompts
+- `--save-packages` - Automatically save new packages to image (no prompt)
+- `--images` - Also remove the Docker image after retiring
+- `--dry-run` - Show what would be done
+- `--guided` - Educational mode
 - `--help` - Show help message
 
 **Examples:**
@@ -120,21 +117,24 @@ container-retire my-project
 # Skip confirmations
 container-retire my-project --force
 
-# Also remove image
+# Also remove Docker image
 container-retire my-project --images
+
+# Auto-save new packages before retiring
+container-retire my-project --save-packages
 ```
 
 **What it does:**
 1. Confirms you want to retire (unless --force)
-2. Runs `container-stop` (stops container)
-3. Runs `container-remove` (removes container, frees GPU)
-4. Optionally removes Docker image
+2. Detects new packages and offers to save (or auto-saves with --save-packages)
+3. Runs `container-stop` (stops container)
+4. Runs `container-remove` (removes container, frees GPU)
+5. Optionally prompts to remove Docker image (or auto-removes with --images)
 
 **Equivalent to:**
 ```bash
 container-stop my-project
 container-remove my-project
-# Optionally: image-delete my-project
 ```
 
 ---

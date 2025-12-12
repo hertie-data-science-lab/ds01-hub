@@ -157,38 +157,6 @@ image-delete my-project --force
 
 ---
 
-## image-install
-
-**Install packages to existing image** (L2 atomic)
-
-```bash
-image-install <project-name> <package> [packages...]
-```
-
-Quickly add packages to an existing image without manually editing the Dockerfile.
-
-**Options:**
-| Option | Description |
-|--------|-------------|
-| `-r <file>` | Install from requirements.txt |
-
-**Examples:**
-```bash
-image-install my-project pandas numpy scipy
-image-install my-project -r requirements.txt
-```
-
-**What it does:**
-1. Adds packages to the Dockerfile
-2. Rebuilds the image
-3. Preserves existing packages
-
-**Use when:** You need to add a few packages quickly. For major changes, edit the Dockerfile directly.
-
-**Note:** Faster than manually editing Dockerfile + running `image-update`.
-
----
-
 ## Image Naming Convention
 
 ```

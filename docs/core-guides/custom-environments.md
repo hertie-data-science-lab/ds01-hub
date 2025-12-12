@@ -133,25 +133,27 @@ python
 
 ### Option 1: Save to Image (Quick, Non-Reproducible)
 
+When you retire a container, DS01 automatically detects newly installed packages and offers to save them via docker commit:
+
 ```bash
 # Exit container
 exit
 
-# Save packages to image WITHOUT editing Dockerfile
-container retire my-project --save-packages
+# Retire - will prompt to save if new packages detected
+container retire my-project
 ```
-*NB: the interactive GUI also offers this by default*
+*The interactive prompt offers to commit changes to the image*
 
 **What happens:**
-- Commits container changes to image
+- If new packages detected, prompts to commit container changes to image
 - New containers get these packages
 - **BUT:** Not in Dockerfile, not version-controlled, not shareable
 
 **Trade-offs:**
-- ✓ Fast - no rebuild needed
-- ✗ Not reproducible - colleagues don't know what's installed
-- ✗ Not version-controlled - can't track changes
-- ✗ Image bloat - auto-cleanup may remove dangling layers
+- Fast - no rebuild needed
+- Not reproducible - colleagues don't know what's installed
+- Not version-controlled - can't track changes
+- Image bloat - auto-cleanup may remove dangling layers
 
 ### Option 2: Use `image-update` (Recommended)
 
@@ -445,10 +447,10 @@ image-update my-project --rebuild
 image-delete old-project
 ```
 
-**Quick install helper:**
+**Quick package update:**
 ```bash
-# Install packages + commit to image (without Dockerfile edit)
-image-install transformers datasets
+# Add packages to image (updates Dockerfile and rebuilds)
+image-update my-project --add "transformers datasets"
 ```
 
 ---

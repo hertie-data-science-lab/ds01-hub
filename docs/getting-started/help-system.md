@@ -275,7 +275,7 @@ image-create
 image-create --help
 
 # 5. Finally: experienced, run non-interactively as CLI
-image-create my-project --base=pytorch
+image-create my-project -f pytorch -t nlp
 ```
 ---
 

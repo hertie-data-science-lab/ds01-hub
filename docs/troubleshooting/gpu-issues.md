@@ -135,10 +135,10 @@ No devices found
    python3 /opt/ds01-infra/scripts/docker/gpu_allocator.py status
    ```
 
-2. **Recreate with GPU:**
+2. **Recreate container:**
    ```bash
    container-retire my-project
-   container-deploy my-project --gpu 1
+   container-deploy my-project
    ```
 
 ---
@@ -193,10 +193,11 @@ No devices found
        print(torch.cuda.get_device_name(i))
    ```
 
-3. **Request more GPUs:**
+3. **Request more GPUs (via container-create):**
    ```bash
    container-retire my-project
-   container-deploy my-project --gpu 2
+   container-create my-project --num-migs 2
+   container-run my-project
    ```
 
 ---

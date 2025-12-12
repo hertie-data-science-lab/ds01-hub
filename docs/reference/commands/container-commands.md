@@ -53,17 +53,15 @@ container-deploy <project-name> [OPTIONS]
 |--------|-------------|
 | `--open` | Create and enter terminal immediately |
 | `--background` | Create and start in background |
-| `--gpu <N>` | Request N GPUs |
-| `--framework <name>` | Specify framework (pytorch, tensorflow, jax) |
-| `--image <name>` | Use specific image |
 | `--guided` | Educational mode |
+| `--project=NAME` | Mount ~/workspace/NAME as workspace |
+| `-w, --workspace` | Mount custom workspace directory |
 
 **Examples:**
 ```bash
 container-deploy my-project              # Interactive
 container-deploy my-project --open       # Create and enter
 container-deploy my-project --background # Background mode
-container-deploy my-project --gpu 2      # Multiple GPUs
 ```
 
 **What it does:**
@@ -84,20 +82,25 @@ container-retire <project-name> [OPTIONS]
 **Options:**
 | Option | Description |
 |--------|-------------|
-| `--force` | Skip confirmation prompts |
-| `--images` | Also remove Docker image |
+| `-f, --force` | Skip confirmation prompts |
+| `--save-packages` | Automatically save new packages to image (no prompt) |
+| `--images` | Also remove the Docker image after retiring |
+| `--dry-run` | Show what would be done |
+| `--guided` | Educational mode |
 
 **Examples:**
 ```bash
-container-retire my-project           # Interactive
-container-retire my-project --force   # Skip confirmations
-container-retire my-project --images  # Also remove image
+container-retire my-project              # Interactive
+container-retire my-project --force      # Skip confirmations
+container-retire my-project --images     # Also remove Docker image
+container-retire my-project --save-packages  # Auto-save new packages
 ```
 
 **What it does:**
-1. Stops container
-2. Removes container (frees GPU)
-3. Optionally removes image
+1. Stops container (if running)
+2. Detects new packages and prompts to save (or auto-saves with --save-packages)
+3. Removes container (frees GPU)
+4. Optionally prompts to remove Docker image (or auto-removes with --images)
 
 ---
 

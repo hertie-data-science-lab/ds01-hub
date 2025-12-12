@@ -208,7 +208,7 @@ aws ec2 run-instances --instance-type p3.2xlarge
 # Pay per hour, terminate when done
 
 # DS01
-container-deploy my-project --gpu 1
+container-deploy my-project
 # Free (included in allocation), retire when done
 ```
 ---

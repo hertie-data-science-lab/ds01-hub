@@ -359,10 +359,10 @@ bash: nvidia-smi: command not found
    docker inspect <project-name>._.$(whoami) | grep -i gpu
    ```
 
-3. **Recreate with GPU:**
+3. **Recreate container:**
    ```bash
    container-retire my-project
-   container-deploy my-project --gpu 1
+   container-deploy my-project
    ```
 
 ---
@@ -432,10 +432,10 @@ No devices found
    python3 /opt/ds01-infra/scripts/docker/gpu_allocator.py status
    ```
 
-2. **Recreate with GPU:**
+2. **Recreate container:**
    ```bash
    container-retire my-project
-   container-deploy my-project --gpu 1
+   container-deploy my-project
    ```
 
 ---

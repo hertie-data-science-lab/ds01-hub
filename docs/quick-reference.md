@@ -87,9 +87,8 @@ container-deploy my-project --dry-run     # Show what would happen
 
 # Stop + remove + free GPU
 container-retire [name]              # Interactive if no name
-container-retire my-project          # Named container
+container-retire my-project          # Named container (prompts to save new packages)
 container-retire my-project --force  # Skip confirmation
-container-retire my-project --save-packages # saves current pkgs to image (but not to Dockerfile!)
 
 # Status
 container-list                       # Your containers
@@ -114,7 +113,7 @@ container-remove my-project          # Remove only
 ```bash
 image-create [name]                  # Interactive wizard
 image-create my-project              # Named image
-image-create my-project --base=pytorch  # Specify base
+image-create my-project -f pytorch   # Specify framework (pytorch, tensorflow, jax)
 
 image-list                           # Your images
 image-update                         # Interactive GUI to add/remove packages

@@ -78,8 +78,9 @@ container deploy distributed --gpu=2
 project init <name> [flags]
 
 --type=<type>           ml, cv, nlp, rl, llm, ts, audio
---quick                 Skip interactive questions
---base=<image>          Custom base image
+--quick                 Skip interactive questions, use defaults
+--no-git                Skip Git initialization
+--blank                 Create blank directory (no structure)
 ```
 
 ```bash
@@ -134,8 +135,9 @@ container-remove exp-1 --force --stop
 ```bash
 image-create <project> [flags]
 
+-f, --framework <name>  Base framework (pytorch, tensorflow, jax)
+-t, --type <type>       Use case type (cv, nlp, rl, ml, custom)
 --no-cache              Rebuild from scratch
---base=<image>          Override base image
 ```
 
 ```bash
@@ -187,14 +189,14 @@ container-list --format=json | jq '.[] | select(.status=="running")'
 **Multiple flags together:**
 
 ```bash
-# Background deploy, multi-GPU, custom project
-container deploy training --background --gpu=2 --project=research-2024
+# Background deploy with custom project
+container deploy training --background --project=research-2024
 
 # Force stop and remove
 container-remove old-container --stop --force
 
-# Fresh image build with custom base
-image-create my-project --no-cache --base=aime/pytorch:2.8.0-cuda12.4
+# Fresh image build with framework
+image-create my-project --no-cache -f pytorch -t nlp
 ```
 
 ---

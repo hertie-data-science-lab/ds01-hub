@@ -243,6 +243,147 @@ gpu-queue status           # View queue status
 
 ---
 
+## ds01-gpu-util
+
+**GPU utilization monitor**
+
+```bash
+ds01-gpu-util [OPTIONS]
+```
+
+Shows actual GPU usage (not just allocation). Helps identify underutilized GPUs.
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--json` | JSON output for scripting |
+
+**Examples:**
+```bash
+ds01-gpu-util           # Current GPU utilization snapshot
+ds01-gpu-util --json    # JSON output
+```
+
+**Shows:**
+- Current GPU utilization percentage
+- Memory usage per GPU
+- Which containers are using each GPU
+
+**Use when:** You want to see if GPUs are being actively used vs just allocated.
+
+---
+
+## ds01-mig-util
+
+**MIG instance utilization monitor**
+
+```bash
+ds01-mig-util [OPTIONS]
+```
+
+Shows actual MIG instance utilization (not just allocation). Useful for tracking per-instance usage on partitioned GPUs.
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--json` | JSON output for scripting |
+
+**Examples:**
+```bash
+ds01-mig-util           # Current MIG utilization snapshot
+ds01-mig-util --json    # JSON output
+```
+
+**Shows:**
+- Per-MIG instance utilization
+- Memory usage per instance
+- Container assignments
+
+**Use when:** Your system uses MIG (Multi-Instance GPU) and you want to see actual usage.
+
+---
+
+## jupyter-setup
+
+**Configure Jupyter Lab access**
+
+```bash
+jupyter-setup [OPTIONS]
+```
+
+Configures Jupyter Lab access for the DS01 server.
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--guided` | Full setup with detailed explanations |
+| `--port-forward` | Show SSH port forwarding commands only |
+| `--brief` | Minimal output (for orchestrators) |
+
+**Examples:**
+```bash
+jupyter-setup                 # Quick VS Code Jupyter extension setup
+jupyter-setup --guided        # Full guided setup
+jupyter-setup --port-forward  # Just port forwarding commands
+```
+
+**Use when:** Setting up Jupyter Lab access from your local machine.
+
+---
+
+## quota-check
+
+**Check disk quota usage**
+
+```bash
+quota-check [OPTIONS]
+```
+
+Shows your current disk usage against your quota limit.
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--all` | Check all users (admin only) |
+
+**Examples:**
+```bash
+quota-check           # Check your quota
+```
+
+**Shows:**
+- Current disk usage
+- Quota limit
+- Percentage used
+- Warning if near limit
+
+---
+
+## install-to-image
+
+**Install packages to running container and update image**
+
+```bash
+install-to-image <container-name> <packages...>
+```
+
+Installs Python packages to a running container and optionally commits the changes to the Docker image.
+
+**Examples:**
+```bash
+install-to-image my-project wandb optuna
+install-to-image thesis transformers datasets
+```
+
+**What it does:**
+1. Starts the container (if stopped)
+2. Runs `pip install` inside the container
+3. Optionally commits changes to create new image version
+
+**Note:** For reproducible environments, prefer updating your Dockerfile with `image-update --add "packages"`.
+
+---
+
 ## help
 
 **Show all available commands**

@@ -4,15 +4,20 @@ Practical guide to GPU usage on DS01.
 
 ## Requesting GPUs
 
-*NB: this is mostly applicable to PhDs, PostDocs, Researchers and studetns who have been given access to more than 1 full GPU. Most MDS students by default, do NOT have access to multiple full GPUs.*
+*NB: this is mostly applicable to PhDs, PostDocs, Researchers and students who have been given access to more than 1 full GPU. Most MDS students by default, do NOT have access to multiple full GPUs.*
 
 ```bash
 # Request 1 GPU (default)
 container-deploy my-project
 
-# Request multiple GPUs
-container-deploy my-project --gpu 2
+# Request multiple MIG instances (during container-create)
+container-create my-project --num-migs 2
+
+# Request full GPU instead of MIG (if you have permission)
+container-create my-project --prefer-full
 ```
+
+**Note:** GPU allocation options (`--num-migs`, `--prefer-full`) are set during `container-create`. The `container-deploy` orchestrator uses your default allocation settings.
 
 ## Monitoring GPU Usage
 

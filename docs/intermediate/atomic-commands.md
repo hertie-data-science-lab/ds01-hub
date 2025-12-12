@@ -474,8 +474,9 @@ image-create                        # Interactive
 
 **Common flags:**
 ```bash
+-f, --framework <name>  # Base framework (pytorch, tensorflow, jax)
+-t, --type <type>       # Use case type (cv, nlp, rl, ml, custom)
 --no-cache              # Build from scratch (ignore cache)
---base=<image>          # Override base image
 --guided                # Show explanations
 -h, --help              # Show help
 ```
@@ -884,7 +885,7 @@ trap "container-remove $CONTAINER_NAME --stop --force" EXIT
 
 ```bash
 --no-cache              Build from scratch (no layer cache)
---base=<image>          Override Dockerfile base image
+-f, --framework <name>  Base framework (pytorch, tensorflow, jax)
 ```
 
 ---

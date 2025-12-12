@@ -82,7 +82,6 @@ image <subcommand> [args] [options]
 | `update` | `image-update` | Rebuild image |
 | `list` | `image-list` | List images |
 | `delete` | `image-delete` | Remove image |
-| `install` | `image-install` | Install packages |
 | `help` | `image --help` | Show help |
 
 **Examples:**
@@ -90,7 +89,7 @@ image <subcommand> [args] [options]
 image create my-project
 image list
 image update my-project --no-cache
-image install my-project pandas numpy
+image update my-project --add "pandas numpy"
 ```
 
 ---
@@ -137,6 +136,31 @@ user <subcommand> [args] [options]
 ```bash
 user setup
 user setup --guided
+```
+
+---
+
+### check
+
+Dispatch resource checking commands.
+
+```bash
+check <subcommand> [args]
+```
+
+**Subcommands:**
+
+| Subcommand | Equivalent | Description |
+|------------|------------|-------------|
+| `limits` | `check-limits` | Show your resource limits and usage |
+| `help` | `check --help` | Show help |
+
+**Aliases:** `get limits` also works (routes to same command).
+
+**Examples:**
+```bash
+check limits           # Show your resource limits and current usage
+check-limits           # Same as above (hyphenated version)
 ```
 
 ---

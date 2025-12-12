@@ -112,9 +112,8 @@ image-update                  # Select image, add/remove packages
 # Rebuild after manual Dockerfile edit (advanced)
 image-update <project> --rebuild
 
-# Quick install (non-reproducible)
-image-install <packages>
-image-install transformers datasets
+# Add packages to image (updates Dockerfile)
+image-update <project> --add "transformers datasets"
 
 # List images
 image-list

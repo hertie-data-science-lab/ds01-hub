@@ -23,7 +23,7 @@ This command shows your current limits and resource usage. Typical limits:
 
 **Per-user limits prevent:**
 
-- **One user monopolising all GPUs:** Without limits, the first person to run `container-deploy --gpu=8` would grab all available GPUs. Everyone else waits indefinitely. Per-user caps (typically 1-2 GPUs) ensure resources are distributed across users.
+- **One user monopolising all GPUs:** Without limits, a user could grab all available GPUs. Everyone else waits indefinitely. Per-user caps (typically 1-2 GPUs) ensure resources are distributed across users.
 
 - **Resource exhaustion:** A single runaway process could consume all system memory, crashing everyone's containers. Memory limits per container (cgroups) mean your container gets OOM-killed before it affects others.
 

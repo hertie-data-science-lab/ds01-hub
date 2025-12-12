@@ -8,7 +8,7 @@
 
 Understanding servers and shared computing prepares you for cloud platforms, HPC clusters, and production ML systems.
 
-**Reading time:** 30 minutes
+**Reading time:** 10 minutes
 
 ---
 
@@ -35,16 +35,9 @@ Consumer GPU         NVIDIA A100/H100 data center GPUs
 256GB-1TB storage    Tens of terabytes
 ```
 
-**Real impact:** Training a large transformer:
+**Real impact:** Training a reasonably sized transformer:
 - Your laptop: 2 weeks (if it fits in memory)
 - DS01: 8 hours
-
-### Cost Efficiency
-
-Buying equivalent hardware: $100,000+
-Sharing among 20 users: $5,000 worth of access per person
-
-Plus: IT maintenance, electricity, cooling included.
 
 ### Always Available
 
@@ -58,7 +51,7 @@ Plus: IT maintenance, electricity, cooling included.
 
 | Aspect | Laptop | Server |
 |--------|--------|--------|
-| Users | One (you) | 20-100+ |
+| Users | One (you) | Many |
 | Interface | Desktop GUI | Command line |
 | Access | Physical | Remote (SSH) |
 | Software | Install globally | Use containers |
@@ -66,9 +59,7 @@ Plus: IT maintenance, electricity, cooling included.
 
 ### Multi-User Environment
 
-You share resources. Limits prevent any one user from monopolizing the system.
-
-**Analogy:** Your apartment vs a shared lab facility.
+You share resources. Limits prevent any one user from monopolising the system.
 
 ### Command Line Interface
 
@@ -103,12 +94,12 @@ DS01 is an HPC system specialised for data science and ML.
 # Check your limits
 check-limits
 
-# Example output:
+# Example output: (varies by user)
 Max GPUs: 2
-Max Containers: 3
+Max Containers: 4
 Memory per container: 64GB
-Max Runtime: 24h (varies by user)
-Idle Timeout: 0.5h (varies by user)
+Max Runtime: 24h 
+Idle Timeout: 0.5h 
 ```
 
 ### HPC Terminology → DS01
@@ -117,7 +108,7 @@ Idle Timeout: 0.5h (varies by user)
 |----------|----------------|
 | Node | DS01 server |
 | Job | Container |
-| Queue | Resource allocation waiting |
+| Queue | Queue |
 | Walltime | Max runtime limit |
 | Scheduler | GPU allocator |
 | Allocation | Resource limits |
@@ -136,6 +127,8 @@ Idle Timeout: 0.5h (varies by user)
 - Leave containers idle for days
 - Monopolise all GPUs
 - Ignore resource limit warnings
+
+> DS01 prevents most of these bad actions by detault, but still be aware of what not to do
 
 ### Efficient Resource Use
 
@@ -159,7 +152,7 @@ torch.save(checkpoint, 'latest.pt')
 Info: No GPUs currently available
 Info: 3 users ahead in queue
 ```
-Normal in shared systems. Plan alternative tasks.
+Normal in shared systems. Plan jobs ahead where possible.
 
 ### Time Limits
 ```
@@ -218,35 +211,6 @@ aws ec2 run-instances --instance-type p3.2xlarge
 container-deploy my-project --gpu 1
 # Free (included in allocation), retire when done
 ```
-
-Same workflow, different billing model.
-
----
-
-## Skills You're Developing
-
-**Technical:**
-- Linux command line
-- SSH and remote connections
-- Understanding resource constraints
-- Container workflows
-
-**Professional:**
-- Working in shared environments
-- Resource management and efficiency
-- Production-like workflows
-- Cloud-readiness (AWS/GCP work similarly)
-
----
-
-## Summary
-
-1. **Servers = Powerful shared computers** running 24/7
-2. **Remote access** via SSH - work from anywhere
-3. **Fair sharing** via limits and scheduling
-4. **Containers** give you isolated, customizable environments
-5. **Skills transfer** to cloud platforms and production systems
-
 ---
 
 ## Next Steps

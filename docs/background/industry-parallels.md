@@ -49,7 +49,7 @@ kubectl run my-pod --image=my-image
 - Resource limits (CPU, memory, GPU)
 
 **Where you'll use this:**
-- **Data Scientist:** Deploy models as containerized APIs
+- **Data Scientist:** Deploy models as containerised APIs
 - **ML Engineer:** Build training pipelines in containers
 - **Software Engineer:** Microservices architecture
 - **DevOps:** Container orchestration
@@ -85,12 +85,6 @@ spec:
     - persistentVolumeClaim  # Data persists
 ```
 
-**Industry applications:**
-- **Spot instances:** Save 70% by using temporary compute
-- **Auto-scaling:** Scale up for load, scale down to save $$
-- **Batch jobs:** Process data, terminate when done
-- **CI/CD:** Run tests, terminate runners
-
 ---
 
 ### 3. Infrastructure as Code
@@ -116,13 +110,6 @@ EXPOSE 8888
 - **Version controlled:** Track changes in Git
 - **Collaborative:** Share with team
 - **Automated:** CI/CD can rebuild automatically
-
-**Skills transferring:**
-- Writing Dockerfiles
-- Multi-stage builds
-- Layer caching
-- Build optimisation
-
 ---
 
 ### 4. Resource Management & Fair Scheduling
@@ -155,12 +142,6 @@ spec:
 - Service quotas (max instances, max vCPUs)
 - Budget alerts
 - Cost allocation tags
-
-**Industry applications:**
-- **Cost control:** Prevent runaway spending
-- **Fair sharing:** Multi-tenant platforms
-- **Capacity planning:** Ensure resources available
-- **Priority scheduling:** Critical workloads first
 
 ---
 
@@ -269,13 +250,6 @@ spec:
           limits:
             nvidia.com/gpu: 1
 ```
-
-**Concepts:**
-- Containerized service
-- Resource limits
-- Health checks
-- Scaling (manual on DS01, auto in production)
-
 ---
 
 ### CI/CD Pipeline
@@ -407,66 +381,6 @@ jobs:
 
 ---
 
-## Career-Relevant Skills
-
-### Data Scientist
-
-**DS01 teaches:**
-- Containerized environments
-- Reproducible experiments
-- GPU resource management
-- Cloud-native workflows
-
-**You'll use:**
-- SageMaker training jobs
-- Vertex AI notebooks
-- Databricks clusters
-- Containerized model serving
-
-### ML Engineer
-
-**DS01 teaches:**
-- Docker image building
-- CI/CD concepts
-- Resource optimisation
-- Production workflows
-
-**You'll use:**
-- Kubernetes for model serving
-- Docker for reproducibility
-- GPU optimisation
-- Auto-scaling systems
-
-### Data Engineer
-
-**DS01 teaches:**
-- Containerized pipelines
-- Resource limits
-- Workflow automation
-- Monitoring
-
-**You'll use:**
-- Airflow in containers
-- Spark on Kubernetes
-- Data pipeline orchestration
-- Containerized ETL jobs
-
-### Software Engineer
-
-**DS01 teaches:**
-- Microservices (containerized services)
-- Infrastructure as code
-- CI/CD pipelines
-- Resource management
-
-**You'll use:**
-- Kubernetes deployments
-- Docker compose
-- Service mesh (Istio, Linkerd)
-- Container security
-
----
-
 ## Best Practices from Industry
 
 ### 1. Immutable Infrastructure
@@ -485,10 +399,13 @@ container-retire my-project
 container-deploy my-project
 ```
 
-**Production:**
-- Blue/green deployments
-- Rolling updates
-- No SSH into production servers
+**Production equivalent:**
+
+- **Blue/green deployments:** Run two identical environments ("blue" = current, "green" = new). Deploy changes to green, test it, then switch traffic. If something breaks, instantly switch back to blue. You never modify blue while it's serving users.
+
+- **Rolling updates:** Instead of updating all servers at once (risky), update them one-by-one. If server #3 fails after update, stop the rollout - servers #4-10 still run the old version. Users experience zero downtime.
+
+- **No SSH into production:** Never log into a running server to "fix" something. That fix isn't reproducible, isn't tracked, and will vanish when the server restarts. Instead, fix it in code, build a new image, and deploy that image.
 
 ### 2. Everything in Version Control
 
@@ -503,10 +420,14 @@ container-deploy my-project
 ```
 
 **Production equivalent:**
-- Application code in Git
-- Infrastructure as code (Terraform, CloudFormation)
-- CI/CD configs
-- Documentation
+
+- **Application code in Git:** Every line of code is tracked. You can see who changed what, when, and why. You can revert bad changes. Multiple people can work on the same codebase without overwriting each other.
+
+- **Infrastructure as Code (Terraform, CloudFormation):** Your servers, databases, and networks are defined in code files, not clicked together in a web console. Need 10 identical servers? Change `count = 10` and run `terraform apply`. The entire infrastructure is reproducible and auditable.
+
+- **CI/CD configs:** Your build and deployment process is also in Git. A `.github/workflows/deploy.yml` file defines exactly how code goes from commit to production. No manual steps, no tribal knowledge, no "ask Dave how to deploy".
+
+- **Documentation:** READMEs, architecture diagrams, and runbooks live alongside the code. When the code changes, the docs change in the same commit. Documentation that lives in a wiki gets stale; documentation in the repo stays current.
 
 ### 3. Observability
 
@@ -523,10 +444,14 @@ nvidia-smi
 ```
 
 **Production:**
-- Logging (ELK stack, CloudWatch)
-- Metrics (Prometheus, Datadog)
-- Tracing (Jaeger, X-Ray)
-- Alerting (PagerDuty, Opsgenie)
+
+- **Logging (ELK stack, CloudWatch):** Every application writes structured logs (JSON, not plain text). These flow to a central system where you can search across thousands of containers: "show me all errors from the payment service in the last hour". ELK = Elasticsearch (storage) + Logstash (processing) + Kibana (visualisation).
+
+- **Metrics (Prometheus, Datadog):** Numeric measurements collected every few seconds: request latency, error rates, CPU usage, queue depth. Displayed on dashboards so you can see trends. "Response time increased 50% after yesterday's deploy" - you'd never spot this in logs.
+
+- **Tracing (Jaeger, X-Ray):** Follow a single request as it travels through multiple services. User clicks "buy" → API gateway → auth service → payment service → inventory service → notification service. Tracing shows you exactly where the 2-second delay is happening.
+
+- **Alerting (PagerDuty, Opsgenie):** Automated systems that wake you up at 3am when something breaks. "Error rate > 5% for 5 minutes" → page the on-call engineer. Connects to your phone, escalates if you don't respond, tracks incident resolution.
 
 ### 4. Least Privilege
 
@@ -536,10 +461,14 @@ nvidia-smi
 - GPU pinning (can't access others' GPUs)
 
 **Production:**
-- IAM roles (minimal permissions)
-- Network policies (limit connectivity)
-- Pod security policies
-- Secrets management
+
+- **IAM roles (minimal permissions):** Your ML training job needs to read from S3 and write to a model registry - nothing else. It can't delete databases, can't access other teams' data, can't spin up Bitcoin miners. Every service gets exactly the permissions it needs and no more.
+
+- **Network policies (limit connectivity):** Your frontend can talk to the API. The API can talk to the database. But the frontend cannot talk directly to the database. Even if an attacker compromises one service, they can't reach everything else.
+
+- **Pod security policies:** Containers can't run as root, can't mount the host filesystem, can't use privileged mode. A compromised container is contained - it can't escape to the host machine or other containers.
+
+- **Secrets management:** Database passwords, API keys, and certificates are never in code or environment variables. They're stored in a vault (HashiCorp Vault, AWS Secrets Manager) and injected at runtime. Secrets are rotated automatically. If someone leaks a config file, they don't get your credentials.
 
 ### 5. Cost Optimisation
 
@@ -553,10 +482,14 @@ container-retire my-project
 ```
 
 **Production:**
-- Spot instances (70% savings)
-- Auto-scaling (pay for what you use)
-- Reserved instances (commitment discounts)
-- S3 lifecycle policies (move to cheaper tiers)
+
+- **Spot instances (70% savings):** Cloud providers have spare capacity they sell at huge discounts (60-90% off). The catch: they can terminate your instance with 2 minutes notice. Perfect for training jobs - if interrupted, just restart from a checkpoint. Most ML teams use spot for training, on-demand only for serving.
+
+- **Auto-scaling (pay for what you use):** At 3am, your API gets 10 requests/minute - you need 1 server. At 3pm, it gets 10,000 requests/minute - you need 50 servers. Auto-scaling adds/removes servers based on load. You pay for 1 server at night, 50 during peaks, not 50 all the time.
+
+- **Reserved instances (commitment discounts):** If you know you'll need a GPU server for a year, pay upfront for 30-50% off. Like buying a gym membership vs paying per visit. Good for baseline capacity (the minimum you always need), bad for spiky workloads.
+
+- **S3 lifecycle policies (move to cheaper tiers):** Data you access daily stays in "standard" storage ($0.023/GB/month). Data untouched for 30 days moves to "infrequent access" ($0.0125/GB). After 90 days, it moves to "glacier" ($0.004/GB). Old training runs don't need instant access - automatic tiering cuts storage costs 80%+.
 
 ---
 
@@ -678,26 +611,7 @@ spec:
 
 ---
 
-## Summary
+## Next Steps
 
-**Key Takeaways:**
-
-1. **DS01 uses industry-standard tools** (Docker, YAML configs, GPU management)
-2. **Workflows mirror production** (ephemeral compute, persistent storage, IaC)
-3. **Skills transfer directly** to AWS, GCP, Azure, Kubernetes
-4. **Core concepts are universal** (containerisation, resource limits, fair sharing)
-5. **Career preparation** for data science, ML engineering, software engineering
-
-**DS01 isn't just for learning - it's training you for production ML systems.**
-
-**Learning DS01 = Learning industry best practices**
-
-**Next Steps:**
-
-- → [Ephemeral Containers](ephemeral-containers.md) - Understand the philosophy
-→  - Production-ready habits
+- → [Ephemeral Containers](ephemeral-philosophy.md) - Understand the philosophy
 - → [Daily Usage Patterns](../core-guides/daily-workflow.md) - Put skills into practice
-
----
-
-**You're not just learning a system - you're learning an industry.**

@@ -168,17 +168,6 @@ Memory: 39.4 GB
 
 ---
 
-## Summary
-
-| Scenario | Request | What you get |
-|----------|---------|--------------|
-| Single small model | `--num-migs=1` | 1 MIG (10GB) |
-| Large model training | `--num-migs=4 --prefer-full` | 1 Full GPU (40GB) |
-| 4 parallel experiments | `--num-migs=4` | 4 MIGs (10GB each, 1 per process) |
-| Distributed DDP training | Full GPU required | Full GPU (40GB) |
-
----
-
 ## References
 
 - [NVIDIA MIG User Guide](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/)

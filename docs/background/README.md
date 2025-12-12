@@ -3,13 +3,13 @@
 **Deeper knowledge for career development and technical understanding.**
 
 > **Just want to use DS01?** Skip this section entirely.
-> Go to [Quickstart](../quickstart.md) or [Key Concepts](../key-concepts/).
+> Go to [Quickstart](../quickstart.md), [Core Guides](../core-guides/), or [Key Concepts](../key-concepts/).
 
 ---
 
 ## What This Section Is
 
-These docs provide **broader computing education** that goes beyond DS01. They explain the technology, industry practices, and transferable skills you're developing.
+These docs provide broader computing education that goes beyond DS01. They explain the technology, industry practices, and transferable skills you're developing.
 
 **Read these when:**
 - You want to understand *why* things work the way they do
@@ -17,7 +17,7 @@ These docs provide **broader computing education** that goes beyond DS01. They e
 - You want to connect DS01 to AWS, Kubernetes, and cloud platforms
 - You're curious about the underlying technology
 
-**Time investment:** 2-3 hours total (read based on interest)
+**Time investment:** ~1 hour total (read based on interest)
 
 ---
 
@@ -27,77 +27,50 @@ These docs provide **broader computing education** that goes beyond DS01. They e
 
 These topics build foundational knowledge that transfers to any computing environment.
 
-#### Servers & High-Performance Computing
-- [Servers & HPC](servers-and-hpc.md) - 30 min
+#### [Servers & High-Performance Computing](servers-and-hpc.md) — 10 min
+>What servers are, how shared computing works, HPC concepts, resource scheduling.
 
-**What you'll learn:** What servers are, how shared computing works, HPC concepts, resource scheduling.
-
-**Career relevance:** Cloud computing (AWS EC2, GCP), HPC clusters (SLURM, PBS), production ML infrastructure.
-
-#### Linux Command Line
-- [Linux Basics](linux-basics.md) - 45 min
-
-**What you'll learn:** Essential commands, file system navigation, permissions, shell scripting basics.
-
-**Career relevance:** Required for any server/cloud work. Linux runs 96% of cloud infrastructure.
+#### [Linux Command Line](linux-basics.md) — 15 min
+>Essential commands, file system navigation, permissions, shell scripting basics.
 
 ### Container Technology
 
 Understanding Docker deeply helps you work with any container platform.
 
-#### Containers & Docker
-- [Containers & Docker](containers-and-docker.md) - 40 min
+#### [Containers & Docker](containers-and-docker.md) — 12 min
+>What containers are, how Docker works, images vs containers, layers, isolation. Relevant for Kubernetes, Docker Compose, CI/CD pipelines, and microservices architecture.
 
-**What you'll learn:** What containers are, how Docker works, images vs containers, layers, isolation.
-
-**Career relevance:** Kubernetes, Docker Compose, CI/CD pipelines, microservices architecture.
-
-#### Workspaces & Persistence
-- [Workspaces & Persistence](workspaces-and-persistence.md) - 20 min
-
-**What you'll learn:** Stateless vs stateful, volume mounts, persistent storage patterns.
-
-**Career relevance:** Cloud storage (EBS, S3), Kubernetes PersistentVolumes, database architecture.
+#### [Workspaces & Persistence](workspaces-and-persistence.md) — 5 min
+>Stateless vs stateful, volume mounts, persistent storage patterns.
 
 ### DS01 Design Philosophy
 
 Understand *why* DS01 works this way and how it prepares you for industry.
 
-#### Ephemeral Container Philosophy
-- [Ephemeral Philosophy](ephemeral-philosophy.md) - 20 min
+#### [Ephemeral Container Philosophy](ephemeral-philosophy.md) — 5 min
+>Why containers are temporary, benefits of stateless design, resource efficiency.
 
-**What you'll learn:** Why containers are temporary, benefits of stateless design, resource efficiency.
-
-**Career relevance:** Cloud-native development, cost optimisation, infrastructure as code.
-
-#### Resource Management
-- [Resource Management](resource-management.md) - 15 min
-
-**What you'll learn:** Fair sharing, quotas, cgroups, scheduling.
-
-**Career relevance:** Kubernetes resource limits, cloud cost management, capacity planning.
+#### [Resource Management](resource-management.md) — 5 min
+>Fair sharing, quotas, cgroups, scheduling.
 
 ### Industry Context
 
 See how DS01 maps to production systems.
 
-#### Industry Parallels
-- [Industry Parallels](industry-parallels.md) - 45 min
+#### [Industry Parallels](industry-parallels.md) — 10 min
+>How DS01 compares to AWS, GCP, Kubernetes, HPC systems.
 
-**What you'll learn:** How DS01 compares to AWS, GCP, Kubernetes, HPC systems.
-
-**Career relevance:** Direct preparation for cloud platforms and production ML.
 
 ---
 
-## How These Differ from Concepts
+## How These Differ from the `Concepts` section
 
 | Background (This Section) | Concepts Section |
 |--------------------------|------------------|
 | General computing education | DS01-specific |
 | "Why things work this way" | "What you need to know" |
 | Transferable career skills | Practical usage |
-| 2-3 hours total | 30-45 min total |
+| ~1 hour total | 20 min total |
 | Optional but valuable | Recommended |
 
 **Just need to use DS01?** See [Key Concepts](../key-concepts/).
@@ -114,7 +87,7 @@ See how DS01 maps to production systems.
 3. [Containers & Docker](containers-and-docker.md) - Container fundamentals
 4. [Ephemeral Philosophy](ephemeral-philosophy.md) - DS01's design
 
-**Time:** ~2.5 hours
+**Time:** ~45 min
 
 ### Path B: Know Linux, New to Containers
 **Comfortable with command line, new to Docker**
@@ -123,7 +96,7 @@ See how DS01 maps to production systems.
 2. [Workspaces & Persistence](workspaces-and-persistence.md) - Storage patterns
 3. [Ephemeral Philosophy](ephemeral-philosophy.md) - Ephemeral model
 
-**Time:** ~1.5 hours
+**Time:** ~25 min
 
 ### Path C: Know Docker, Want Industry Context
 **Understand containers, want career preparation**
@@ -132,51 +105,14 @@ See how DS01 maps to production systems.
 2. [Resource Management](resource-management.md) - Quota systems
 3. [Industry Parallels](industry-parallels.md) - AWS/GCP/K8s mapping
 
-**Time:** ~1.5 hours
+**Time:** ~25 min
 
 ### Path D: Just Industry Context
 **Want to understand how DS01 prepares you for work**
 
 1. [Industry Parallels](industry-parallels.md) - Standalone overview
 
-**Time:** 45 minutes
-
----
-
-## Skills You're Developing
-
-By using DS01 and reading these docs, you're learning:
-
-### Technical Skills
-- Linux command line proficiency
-- Docker and containerisation
-- GPU computing and resource management
-- Infrastructure as code patterns
-
-### Professional Skills
-- Working in shared computing environments
-- Resource efficiency and cost awareness
-- Cloud-native workflows
-- Production ML practices
-
-### Career-Ready Knowledge
-- AWS/GCP/Azure patterns (same concepts, different scale)
-- Kubernetes fundamentals (pods, volumes, resource limits)
-- HPC workflows (job scheduling, batch processing)
-- DevOps practices (containers, CI/CD, infrastructure)
-
----
-
-## Industry Testimonials (Illustrative)
-
-> "Learning container workflows in grad school made my transition to AWS seamless."
-> — Data Scientist
-
-> "Understanding resource limits from shared computing helped me optimise our Kubernetes costs."
-> — ML Engineer
-
-> "The ephemeral container model is exactly how we work at scale."
-> — Platform Engineer
+**Time:** 10 min
 
 ---
 

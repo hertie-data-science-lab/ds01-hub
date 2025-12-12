@@ -652,19 +652,7 @@ docker image prune
 
 ---
 
-## Summary
+## Next Steps
 
-**Key Takeaways:**
-
-1. **Workspace (`~/workspace/`) = PERSISTENT** - Always safe
-2. **Container filesystem = EPHEMERAL** - Lost on removal
-3. **Images = PERSISTENT** - Can recreate containers
-4. **Always save to `/workspace`** inside containers
-5. **Use Git for code**, backups for data
-6. **Organise projects** for collaboration and reproducibility
-
-**The golden rule: If it's important, save it to `/workspace`!**
-
-**Ready to start working?** → [Daily Usage Patterns](../core-guides/daily-workflow.md)
-
-**Want to understand the philosophy?** → [Ephemeral Containers](../background/ephemeral-philosophy.md)
+- [Daily Usage Patterns](../core-guides/daily-workflow.md) - Start working
+- [Ephemeral Containers](ephemeral-philosophy.md) - Understand the philosophy

@@ -28,13 +28,15 @@ Each container provides complete isolation - you don't need venv, conda, or virt
 
 **Inside DS01 containers, you don't need to:**
 
-- Create virtual environments (`python -m venv`)
-- Use conda environments (`conda create`)
-- Worry about environment activation
-- Manage multiple Python versions
-- Deal with PATH issues
+- **Create virtual environments (`python -m venv`):** The container itself is your isolated environment. There's no system Python to protect, no other projects to conflict with. Every package you install affects only this container.
 
-**The container handles all of this.**
+- **Use conda environments (`conda create`):** Conda's main value is managing Python versions and compiled dependencies. Your container already has a specific Python version and pre-compiled CUDA libraries. Adding conda just adds complexity.
+
+- **Worry about environment activation:** No `source venv/bin/activate`, no `conda activate myenv`. When you enter a container, you're already in the environment. `python` just works.
+
+- **Manage multiple Python versions:** Your image specifies the Python version. Different project needs Python 3.10 while another needs 3.11? Different images, different containers. No pyenv, no version conflicts.
+
+- **Deal with PATH issues:** No more "which python am I using?" confusion. The container has one Python at `/usr/bin/python`. Your packages are in the system site-packages. Everything is where you expect it.
 
 ---
 
@@ -57,9 +59,12 @@ image-update <project-name> --rebuild
 ```
 
 **Benefits:**
-- Packages persist across container restarts
-- Reproducible environment
-- Fast container startup
+
+- **Packages persist across container restarts:** When packages are baked into the image, they're there every time you deploy a new container. No reinstalling transformers for the 50th time.
+
+- **Reproducible environment:** Your Dockerfile is a complete specification. Run `image-create` on any machine with Docker and you get the identical environment - same Python version, same package versions, same CUDA setup.
+
+- **Fast container startup:** Packages are already installed in the image. Container deployment takes 30 seconds, not 10 minutes of `pip install`. You're working immediately.
 
 ### At Runtime (Temporary)
 

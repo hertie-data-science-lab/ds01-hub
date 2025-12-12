@@ -40,17 +40,26 @@ project launch my-thesis --open
 ## What's Temporary vs Permanent
 
 ### Temporary (lost on retire)
-- Container instance
-- Running processes
-- `pip install` packages (if not in Dockerfile)
-- Files outside `/workspace/`
-- GPU allocation
+
+- **Container instance:** The running container itself - its process ID, network identity, mounted filesystems. Like a browser tab: close it and it's gone, but your bookmarks (workspace) remain.
+
+- **Running processes:** Your Python script, Jupyter server, training loop - all terminate when the container stops. Any in-memory state (variables, model weights in RAM) is lost.
+
+- **`pip install` packages:** Packages installed at runtime live only in that container's filesystem layer. The layer is discarded on removal. Put packages in your Dockerfile to make them permanent.
+
+- **Files outside `/workspace/`:** Anything saved to `/tmp/`, `/root/`, `/home/` inside the container exists only in the container's writable layer. Container removed = files gone.
+
+- **GPU allocation:** Your GPU reservation is released immediately when you retire. Someone else can use that GPU within seconds.
 
 ### Permanent (always safe)
-- Files in `/workspace/` (maps to `~/workspace/<project>/` on host)
-- Dockerfile
-- Docker image
-- Git history
+
+- **Files in `/workspace/`:** This directory is a mount point - it's actually your host directory `~/workspace/<project>/` appearing inside the container. The container can vanish, but these files live on the host's disk.
+
+- **Dockerfile:** Stored in your workspace (`~/workspace/<project>/Dockerfile`). It's a text file on the host, completely independent of any container.
+
+- **Docker image:** Stored in Docker's image cache on the host. Images persist until you explicitly delete them with `image-delete` or `docker rmi`.
+
+- **Git history:** If you've pushed to a remote (GitHub, GitLab), your code exists on external servers. Even local commits are in `~/workspace/<project>/.git/` - on the host, not in the container.
 
 ---
 
@@ -58,23 +67,21 @@ project launch my-thesis --open
 
 ### 1. Resource fairness
 
-DS01 has limited GPUs.
+DS01 has limited GPUs shared among many users. If containers persisted indefinitely, users who finish their work but forget to clean up would block GPUs for days. With ephemeral containers, retiring frees your GPU immediately - someone else can start training within seconds. The system stays usable for everyone.
 
 ### 2. Clean state
 
-Every container launch:
-- Fresh environment
-- No stale processes
-- No mysterious state from last week
-
-= Matches your image exactly
+Every container launch gives you a fresh environment that matches your image exactly. No leftover processes from last week consuming memory. No mystery files in `/tmp/` causing disk-full errors. No half-installed packages from a failed `pip install`. When something breaks, `container retire` + `project launch` gives you a known-good state.
 
 ### 3. Industry standard
 
 This is how production systems work:
-- AWS: Terminate instances to stop paying
-- Kubernetes: Pods are ephemeral, volumes persist
-- HPC: Jobs complete, resources freed
+
+- **AWS:** You spin up an EC2 instance, do your compute, terminate it to stop paying. Your data lives on S3 or EBS, not on the instance's ephemeral storage. Leaving instances running = burning money.
+
+- **Kubernetes:** Pods are ephemeral by design - they can be killed and rescheduled to different nodes at any time. Persistent data goes on PersistentVolumes. Your code must handle pod restarts gracefully.
+
+- **HPC:** You submit a job, it runs on allocated nodes, it completes, nodes are freed for the next job. Jobs don't "own" nodes permanently - that would defeat the purpose of a shared cluster.
 
 ---
 

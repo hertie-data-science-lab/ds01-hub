@@ -140,6 +140,7 @@ Recommended layout for your project (shown as seen on the host):
 └── results/                  # Outputs, logs, plots
 ```
 
+> NB: DS01's `project init` creates the above repo sturcture for you automatically
 ---
 
 ## Quick Reference

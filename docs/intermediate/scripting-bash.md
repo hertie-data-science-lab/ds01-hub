@@ -254,11 +254,15 @@ done
 
 ## Best Practices
 
-1. **Always use `set -e`** - exit on errors
-2. **Add cleanup traps** - free resources on exit
-3. **Use `--force` flags** - don't block on prompts
-4. **Log progress** - `echo` statements for debugging
-5. **Validate inputs** - check arguments exist
+1. **Always use `set -e`:** Without this, bash continues executing after errors. Your script creates a container, the creation fails, but the script still tries to start and attach to a non-existent container - generating confusing cascading errors. With `set -e`, the script stops at the first failure with a clear error message.
+
+2. **Add cleanup traps:** If your script fails mid-execution, you've left a container running and a GPU allocated. Use `trap "container-remove $NAME --stop --force 2>/dev/null" EXIT` at the start - this runs automatically whether the script succeeds, fails, or is interrupted with Ctrl+C. No orphaned resources.
+
+3. **Use `--force` flags:** DS01 commands prompt for confirmation by default ("Are you sure you want to remove this container?"). Interactive prompts break scripts - they hang waiting for input that never comes. `--force` skips all confirmations, making commands scriptable.
+
+4. **Log progress:** Scripts that run silently for 20 minutes leave you wondering "is it stuck or working?" Add `echo "Starting container $NAME..."` before significant operations. When something fails at 3am, you'll know exactly which step it was on.
+
+5. **Validate inputs:** If your script expects `./run.sh my-project 2` but someone runs `./run.sh`, the script will create containers named "" with undefined GPU counts. Check early: `[ -z "$1" ] && echo "Usage: $0 <project> [gpus]" && exit 1`.
 
 ---
 

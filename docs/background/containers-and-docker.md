@@ -8,7 +8,7 @@
 
 Containers are the foundation of DS01 and modern cloud computing. This guide explains what they are, why we use them, and how they work.
 
-**Reading time:** 40 minutes
+**Reading time:** 12 minutes
 
 ---
 
@@ -32,7 +32,7 @@ Without containers:
 **Think of containers like apartments in a building:**
 - Each apartment (container) is isolated
 - Shared utilities (power, water) = shared hardware (CPU, GPU)
-- Can't affect neighbors
+- Can't affect neighbours
 - Building manager (DS01) ensures fair resource usage
 
 ---
@@ -232,7 +232,7 @@ Total: ~3.75 GB
 
 **Interactive (recommended):**
 ```bash
-image-create my-project
+image-create <my-project>
 ```
 
 **Manual (Dockerfile):**
@@ -318,8 +318,8 @@ docker tag ds01-alice/project:latest ds01-alice/project:experiment-42
 
 ### Software Development
 
-**Microservices:** Each service runs in container
-**CI/CD:** Tests run in containers (GitHub Actions)
+- **Microservices:** Each service runs in container
+- **CI/CD:** Tests run in containers (GitHub Actions)
 
 **DS01 experience = Industry-relevant skills**
 
@@ -343,8 +343,8 @@ docker tag ds01-alice/project:latest ds01-alice/project:experiment-42
 ### "Do I need to learn Docker?"
 
 **Basic DS01 usage:** No, use `container-deploy` and `image-create`
-**Custom images:** Basic Dockerfile knowledge helpful
-**Advanced:** Docker knowledge useful for debugging
+- **Custom images:** Basic Dockerfile knowledge helpful
+- **Advanced:** Docker knowledge useful for debugging
 
 ### "Can I run Docker commands directly?"
 
@@ -364,8 +364,8 @@ Sufficient isolation for shared academic environment:
 
 ### "What happens to my files?"
 
-**Container filesystem:** Ephemeral (deleted on removal)
-**Mounted workspace (`/workspace`):** Persistent, survives removal
+- **Container filesystem:** Ephemeral (deleted on removal)
+- **Mounted workspace (`/workspace`):** Persistent, survives removal
 
 **Always save important work in /workspace**
 
@@ -435,27 +435,9 @@ docker rmi <image>
 
 ---
 
-## Summary
-
-1. **Containers = Isolated environments** for running your code
-2. **Lightweight & fast** - seconds to start, MBs of overhead
-3. **Images = blueprints**, Containers = running instances
-4. **Isolation via namespaces & cgroups** - can't interfere with others
-5. **Industry-standard** - same tech as AWS, Kubernetes, production ML
-6. **DS01 abstracts complexity** - simple commands, powerful features
-
----
-
 ## Next Steps
 
-**Continue learning:**
 - [Workspaces & Persistence](workspaces-and-persistence.md) - What's saved vs temporary
 - [Ephemeral Philosophy](ephemeral-philosophy.md) - Why containers are temporary
-
-**Start building:**
 - [Custom Images Guide](../core-guides/custom-images.md) - Build your environment
-- [Dockerfile Best Practices](../advanced/dockerfile-best-practices.md) - Advanced builds
-
-**Start using:**
 - [First Container](../getting-started/first-container.md) - Deploy now
-- [Daily Workflow](../core-guides/daily-workflow.md) - Common patterns

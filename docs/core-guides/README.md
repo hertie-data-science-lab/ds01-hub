@@ -1,4 +1,4 @@
-# Practical Guides
+# Core Guides
 
 Step-by-step instructions for common tasks. Each guide includes:
 - **Quick Start** - Essential commands to get it done

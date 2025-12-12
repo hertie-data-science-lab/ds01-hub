@@ -4,7 +4,7 @@
 
 > **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
 >
-> **Just want the essentials?** See [Key Concepts: Ephemeral Containers](../concepts/ephemeral-containers.md) for a shorter overview.
+> **Just want the essentials?** See [Key Concepts: Ephemeral Containers](../key-concepts/ephemeral-containers.md) for a shorter overview.
 
 DS01 embraces an **ephemeral container model** - a philosophy that containers are temporary compute sessions, not permanent fixtures. This guide explains why this approach is the industry standard and how to work effectively with it.
 
@@ -60,7 +60,7 @@ Workspaces = Permanent storage (like EBS volumes)
 ### Persistent (Always Safe)
 
 **Storage:**
-- Workspace files (`~/workspace/<project>/`)
+- Workspace files (`~/workspace/<project>/` on host → `/workspace/` in container)
 - Dockerfiles (image blueprints)
 - Docker images
 
@@ -71,9 +71,9 @@ Workspaces = Permanent storage (like EBS volumes)
 
 ---
 
-## Daily Workflow with Ephemeral Containers
+## Workflow with Ephemeral Containers
 
-### Morning: Start Working
+### Spin Up: Start GPU Work
 
 ```bash
 container-deploy my-project --open
@@ -87,7 +87,7 @@ container-deploy my-project --open
 
 **Time:** ~30 seconds
 
-### During the Day: Work
+### Work: Run Compute-Intensive Tasks
 
 ```bash
 # Inside container
@@ -99,7 +99,7 @@ git commit -m "Update model"        # Save progress
 
 **Your work is saved to workspace** - persistent storage.
 
-### Evening: Done for the Day
+### Clean Up: Done with GPU
 
 ```bash
 # Exit container
@@ -117,7 +117,7 @@ container-retire my-project
 
 **Time:** ~5 seconds
 
-### Next Morning: Resume
+### Later: Resume When Needed
 
 ```bash
 container-deploy my-project --open
@@ -141,17 +141,17 @@ container-deploy my-project --open
 
 **Without ephemeral model:**
 ```
-Monday 9am:  Alice, Bob, Charlie each get GPU
-Monday 5pm:  All go home, containers idle
-Tuesday 9am: Dana wants GPU - none available!
-             (All "allocated" but idle)
+Alice finishes training, leaves container idle
+Bob finishes training, leaves container idle
+Dana wants GPU - none available!
+    (All "allocated" but idle)
 ```
 
 **With ephemeral model:**
 ```
-Monday 9am:  Alice, Bob, Charlie deploy containers
-Monday 5pm:  All retire containers, GPUs freed
-Tuesday 9am: Dana, Eve, Frank deploy - GPUs available!
+Alice finishes training → retires container
+Bob finishes training → retires container
+Dana needs GPU → available immediately
 ```
 
 **Result:** Higher utilisation, fairer access.
@@ -314,10 +314,10 @@ conda list
 
 **Good citizenship:**
 ```bash
-# Done for the day?
+# Finished your GPU task?
 container-retire my-project
 
-# Lunch break (> 1 hour)?
+# Stepping away for a while?
 container-retire my-project
 
 # Switching to different project?
@@ -392,9 +392,8 @@ container-deploy my-project  # Packages already installed
 ### Quick Experiment
 
 ```bash
-# Morning
+# First experiment
 container-deploy experiment-1 --open
-# Run experiment
 python run.py
 # Results saved to /workspace
 exit
@@ -402,7 +401,6 @@ exit
 # Try different approach
 container-retire experiment-1
 container-deploy experiment-2 --open
-# Run different experiment
 python run2.py
 exit
 ```
@@ -657,8 +655,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 ### Learn Daily Workflows
 
 **Put philosophy into practice:**
-- → [Daily Usage Patterns](../guides/daily-workflow.md)
-- → [Managing Containers](../guides/daily-workflow.md)
+- → [Daily Usage Patterns](../core-guides/daily-workflow.md)
+- → [Managing Containers](../core-guides/daily-workflow.md)
 
 ### Understand Resources
 
@@ -682,6 +680,6 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 **Embrace the philosophy: Containers are temporary, workspaces are forever.**
 
-**Ready for daily workflows?** → [Daily Usage Patterns](../guides/daily-workflow.md)
+**Ready for daily workflows?** → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 
 **Understand the technology?** → [Industry Practices](industry-practices.md)

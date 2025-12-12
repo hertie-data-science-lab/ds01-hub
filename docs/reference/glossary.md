@@ -42,7 +42,7 @@ DS01 commands are organised in layers:
 ## GPU Terms
 
 **GPU (Graphics Processing Unit)**
-Specialized processor for parallel computing, essential for ML training. DS01 uses NVIDIA data center GPUs.
+Specialised processor for parallel computing, essential for ML training. DS01 uses NVIDIA data center GPUs.
 
 **CUDA**
 NVIDIA's parallel computing platform. Required for GPU-accelerated ML frameworks.

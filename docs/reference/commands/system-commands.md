@@ -172,7 +172,7 @@ vscode-setup
 # Generates VSCode config for remote development
 ```
 
-**See:** [VSCode Remote Guide](../../guides/vscode-remote.md)
+**See:** [VSCode Remote Guide](../../core-guides/vscode-remote.md)
 
 ---
 

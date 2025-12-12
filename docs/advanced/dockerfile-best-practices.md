@@ -266,6 +266,6 @@ RUN pip install --no-cache-dir \
 
 ## See Also
 
-- [Custom Images Guide](../guides/custom-images.md)
+- [Custom Images Guide](../core-guides/custom-images.md)
 - [Image Commands](../reference/commands/image-commands.md)
 - [Docker Direct](docker-direct.md)

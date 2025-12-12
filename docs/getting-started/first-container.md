@@ -16,9 +16,9 @@ project-init --guided
 # 3a. Launch project (every login)
 project launch --guided
 
-#3b OR container-oriented workflow 
-image create # once (image-update for future use)
-container-deploy my-project --open # every login
+#3b OR container-oriented workflow
+image-create           # Once (then image-update for adding packages)
+container-deploy my-project --open # Every login
 
 # 3. You're now inside the container
 # Work in /workspace - files here are persistent
@@ -103,8 +103,8 @@ image-create --guided     # Create with explanations
 - [Ephemeral Philosophy](../background/ephemeral-philosophy.md)
 
 **Do more:**
-- [Daily Workflow](../guides/daily-workflow.md)
-- [Custom Images](../guides/custom-images.md)
+- [Daily Workflow](../core-guides/daily-workflow.md)
+- [Custom Images](../core-guides/custom-images.md)
 
 ---
 
@@ -133,6 +133,6 @@ source ~/.bashrc
 
 ## Next Steps
 
-- → [Daily Workflow Guide](../guides/daily-workflow.md)
-- → [Custom Images Guide](../guides/custom-images.md)
+- → [Daily Workflow Guide](../core-guides/daily-workflow.md)
+- → [Custom Images Guide](../core-guides/custom-images.md)
 - → [Quick Reference](../quick-reference.md)

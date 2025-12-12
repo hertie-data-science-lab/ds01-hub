@@ -117,7 +117,8 @@ image-create my-project              # Named image
 image-create my-project --base=pytorch  # Specify base
 
 image-list                           # Your images
-image-update my-project              # Rebuild after Dockerfile changes
+image-update                         # Interactive GUI to add/remove packages
+image-update my-project --rebuild    # Rebuild after manual Dockerfile edit
 image-delete my-project              # Remove image
 ```
 

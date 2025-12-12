@@ -100,9 +100,12 @@ container retire my-project --force && container deploy my-project --open
 ### Pattern 2: Image Rebuild Cycle
 
 ```bash
-# Edit, rebuild, recreate
+# Interactive: Use GUI to add packages then recreate
+image-update && container retire my-project --force && container deploy my-project --open
+
+# Advanced: Manual Dockerfile edit, rebuild, recreate
 vim ~/workspace/my-project/Dockerfile
-image-update my-project && container retire my-project --force && container deploy my-project --open
+image-update my-project --rebuild && container retire my-project --force && container deploy my-project --open
 ```
 
 ### Pattern 3: Multi-Container Cleanup

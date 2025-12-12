@@ -213,4 +213,4 @@ After `project-init`:
 
 - [Container Commands](container-commands.md)
 - [Image Commands](image-commands.md)
-- [Creating Projects Guide](../../guides/creating-projects.md)
+- [Creating Projects Guide](../../core-guides/creating-projects.md)

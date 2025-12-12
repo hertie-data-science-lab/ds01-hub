@@ -427,7 +427,8 @@ docker images | grep my-project
 ```
 
 **Common fixes:**
-- Rebuild image: `image-update my-project`
+- Fix packages: `image-update` (interactive GUI)
+- Rebuild after Dockerfile edit: `image-update my-project --rebuild`
 - Check Dockerfile syntax
 - Verify base image exists
 
@@ -496,7 +497,7 @@ project launch my-project --open
 container-attach my-project
 ```
 
-**Done for the day:**
+**Done with GPU work:**
 ```bash
 exit
 container retire my-project
@@ -522,7 +523,7 @@ dashboard
 
 **Understand container lifecycle:**
 
-- → [Ephemeral Containers Concept](../concepts/ephemeral-containers.md)
+- → [Ephemeral Containers Concept](../key-concepts/ephemeral-containers.md)
 
 **Create new projects:**
 

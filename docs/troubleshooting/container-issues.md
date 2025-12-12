@@ -207,4 +207,4 @@ Your workspace files are **always safe** - recreating won't lose data.
 
 - [GPU Issues](gpu-issues.md)
 - [Container Commands](../reference/commands/container-commands.md)
-- [Daily Workflow](../guides/daily-workflow.md)
+- [Daily Workflow](../core-guides/daily-workflow.md)

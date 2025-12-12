@@ -78,5 +78,5 @@ docker build --no-cache -t ds01-$(whoami)/my-project:latest -f ~/dockerfiles/my-
 
 ## Next Steps
 
-- → [Building Custom Images](../guides/custom-images.md)
+- → [Building Custom Images](../core-guides/custom-images.md)
 - → [Best Practices](best-practices.md)

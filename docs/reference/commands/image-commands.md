@@ -31,8 +31,11 @@ image-create my-project
 # List your images
 image-list
 
-# Rebuild image
-image-update my-project
+# Update image (interactive GUI - recommended)
+image-update                  # Select image, add/remove packages
+
+# Rebuild after manual Dockerfile edit (advanced)
+image-update my-project --rebuild
 
 # Delete image
 image-delete my-project
@@ -96,10 +99,10 @@ ds01-alice/experiment   latest   7.9GB    1 week ago
 
 ## image-update
 
-**Rebuild existing image** (L2 atomic)
+**Update existing image with package management** (L2 atomic)
 
 ```bash
-image-update <project-name> [OPTIONS]
+image-update [project-name] [OPTIONS]
 ```
 
 **Options:**
@@ -109,19 +112,22 @@ image-update <project-name> [OPTIONS]
 | `--no-cache` | Force rebuild without cache |
 | `--add "pkg1 pkg2"` | Add packages directly |
 | `-r, --requirements FILE` | Import from requirements.txt |
-| `--edit` | Edit Dockerfile manually |
+| `--edit` | Edit Dockerfile manually (advanced) |
 
 **Examples:**
 ```bash
-image-update my-project              # Interactive mode
-image-update my-project --rebuild    # Rebuild without changes
+# Recommended: Interactive GUI
+image-update                         # Select image, add/remove packages
+
+# Advanced: After manual Dockerfile edit
+image-update my-project --rebuild    # Rebuild without prompts
 image-update my-project --no-cache   # Force complete rebuild
-image-update my-project --add "wandb optuna"  # Add packages
+image-update my-project --add "wandb optuna"  # Quick add from CLI
 ```
 
 **When to use:**
+- **No arguments** (recommended): Interactive GUI to add/remove packages
 - `--rebuild`: Dockerfile was edited manually, or base image updated
-- Interactive: Add/remove packages with guided UI
 - `--add`: Quick package additions from command line
 
 **Note:** Uses existing Dockerfile at `~/dockerfiles/<project>.Dockerfile` or `~/workspace/<project>/Dockerfile`
@@ -219,12 +225,16 @@ container-deploy --image ds01-alice/project:working-v1
 Images are built from Dockerfiles at:
 ```
 ~/dockerfiles/<project-name>.Dockerfile
+# or
+~/workspace/<project-name>/Dockerfile
 ```
 
-Edit directly for advanced customisation:
+**Recommended:** Use `image-update` interactive GUI to manage packages.
+
+**Advanced:** Edit Dockerfile directly:
 ```bash
-nano ~/dockerfiles/my-project.Dockerfile
-image-update my-project
+vim ~/dockerfiles/my-project.Dockerfile
+image-update my-project --rebuild
 ```
 
 ---
@@ -232,5 +242,5 @@ image-update my-project
 ## See Also
 
 - [Container Commands](container-commands.md)
-- [Custom Images Guide](../../guides/custom-images.md)
+- [Custom Images Guide](../../core-guides/custom-images.md)
 - [Dockerfile Best Practices](../../advanced/dockerfile-best-practices.md)

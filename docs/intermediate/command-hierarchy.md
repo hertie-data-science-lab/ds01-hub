@@ -99,8 +99,8 @@ docker logs my-project._.$(id -u)
 
 ### Use Orchestrators (L3) When
 
-- Starting your day: `project launch my-thesis --open`
-- Ending your day: `container retire my-thesis`
+- Starting GPU work: `project launch my-thesis --open`
+- Finishing GPU work: `container retire my-thesis`
 - Don't need fine control
 - Learning DS01
 

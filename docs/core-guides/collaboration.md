@@ -68,4 +68,4 @@ RUN pip install transformers && \
 
 ## Next Steps
 - → [Creating Projects](creating-projects.md)
-- → [Project Structure](../guides/creating-projects.md)
+- → [Project Structure](../core-guides/creating-projects.md)

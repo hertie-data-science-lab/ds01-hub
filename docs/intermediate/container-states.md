@@ -216,13 +216,13 @@ container-start my-project
 container-attach my-project
 ```
 
-### Scenario 3: Done for the Day
+### Scenario 3: Done with GPU Work
 
 ```bash
 # Retire - clean up everything
 container retire my-project
 
-# Tomorrow - fresh start
+# Later when needed - fresh start
 container deploy my-project --open
 ```
 

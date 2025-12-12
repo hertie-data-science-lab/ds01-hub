@@ -24,14 +24,20 @@ Run `check-limits` to see your current values.
 ## How Limits Work
 
 **Per-user limits prevent:**
-- One user monopolizing all GPUs
-- Resource exhaustion
-- Unfair allocation
+
+- **One user monopolising all GPUs:** Without limits, the first person to run `container-deploy --gpu=8` would grab all available GPUs. Everyone else waits indefinitely. Per-user caps (typically 1-2 GPUs) ensure resources are distributed across users.
+
+- **Resource exhaustion:** A single runaway process could consume all system memory, crashing everyone's containers. Memory limits per container (cgroups) mean your container gets OOM-killed before it affects others.
+
+- **Unfair allocation:** Users who request resources but don't use them (idle containers) block others. Idle timeouts automatically reclaim unused allocations, ensuring active users get priority over idle ones.
 
 **System enforcement:**
-- GPU allocation (via gpu_allocator.py)
-- Memory limits (via systemd cgroups)
-- Automatic cleanup (cron jobs)
+
+- **GPU allocation (gpu_allocator.py):** When you request a container, the allocator checks your current usage against your limits. Already at your GPU cap? Request denied. The allocator also tracks which physical GPU (or MIG slice) each container uses.
+
+- **Memory limits (systemd cgroups):** Every container runs inside a cgroup with hard memory limits. Request 64GB, use 65GB = OOM killer terminates your process. This isn't punitive - it's protecting other users' containers from your memory leak.
+
+- **Automatic cleanup (cron jobs):** Background jobs check for idle containers (low CPU/GPU usage for extended periods) and containers exceeding max runtime. These get warnings, then automatic shutdown. Freed resources become available to waiting users.
 
 ## Priority System
 
@@ -40,9 +46,11 @@ Run `check-limits` to see your current values.
 - Power users: 75
 - Admins: 100
 
-**Higher priority:**
-- Allocated GPUs first when scarce
-- May pre-empt lower priority (rarely)
+**Higher priority means:**
+
+- **Allocated GPUs first when scarce:** If 3 users request GPUs simultaneously and only 2 are available, higher-priority users get them first. Lower-priority users queue until resources free up.
+
+- **May pre-empt lower priority (rarely):** In extreme cases, a high-priority job can terminate a lower-priority idle container to claim its GPU. This is rare - DS01 prefers waiting to pre-emption. But it means admin maintenance tasks can always run.
 
 ## Resource Efficiency
 

@@ -61,7 +61,7 @@ docs/
 DS01 has two types of conceptual documentation with different purposes:
 
 ### Key Concepts to Understand
-**DS01-specific mental models for effective usage** — [Overview](key-concepts/) (30-45 min total)
+**DS01-specific mental models for effective usage** — [Overview](key-concepts/) (20 min total)
 
 | Topic | What It Answers |
 |-------|----------------|
@@ -73,7 +73,7 @@ DS01 has two types of conceptual documentation with different purposes:
 **Read these:** When something confuses you, or before first use.
 
 ### Educational Computing Context
-**Deeper knowledge for career development** — [Overview](background/) (2-3 hours total)
+**Deeper knowledge for career development** — [Overview](background/) (~1 hour total)
 
 | Topic | Career Relevance |
 |-------|-----------------|

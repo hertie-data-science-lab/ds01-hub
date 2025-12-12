@@ -1,6 +1,6 @@
 # Ephemeral Container Philosophy
 
-**Why temporary containers are the industry standard and how this prepares you for cloud computing.**
+**Why temporary containers are the industry standard.**
 
 > **Part of [Educational Computing Context](README.md)** - Career-relevant knowledge beyond DS01 basics.
 >
@@ -381,6 +381,8 @@ pip install transformers datasets  # Slow, non-reproducible
 # Once: Build image with packages
 image-create  # Add packages to Dockerfile
 
+image-update # Update as needed
+
 # Many times: Deploy instantly
 container-deploy my-project  # Packages already installed
 ```
@@ -449,58 +451,6 @@ container-retire exp-variant-b
 
 ---
 
-## Comparison to Other Models
-
-### Persistent Containers (Traditional)
-
-**Model:** Containers run 24/7, stopped when not in use
-
-**Pros:**
-- Familiar (like personal computer)
-- No recreation overhead
-
-**Cons:**
-- Complex state management (running/stopped/paused)
-- Resource allocation confusion (stopped but holding GPU?)
-- Lower utilisation (resources "reserved" but idle)
-- Stale environments (running for months without updates)
-
-**Where used:** Single-user workstations, development laptops
-
-### Ephemeral Containers (DS01)
-
-**Model:** Containers created when needed, removed when done
-
-**Pros:**
-- Simple state (running or not)
-- High utilisation (resources freed immediately)
-- Always fresh environment
-- Matches production workflows
-
-**Cons:**
-- Requires understanding of persistence
-- Need to save work to workspace
-
-**Where used:** Kubernetes, cloud platforms, HPC clusters, production
-
-### Why DS01 Chose Ephemeral
-
-**Educational:**
-- Teaches production practices
-- Prepares for cloud/K8s workflows
-- Develops good habits (save frequently, manage state)
-
-**Practical:**
-- Fair resource sharing
-- Simple mental model
-- High utilisation
-
-**Scalable:**
-- Works with 2 users or 200
-- No complex policies needed
-
----
-
 ## Industry Parallels
 
 ### AWS EC2
@@ -551,52 +501,6 @@ sbatch train.sh        # Submit job
 
 # Same as DS01's ephemeral model
 ```
-
----
-
-## Mental Models
-
-### Model 1: Hotel Room
-
-**Hotel room:**
-- Check in, use room temporarily
-- Leave belongings in safe (workspace)
-- Check out, room cleaned for next guest
-- Return later, different room, belongings still in safe
-
-**Container:**
-- Deploy, use container temporarily
-- Save files to workspace
-- Retire, container removed for next user
-- Deploy later, different container, files still in workspace
-
-### Model 2: Phone Call
-
-**Phone call:**
-- Dial, connection established
-- Conversation happens
-- Hang up, connection terminated
-- Can call again later
-
-**Container:**
-- Deploy, container created
-- Work happens
-- Retire, container removed
-- Can deploy again later
-
-### Model 3: Restaurant Table
-
-**Restaurant:**
-- Seated at table when you arrive
-- Use table during meal
-- Leave when done, table cleared for next party
-- Return tomorrow, different table
-
-**GPU:**
-- Allocated when you deploy
-- Use during work session
-- Released when you retire, freed for others
-- Deploy tomorrow, different GPU
 
 ---
 
@@ -664,22 +568,3 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 - → [Resource Management](resource-management.md)
 
 ---
-
-## Summary
-
-**Key Takeaways:**
-
-1. **Ephemeral = temporary compute**, persistent = permanent storage
-2. **Containers are recreatable** from images and workspaces
-3. **Retire when done** - good citizenship, frees GPUs
-4. **Save to `/workspace`** - everything else is temporary
-5. **Industry standard** - cloud, K8s, HPC all work this way
-6. **Simple mental model** - "shut down when done"
-
-**The ephemeral container model maximizes resource utilisation, teaches production practices, and simplifies state management.**
-
-**Embrace the philosophy: Containers are temporary, workspaces are forever.**
-
-**Ready for daily workflows?** → [Daily Usage Patterns](../core-guides/daily-workflow.md)
-
-**Understand the technology?** → [Industry Practices](industry-practices.md)

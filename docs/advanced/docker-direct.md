@@ -12,10 +12,14 @@ When and how to use Docker commands directly on DS01.
 - Building images (`image-create`)
 
 **Use Docker directly for:**
-- Debugging containers
-- Inspecting logs
-- Advanced operations
-- One-off tasks
+
+- **Debugging containers:** `docker inspect` shows the full container config - memory limits, GPU assignment, environment variables, mount points. `docker logs` shows stdout/stderr even if the process crashed. `docker exec` lets you poke around inside a running container without going through DS01 wrappers.
+
+- **Inspecting logs:** DS01 commands don't expose container logs directly. `docker logs my-project._.$(id -u)` shows everything your process printed. Add `-f` to follow in real-time, `--tail 100` to see the last 100 lines, or `--since 1h` to filter by time.
+
+- **Advanced operations:** Need to copy a file into a running container? `docker cp`. Want to commit the current container state as a new image? `docker commit`. Need to export a container filesystem for inspection? `docker export`. These aren't common, but when you need them, only Docker provides them.
+
+- **One-off tasks:** Quick sanity checks like `docker exec my-project._.$(id -u) nvidia-smi` or `docker exec my-project._.$(id -u) pip list` don't need DS01 wrappers. For ad-hoc commands where you know exactly what you want, Docker is faster than navigating interactive menus.
 
 ---
 

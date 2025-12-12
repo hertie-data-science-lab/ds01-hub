@@ -234,11 +234,15 @@ requests.post(webhook_url, json=message)
 
 ## Best Practices
 
-1. **Always write to `/workspace`** - Results must persist
-2. **Use clear log names** - `exp-lr0.001-bs32.log` not `output.log`
-3. **Save checkpoints frequently** - Every N epochs
-4. **Log hyperparameters** - Record config in log file
-5. **Clean up finished jobs** - Remove containers when done
+1. **Always write to `/workspace`:** Anything written elsewhere in the container (like `/tmp` or `/root`) vanishes when the container is removed. Your training ran for 12 hours, saved the model to `/home/model.pt`, you retired the container - model gone. Always use `/workspace/` which is mounted from the host and persists.
+
+2. **Use clear log names:** When you're running a parameter sweep with 50 experiments, `output.log` tells you nothing. Use `exp-lr0.001-bs32-seed42.log` - you can grep for specific hyperparameters, sort by parameter values, and immediately know which experiment produced which results without opening each file.
+
+3. **Save checkpoints frequently:** GPU jobs get interrupted - idle timeouts, server maintenance, OOM errors. If you only save at the end, 23 hours of training is lost. Save every N epochs to `/workspace/checkpoints/`. When restarting, load the latest checkpoint and continue from where you left off instead of starting over.
+
+4. **Log hyperparameters:** At the start of your training script, write all hyperparameters to the log file: learning rate, batch size, model architecture, random seed. Three months later when you're writing your thesis, you'll need to know exactly what settings produced your best model. The log file is your lab notebook.
+
+5. **Clean up finished jobs:** Each running container holds a GPU allocation. If you submit 10 experiments and forget to clean up, you're blocking 10 GPUs even though the jobs finished hours ago. Add cleanup to your scripts, or periodically run `container-list` and retire finished experiments.
 
 ---
 

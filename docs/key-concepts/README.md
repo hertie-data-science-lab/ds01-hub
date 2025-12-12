@@ -13,7 +13,7 @@ These docs explain the **DS01-specific concepts** to understand to work producti
 - Something confuses you while using the system
 - You need a quick mental model for how things work
 
-**Time investment:** 30-45 minutes total (or read individual topics as needed)
+**Time investment:** 20 minutes total (or read individual topics as needed)
 
 ---
 
@@ -82,7 +82,7 @@ These docs explain the **DS01-specific concepts** to understand to work producti
 | DS01-specific | General computing |
 | "What you need to know" | "Why things work this way" |
 | Practical focus | Educational focus |
-| 30-45 min total | 2-3 hours total |
+| 20 min total | 1 hour total |
 | Use DS01 effectively | Understand the technology |
 
 **Want deeper understanding?** See [Educational Computing Context](../background/).
@@ -92,13 +92,13 @@ These docs explain the **DS01-specific concepts** to understand to work producti
 ## Reading Order
 
 **Before first use (recommended):**
-1. [Containers and Images](containers-and-images.md) - 10 min
-2. [Workspaces and Persistence](workspaces-persistence.md) - 8 min
+1. [Containers and Images](containers-and-images.md) - 7 min
+2. [Workspaces and Persistence](workspaces-persistence.md) - 5 min
 
 **After some initial use for familiarity:**
 
-3. [Ephemeral Containers](ephemeral-containers.md) - 10 min
-4. [Python Environments](python-environments.md) - 5 min
+3. [Ephemeral Containers](ephemeral-containers.md) - 5 min
+4. [Python Environments](python-environments.md) - 3 min
 
 **Or:** Just start using DS01 and come back here when confused.
 

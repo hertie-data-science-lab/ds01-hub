@@ -209,11 +209,16 @@ henrycgbaker/aime-jax:0.4.23-cuda12.4-ubuntu22.04
 ```
 
 These include:
-- CUDA drivers
-- cuDNN
-- ML framework
-- Jupyter Lab
-- Common tools
+
+- **CUDA drivers:** The GPU drivers and CUDA toolkit are pre-installed and version-matched. You don't need to figure out which CUDA version works with which driver version - it's already configured and tested.
+
+- **cuDNN:** NVIDIA's deep learning primitives library for GPU-accelerated neural network operations. Required by PyTorch and TensorFlow for GPU training. Version-matched to the CUDA version in the image.
+
+- **ML framework:** PyTorch, TensorFlow, or JAX depending on which base you choose. Pre-compiled with GPU support, so `torch.cuda.is_available()` returns `True` immediately - no wrestling with CUDA compilation.
+
+- **Jupyter Lab:** Pre-installed and configured to work with the ML framework's kernel. Run `jupyter lab --ip=0.0.0.0` and you're ready for notebook-based development with GPU access.
+
+- **Common tools:** Git, wget, curl, vim, htop, and other utilities you'd otherwise need to install yourself. Plus Python package managers (pip, conda) ready to use.
 
 ---
 

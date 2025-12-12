@@ -11,11 +11,16 @@ If you're new to Linux, this guide will get you productive quickly. These skills
 ## Why Command Line?
 
 **Advantages over GUI:**
-- **Faster**: Type commands vs click through menus
-- **Scriptable**: Automate repetitive tasks
-- **Remote**: Works over SSH (servers often have no GUI)
-- **Powerful**: Combine commands, process thousands of files
-- **Universal**: Skills transfer across all Linux systems
+
+- **Faster:** `rm *.log` deletes all log files instantly. In a GUI, you'd click each file, right-click, select delete, confirm. For 100 files, CLI takes 1 second; GUI takes 5 minutes of clicking.
+
+- **Scriptable:** Write commands in a file, run them automatically. `./process_data.sh` can download data, clean it, train a model, and email you results - all while you sleep. GUIs require you to be there clicking.
+
+- **Remote:** Servers are headless - no monitor, no desktop environment. SSH gives you a terminal over the network. You can manage a server in Singapore from your laptop in Berlin. GUIs would need VNC, bandwidth, latency.
+
+- **Powerful:** Pipe commands together: `cat results.csv | grep "error" | wc -l` counts errors in one line. Find all Python files modified today containing "TODO": `find . -name "*.py" -mtime 0 | xargs grep TODO`. GUIs can't compose operations like this.
+
+- **Universal:** The commands you learn on DS01 work on AWS EC2, Google Cloud, your Raspberry Pi, any Linux server anywhere. GUIs differ between systems; command lines are consistent.
 
 **Don't worry!** You only need ~20 commands for 90% of tasks.
 
@@ -483,9 +488,7 @@ rm file.txt && echo "Deleted successfully"  # Delete and confirm
 
 ```bash
 ~/workspace/                # Your persistent projects
-~/dockerfiles/              # Image blueprints
 ~/.ssh/                     # SSH keys
-~/.ds01-limits              # Your resource quotas
 ```
 
 ### System Directories
@@ -500,6 +503,8 @@ rm file.txt && echo "Deleted successfully"  # Delete and confirm
 ---
 
 ## Common Workflows
+
+> NB: DS01 GUIs & CLIs are designed to abstract this all away for beginner/intermediate users, but for those wishing to become more terminal proficient the below are useful patterns
 
 ### Starting a New Project
 
@@ -711,7 +716,6 @@ ls -a                       # Shows .bashrc
 - `cat`, `less` (viewing)
 - `mkdir`, `cp`, `mv`, `rm` (file management)
 
-**Within a week, they'll be second nature.**
 
 ### Learn More
 
@@ -762,10 +766,3 @@ man command                 # Manual
 command --help              # Quick help
 ```
 
----
-
-**Practice these commands and you'll be productive on DS01 quickly!**
-
-**Ready to understand containers?** → [Containers Explained](containers-explained.md)
-
-**Want to start using DS01?** → [Quick Start](../getting-started/quick-start.md)

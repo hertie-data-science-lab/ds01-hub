@@ -955,35 +955,6 @@ alias clist='container-list'
 **Best practices:**
 → 
 
----
-
-## Summary
-
-**Most Common Commands:**
-```bash
-# Project workflow (recommended)
-project init <project>              # Create new project
-project launch <project> --open     # Launch project (builds image if needed)
-container retire <project>          # Stop + remove + free GPU
-
-# Container lifecycle (direct)
-container-deploy <project> --open   # Create + start + enter (requires image)
-container-retire <project>          # Stop + remove + free GPU
-container-list                      # View containers
-container-stats                     # Resource usage
-
-# Image management
-image-create                        # Build custom image
-image-update                        # Interactive GUI (recommended)
-image-update <project> --rebuild    # After manual Dockerfile edit
-
-# System
-ds01-dashboard                      # System status
-<command> --help                    # Get help
-<command> --guided                  # Educational mode
-```
-
-**Complete reference for all DS01 commands with examples!**
 
 **Need examples?** → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 

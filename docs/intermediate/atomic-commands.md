@@ -25,10 +25,14 @@ container-remove   # Just remove
 ```
 
 **Why use atomic:**
-- Granular control
-- Better debugging
-- Required for scripting
-- Understand system internals
+
+- **Granular control:** Stop a container without removing it. Create multiple containers before starting any. Pause and resume without losing GPU allocation. Orchestrators bundle steps together; atomic commands let you execute (or skip) each step individually.
+
+- **Better debugging:** When `container deploy` fails, you don't know if it failed during creation or startup. With atomic commands, run `container-create` first - if that succeeds, the image exists and GPU allocation worked. Then run `container-start` - if that fails, it's a runtime issue. Isolate problems to specific steps.
+
+- **Required for scripting:** Scripts need predictable, single-purpose commands. `container-create --gpu=2` either works or fails - no interactive prompts, no ambiguity. Chain commands with `&&`, handle errors with `$?`, run in parallel with `&`. Orchestrators' interactive wizards break scripts.
+
+- **Understand system internals:** Using atomic commands teaches you what actually happens: GPU allocation at create time, process startup at start time, GPU hold timeout after stop. This knowledge transfers directly to Kubernetes pods, AWS ECS tasks, and production container systems.
 
 ---
 

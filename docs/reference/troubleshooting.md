@@ -70,7 +70,7 @@ Error: Container failed to start
 
 3. **Check resource limits:**
    ```bash
-   cat ~/.ds01-limits
+   check-limits
    ```
 
 ---
@@ -590,8 +590,8 @@ container-deploy new-project
 **Solutions:**
 1. **Check limits:**
    ```bash
-   cat ~/.ds01-limits
-   # Memory: 64GB
+   check-limits
+   # Shows your memory limit and current usage
    ```
 
 2. **Reduce memory usage:**
@@ -678,7 +678,7 @@ Permission denied (publickey)
 3. **System state:**
    ```bash
    container-list
-   cat ~/.ds01-limits
+   check-limits
    ```
 
 4. **Relevant logs:**
@@ -730,7 +730,7 @@ Permission denied (publickey)
 
 6. **Check limits before starting:**
    ```bash
-   cat ~/.ds01-limits
+   check-limits
    container-list  # How many running?
    ```
 

@@ -106,7 +106,6 @@ Step-by-step instructions for common tasks:
 Quick lookups:
 
 - **Commands:** [Container](reference/commands/container-commands.md) | [Image](reference/commands/image-commands.md) | [Project](reference/commands/project-commands.md) | [System](reference/commands/system-commands.md)
-- [Resource Limits](reference/resource-limits.md) - Your quotas
 - [File Locations](reference/file-locations.md) - Where things are stored
 - [Glossary](reference/glossary.md) - Key terms defined
 

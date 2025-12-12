@@ -28,7 +28,7 @@ docs/
 **"I just want to work on my thesis"**
 
 1. [First-Time Setup](getting-started/first-time.md) - 15 minutes
-2. [Daily Workflow](getting-started/daily-workflow.md) - Core routine
+2. [Daily Workflow](core-guides/daily-workflow.md) - Core routine
 3. [Jupyter Setup](core-guides/jupyter.md) - If using notebooks
 4. [VS Code Remote](core-guides/vscode-remote.md) - If using VS Code
 

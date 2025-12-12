@@ -519,7 +519,7 @@ dashboard
 
 **Learn the daily workflow:**
 
-- → [Daily Workflow Guide](../getting-started/daily-workflow.md)
+- → [Daily Workflow Guide](../core-guides/daily-workflow.md)
 
 **Understand container lifecycle:**
 

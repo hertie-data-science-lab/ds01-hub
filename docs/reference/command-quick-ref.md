@@ -604,7 +604,7 @@ ls /opt/ds01-infra/docs-user/
 
 - → [Getting Started](../getting-started/first-time.md)
 
-- → [Daily Workflow](../getting-started/daily-workflow.md)
+- → [Daily Workflow](../core-guides/daily-workflow.md)
 
 - → [Creating Projects](../core-guides/creating-projects.md)
 

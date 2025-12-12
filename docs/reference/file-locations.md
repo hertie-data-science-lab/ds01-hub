@@ -66,7 +66,6 @@ Custom image definitions. Edit these to change your environment.
 ## User Configuration
 
 ```
-~/.ds01-limits                      # Your resource limits (read-only)
 ~/.bashrc                           # Shell configuration
 ~/.ssh/                            # SSH keys
 ```
@@ -104,7 +103,6 @@ Your images are stored here automatically. Managed by Docker, not directly acces
 |------|-------|
 | Your code | `~/workspace/<project>/` or `/workspace/` (in container) |
 | Your Dockerfiles | `~/dockerfiles/` |
-| Your limits | `~/.ds01-limits` |
 | DS01 commands | `/opt/ds01-infra/scripts/user/` |
 | Logs | `/var/log/ds01/` |
 

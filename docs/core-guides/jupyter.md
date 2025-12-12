@@ -617,5 +617,5 @@ if epoch % 5 == 0:
 
 - → [VS Code Remote Guide](vscode-remote.md)
 - → [Long-Running Jobs](long-running-jobs.md)
-- → [Daily Workflow](../getting-started/daily-workflow.md)
+- → [Daily Workflow](../core-guides/daily-workflow.md)
 - → [Containers and Images](../key-concepts/containers-and-images.md)

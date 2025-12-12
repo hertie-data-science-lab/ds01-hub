@@ -47,12 +47,17 @@ project-init [project-name] [OPTIONS]
 **Options:**
 | Option | Description |
 |--------|-------------|
+| `--type=TYPE` | Project type: ml, cv, nlp, rl, audio, ts, llm, custom |
+| `--quick` | Skip interactive prompts, use defaults (type=ml) |
+| `--no-git` | Skip Git initialization |
 | `--guided` | Educational mode |
 
 **Examples:**
 ```bash
-project-init                # Interactive
-project-init my-research    # Specify name
+project-init                      # Interactive
+project-init my-research          # Specify name
+project-init my-thesis --type=cv  # Computer vision project
+project-init test --quick         # Quick setup with defaults
 ```
 
 **What it does:**
@@ -106,22 +111,33 @@ project-launch my-thesis --open  # Launch and enter
 **Create workspace directory** (L2 atomic)
 
 ```bash
-dir-create <project-name>
+dir-create <project-name> [OPTIONS]
 ```
 
-**Example:**
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--type=TYPE` | Structure type: data-science (default), blank |
+| `--force` | Overwrite existing directory |
+| `--guided` | Educational mode |
+
+**Examples:**
 ```bash
-dir-create my-project
-# Created: ~/workspace/my-project/
+dir-create my-project               # Create with data-science structure
+dir-create my-project --type=blank  # Create empty directory
+dir-create my-project --guided      # With explanations
 ```
 
 Creates standard directory structure:
 ```
 ~/workspace/my-project/
-├── data/
+├── data/{raw,processed,external}/
+├── models/checkpoints/
 ├── notebooks/
-├── src/
-└── models/
+├── scripts/
+├── configs/
+├── outputs/{logs,figures}/
+└── tests/
 ```
 
 ---
@@ -131,21 +147,31 @@ Creates standard directory structure:
 **Initialize Git repository** (L2 atomic)
 
 ```bash
-git-init <project-name>
+git-init <project-name> [OPTIONS]
 ```
 
-**Example:**
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--user=NAME` | Git user name (prompts if not set) |
+| `--email=EMAIL` | Git user email (prompts if not set) |
+| `--remote=URL` | Add remote repository URL |
+| `--no-lfs` | Skip Git LFS setup |
+| `--guided` | Educational mode |
+
+**Examples:**
 ```bash
-git-init my-project
-# Creates ~/workspace/my-project/.git/
-# Adds .gitignore for Python/data science
+git-init my-project                           # Initialize Git
+git-init my-project --user="Jane" --email="jane@example.com"
+git-init my-project --remote=git@github.com:user/repo.git
+git-init my-project --guided                  # With explanations
 ```
 
-**Created .gitignore includes:**
-- `__pycache__/`, `*.pyc`
-- `.env`, `*.log`
-- `data/`, `models/` (large files)
-- `.ipynb_checkpoints/`
+**Features:**
+- Comprehensive ML/DS `.gitignore`
+- Git LFS for large model files (`.pth`, `.pt`, `.h5`, `.ckpt`, `.bin`)
+- User config setup
+- Optional remote repository
 
 ---
 
@@ -154,20 +180,27 @@ git-init my-project
 **Generate README.md** (L2 atomic)
 
 ```bash
-readme-create <project-name>
+readme-create <project-name> [OPTIONS]
 ```
 
-**Example:**
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--type=TYPE` | Project type: ml (default), cv, nlp, rl |
+| `--desc="TEXT"` | Project description |
+| `--structure=TYPE` | Structure: data-science (default), blank |
+| `--commit` | Create initial Git commit (requires Git repo) |
+| `--guided` | Educational mode |
+
+**Examples:**
 ```bash
-readme-create my-project
-# Generates ~/workspace/my-project/README.md
+readme-create my-project                                # Basic README
+readme-create cv-project --type=cv --desc="Image classification"
+readme-create my-project --commit                       # Create and commit
+readme-create my-project --guided                       # With explanations
 ```
 
-Creates a template README with sections for:
-- Project description
-- Setup instructions
-- Usage examples
-- License
+Creates a template README with sections for project description, setup, usage, and license.
 
 ---
 

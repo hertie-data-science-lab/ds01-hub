@@ -21,7 +21,7 @@ Error: No GPUs available for allocation
 
 1. **Check availability:**
    ```bash
-   ds01-dashboard
+   dashboard
    ```
 
 2. **Wait for GPU to free up** - Other users may be finishing soon

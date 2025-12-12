@@ -617,9 +617,7 @@ project launch my-project --open
 
 **Learn more Docker:**
 
-- → [Dockerfile Best Practices](../advanced/dockerfile-best-practices.md)
-
-- → [Docker Guide](../advanced/dockerfile-guide.md)
+- → [Complete Dockerfile Guide](../advanced/dockerfile-complete-guide.md)
 
 **Set up development tools:**
 

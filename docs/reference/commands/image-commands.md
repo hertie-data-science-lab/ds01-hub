@@ -243,4 +243,4 @@ image-update my-project --rebuild
 
 - [Container Commands](container-commands.md)
 - [Custom Images Guide](../../core-guides/custom-images.md)
-- [Dockerfile Best Practices](../../advanced/dockerfile-best-practices.md)
+- [Complete Dockerfile Guide](../../advanced/dockerfile-complete-guide.md)

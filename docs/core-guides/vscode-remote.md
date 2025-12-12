@@ -18,13 +18,7 @@ Setting up VSCode for remote development on DS01.
 
 ### 2. Configure SSH
 
-Add to `~/.ssh/config` (on your laptop):
-```
-Host ds01
-    HostName 10.1.23.20
-    User <student-id>@students.hertie-school.org
-    IdentityFile ~/.ssh/id_ed25519
-```
+First, [set up SSH](../advanced/ssh-setup.md) if you haven't already. You need `~/.ssh/config` with your DS01 connection details configured.
 
 ### 3. Connect
 

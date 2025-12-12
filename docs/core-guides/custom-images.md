@@ -55,5 +55,5 @@ image-update my-project --rebuild
 
 ## Next Steps
 
-- → [Dockerfile Guide](../advanced/dockerfile-guide.md)
-- → [Daily Usage Patterns](daily-usage.md)
+- → [Complete Dockerfile Guide](../advanced/dockerfile-complete-guide.md)
+- → [Daily Usage Patterns](daily-workflow.md)

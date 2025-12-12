@@ -238,7 +238,7 @@ EOF
 - Data: `polars`, `dask`, `pyarrow`
 - Plotting: `plotly`, `bokeh`, `altair`
 
-**Learn more:** [Dockerfile Guide](../advanced/dockerfile-guide.md)
+**Learn more:** [Complete Dockerfile Guide](../advanced/dockerfile-complete-guide.md)
 
 ### Step 4: Build Image (7-10 minutes)
 

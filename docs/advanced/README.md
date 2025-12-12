@@ -30,7 +30,7 @@
 | Guide | What You'll Learn |
 |-------|-------------------|
 | [Efficiency Tips](efficiency-tips.md) | Keyboard shortcuts, workflow patterns |
-| [Dockerfile Best Practices](dockerfile-best-practices.md) | Build optimisation, layer caching |
+| [Complete Dockerfile Guide](dockerfile-complete-guide.md) | Build optimisation, layer caching |
 | [SSH Advanced](ssh-advanced.md) | Config files, port forwarding |
 
 ### Specialised
@@ -65,7 +65,7 @@ docker logs my-project._.$(id -u)
 1. [Docker Direct](docker-direct.md) → [Terminal Workflows](terminal-workflows.md) → [Batch Jobs](batch-jobs.md)
 
 **Optimisation:**
-1. [Efficiency Tips](efficiency-tips.md) → [Dockerfile Best Practices](dockerfile-best-practices.md)
+1. [Efficiency Tips](efficiency-tips.md) → [Complete Dockerfile Guide](dockerfile-complete-guide.md)
 
 **Remote access:**
 1. [SSH Advanced](ssh-advanced.md)

@@ -48,20 +48,13 @@ import transformers  # ModuleNotFoundError!
 # Use the interactive package manager
 image-update                  # Select image, add "transformers"
 
-# Recreate container from new image
-container retire my-project
+# Recreate container
 project launch my-project
 
 import transformers  # Works!
 ```
 
 **Why?** Now the package is in the image (blueprint).
-
-**Advanced:** Edit Dockerfile directly, then rebuild:
-```bash
-vim ~/workspace/my-project/Dockerfile
-image-update my-project --rebuild
-```
 
 ---
 
@@ -71,54 +64,19 @@ image-update my-project --rebuild
 ┌─────────────┐
 │  Dockerfile │  ← Edit this to change your environment
 └──────┬──────┘
-       │ image-create / image-update
+       │ image-update
        ▼
 ┌─────────────┐
 │    Image    │  ← Blueprint (permanent)
 └──────┬──────┘
-       │ project launch / container deploy
+       │ project launch
        ▼
 ┌─────────────┐
 │  Container  │  ← Instance (temporary)
 └─────────────┘
 ```
 
-**To change your environment:**
-1. Run `image-update` (interactive GUI to add/remove packages)
-2. Recreate container (`container retire` + `project launch`)
-
----
-
-## Common Scenarios
-
-### Adding a package
-
-**Temporary (for testing):**
-```bash
-pip install new-package  # Works now, gone after retire
-```
-
-**Permanent (recommended):**
-```bash
-image-update                  # Interactive GUI to add packages
-```
-
-**Alternative:** If you prefer `requirements.txt`-based workflows, keep your `requirements.txt` as the single source of truth - `image-update` can import packages directly from it.
-
-**Advanced:** Edit Dockerfile directly:
-```bash
-vim ~/workspace/my-project/Dockerfile
-image-update my-project --rebuild
-```
-
-### Multiple projects
-
-Each project gets its own:
-- Dockerfile (in `~/workspace/<project>/Dockerfile`)
-- Image (`ds01-<user>/<project>:latest`)
-- Container (when deployed)
-
-Different projects = different environments = no conflicts.
+**To change your environment:** Run `image-update`, then recreate container.
 
 ---
 
@@ -127,17 +85,17 @@ Different projects = different environments = no conflicts.
 | What | Where | Permanent? |
 |------|-------|-----------|
 | Dockerfile | `~/workspace/<project>/Dockerfile` | Yes |
-| Image | Docker storage | Yes (until deleted) |
-| Container | Docker runtime | No (temporary) |
+| Image | Docker storage | Yes |
+| Container | Docker runtime | No |
 | Workspace files | `~/workspace/<project>/` | Yes |
-| pip install | Container only | No |
+| pip install in container | Container only | No |
 
 ---
 
 ## Common Questions
 
 **"Can I modify an image directly?"**
-> No. Use `image-update` to add packages, or edit the Dockerfile then rebuild.
+> No. Use `image-update` to add packages.
 
 **"Do changes in container affect the image?"**
 > No. Container changes are isolated and temporary.
@@ -147,10 +105,20 @@ Different projects = different environments = no conflicts.
 
 ---
 
+## Want Deeper Understanding?
+
+For comprehensive explanation of:
+- **How Docker layers work**
+- **Image vs container architecture**
+- **Advanced image management**
+- **Industry Docker practices**
+
+See [Containers & Docker](../background/containers-and-docker.md) in Educational Computing Context (20 min read).
+
+---
+
 ## Next Steps
 
 - [Ephemeral Containers](ephemeral-containers.md) - Why containers are temporary
 - [Workspaces and Persistence](workspaces-persistence.md) - Where files are saved
 - [Custom Images Guide](../core-guides/custom-images.md) - Practical how-to
-
-**Want deeper Docker knowledge?** See [Containers & Docker](../background/containers-and-docker.md) in Educational Computing Context.

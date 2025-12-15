@@ -1,6 +1,6 @@
 # Quick Reference
 
-One-page cheat sheet for DS01 commands.
+One-page cheat sheet for DS01 commands. This covers the most common workflows; for the complete list of all available commands and options, see the [Command Reference](reference/commands/).
 
 ---
 
@@ -233,6 +233,41 @@ project init my-project        # Same as project-init
 ```
 
 See [Dispatcher Commands](reference/commands/dispatcher-commands.md) for details.
+
+---
+
+## Docker Commands (Advanced Users)
+
+If you prefer working directly with Docker, these commands are still subject to DS01 resource limits and GPU allocation:
+
+```bash
+# List containers
+docker ps                                # Running containers
+docker ps -a                             # All containers (including stopped)
+
+# Inspect containers
+docker logs <container-id>               # View container output
+docker logs -f <container-id>            # Follow logs (live)
+docker inspect <container-id>            # Full container details (JSON)
+
+# Execute commands
+docker exec <container-id> ls /workspace # Run command in container
+docker exec -it <container-id> bash      # Interactive shell
+
+# Manage images
+docker images                            # List images
+docker build -t my-image .               # Build image from Dockerfile
+docker rmi <image-id>                    # Remove image
+
+# Resource info
+docker stats                             # CPU, memory, GPU usage
+docker stats --no-stream                 # Single snapshot
+```
+
+**Note:** All Docker commands run through DS01's enforcement system:
+- Resource limits (CPU, memory, GPU) are enforced via cgroups
+- GPU allocations are tracked and validated
+- Containers are organized in DS01 systemd slices
 
 ---
 

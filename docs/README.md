@@ -26,7 +26,7 @@
 
 
 
-Deploy containers to run specific computationally-expensive jobs
+Deploy containers to run computationally-expensive workloads
 
 ```bash
 project launch my-project
@@ -54,7 +54,7 @@ container retire my-project
 
 That's it!
 
-You can continue to work on computationally-cheap tasks locally without a GPU, then spin up a new container when needed.
+You can continue to work on computationally-**in**expensive tasks locally without a GPU, then spin up a new container when needed.
 
 *A proper Git workflow is better practice than manually downloading/uploading files to ds01. Your files will be version controlled and accessible from any computer!*
 
@@ -62,7 +62,7 @@ You can continue to work on computationally-cheap tasks locally without a GPU, t
 
 ## Essential Commands
 
-> See [quick references](quick-reference.md) for full usage
+> See [quick references](quick-reference.md) for more usage and [Command Reference directory](reference/commands/) for full usage.
 
 ```bash
 # Getting started
@@ -131,29 +131,11 @@ container-deploy --info
 
 ---
 
-## Cloud Computing Basic Concepts
+## Understanding Key Concepts
 
-**Containers = Temporary Work Sessions**
-- Like turning on a laptop when you arrive, turning it off when you leave
-- Create them when you need to do computationally-intensive work, remove them when you're done
-- GPUs are allocated when container starts, freed when you retire it
+**New to containerised workflows?** We've put together quick mental models for the core concepts you need to know:
+- [Containers and Images](key-concepts/containers-and-images.md) - Understand the blueprint/instance distinction
+- [Workspaces and Persistence](key-concepts/workspaces-persistence.md) - Where your files live
+- [Ephemeral Containers](key-concepts/ephemeral-containers.md) - Why containers are temporary
 
-**Workspaces = Your Permanent Storage**
-- Everything in `~/workspace/` survives container removal
-- Save your code, data, models (checkpoints & logs) here - they're always safe
-- Think of it like files on your local computer
-
-**Images = Recipes for Environments**
-- Define what software is installed (PyTorch, pandas, etc.)
-- Stored in Dockerfiles - version controlled, shareable, reproducible envs
-- Dockerfiles are Single Source of Truth (STT) → stored in project dir & git repo
-- Raw Dockerfiles > built into exectuable image files > deployed as container instances
-- Rebuild containers from Dockerfiles anytime
-
-**Why this model?**
-- **Efficient**: GPUs freed immediately for others
-- **Reproducible**: Same environment every time
-- **Cloud-native**: Same workflow as AWS/GCP/Kubernetes
-- **Flexible**: Multiple projects with different environments
-
-→ [Learn more about containers](key-concepts/containers-and-images.md) *(optional)*
+See [Key Concepts Overview](key-concepts/) for all topics (~20 min read total).

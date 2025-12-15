@@ -4,85 +4,101 @@
 
 ```
 docs/
-├── getting-started/    Start here
-├── core-guides/             Task-focused how-tos
-├── intermediate/       Atomic commands, CLI flags, scripting
-├── advanced/           Docker direct, terminal workflows, batch jobs
-├── key-concepts/      Key Concepts to Understand (DS01-specific)
-├── background/         Educational Computing Context (career skills)
-├── reference/          Command quick reference
-└── troubleshooting/    Fix problems
+├── getting-started/          Start here
+├── core-guides/              Task-focused how-tos
+├── intermediate/             Atomic commands, CLI flags, scripting
+├── advanced/                 Docker direct, terminal workflows, batch jobs
+├── key-concepts/             Key Concepts to Understand (DS01-specific)
+├── background/               Educational Computing Context (career skills)
+├── reference/                Command quick reference
+└── troubleshooting/          Fix problems
 ```
 
 ### Separation of Concerns
 
 >-  **Practical:** [Getting Started](getting-started/) → [Core Guides](core-guides/) → [Intermediate](intermediate/) → [Advanced](advanced/)
->- **Conceptual:** [Key Concepts](key-concepts/) (DS01-specific) | [Background](background/) (career skills)
+>- **Conceptual:** [Key Concepts](key-concepts/) (DS01-specific) | [Background](background/) (industry parallels)
 >- **Reference:** [Commands Ref](reference/) | [Troubleshooting](troubleshooting/)
 
 ---
 
-## Learning Paths
+## Suggested Learning Paths
 
 ### Path 1: Beginner (Students, First-Time Users)
 **"I just want to work on my thesis"**
 
-1. [First-Time Setup](getting-started/first-time.md) - 15 minutes
-2. [Daily Workflow](core-guides/daily-workflow.md) - Core routine
-3. [Jupyter Setup](core-guides/jupyter.md) - If using notebooks
-4. [VS Code Remote](core-guides/vscode-remote.md) - If using VS Code
+> **⏱ In a hurry?** Try the [Quickstart](quickstart.md) for a condensed intro (~30 min).
 
-**Commands:** `project launch`, `exit`, `container deploy`, `container retire`
+**Essential (do these first):**
+1. [Prerequisites](getting-started/prerequisites.md) - Check what you need
+2. [First-Time Setup](getting-started/first-time-setup.md) - SSH keys, accounts (~15 min)
+3. [Containers & Images](key-concepts/containers-and-images.md) - Mental model (~5 min)
+4. [Workspaces & Persistence](key-concepts/workspaces-persistence.md) - Where files live (~5 min)
+5. [First Container](getting-started/first-container.md) - Get hands-on experience
+6. [Daily Workflow](core-guides/daily-workflow.md) - Your regular routine
+7. [Help System](getting-started/help-system.md) - How to get unstuck
 
-**Skip the background reading** - learn as you go with `--guided` mode.
+**IDE Setup (optional, choose one):**
+- [Jupyter Setup](core-guides/jupyter.md) - For notebook users
+- [VS Code Remote](core-guides/vscode-remote.md) - For code editors
+- [Launching Containers](core-guides/launching-containers.md) - Terminal-only workflows
+
+**Commands:** `user setup`, `project init`, `project launch`, `container deploy`, `container retire`
+
+**Pro tip:** Use `--guided` and `--concepts` flags while learning, they explain each step.
 
 ### Path 2: Intermediate (Want More Control)
-**"I want more control and efficiency"**
+**"I want more control and efficiency"** - you're comfortable with containers and want to automate repetitive tasks or understand system internals.
 
-1. [Atomic Commands](intermediate/atomic-commands.md) - Granular control
-2. [CLI Flags](intermediate/cli-flags.md) - Faster than interactive mode
-3. [Scripting](intermediate/scripting.md) - Automate workflows
+**Core Understanding:**
+1. [Command Hierarchy](intermediate/command-hierarchy.md) - How commands are organised
+2. [Container States](intermediate/container-states.md) - created, running, stopped, removed
+3. [Atomic Commands](intermediate/atomic-commands.md) - Single-purpose fine-grained control
 
-**Commands:** `container-create`, `container-start`, `container-stop`, `container-remove`
+**Practical Skills:**
+4. [CLI Flags & Options](intermediate/cli-flags.md) - Faster than interactive mode
+5. [Shell Aliases](intermediate/shell-aliases.md) - Custom command shortcuts
+6. [Bash Scripting](intermediate/scripting-bash.md) - Automate container workflows
+7. [Python Scripting](intermediate/scripting-python.md) - Programmatic container management
+
+**Commands:** `container-create`, `container-start`, `container-stop`, `container-remove`, `image-update`, `image-delete`
 
 ### Path 3: Advanced (Terminal & DevOps Native)
-**"I prefer Docker commands and terminal workflows"**
+**"I prefer Docker commands and terminal workflows"** - you're comfortable with Linux/Docker, want maximum flexibility, or have specialized workload needs.
 
-1. [Docker Direct](advanced/docker-direct.md) - Standard Docker commands
-2. [Terminal Workflows](advanced/terminal-workflows.md) - vim/tmux development
-3. [Batch Jobs](advanced/batch-jobs.md) - Non-interactive execution
+**Docker & Container Mastery:**
+1. [Docker Direct](advanced/docker-direct.md) - Using native Docker commands
+2. [Complete Dockerfile Guide](advanced/dockerfile-complete-guide.md) - Advanced layering, optimization
+3. [Container States Deep Dive](intermediate/container-states.md) - Full lifecycle understanding
 
-**Commands:** `docker run`, `docker exec`, direct container access
+**Terminal & Development:**
+4. [Terminal Workflows](advanced/terminal-workflows.md) - vim/tmux development patterns
+5. [Advanced SSH](advanced/ssh-advanced.md) - SSH tunneling, X11 forwarding, port mapping
+6. [Shell Aliases & Custom Commands](intermediate/shell-aliases.md) - Personalize your workflow
+
+**Specialized Workloads:**
+7. [Batch Jobs & Non-Interactive Execution](advanced/batch-jobs.md) - Training scripts, cron jobs
+8. [Multi-MIG GPU Training](advanced/multi-mig-training.md) - Parallel training on MIG instances
+9. [Efficiency Tips](advanced/efficiency-tips.md) - Performance optimization, resource tricks
 
 ---
 
 ## Conceptual Documentation
 
 DS01 has two types of conceptual documentation with different purposes:
+1. **Key Concepts** - these are practical DS01-specific guides 
+2. **Background Knowledge** - these are more theoretically-oriented  primers on basic CS principles & industry parallels informaing DS01's design
 
-### Key Concepts to Understand
-**DS01-specific mental models for effective usage** — [Overview](key-concepts/) (20 min total)
+| Key Concepts | Background Knowledge |
+|---|---|
+| **~20 min total** | **~1+ hour total** |
+| [Containers and Images](key-concepts/containers-and-images.md) — Why do packages disappear? Why rebuild images? | [Containers & Docker](background/containers-and-docker.md) — Kubernetes, CI/CD, microservices |
+| [Ephemeral Containers](key-concepts/ephemeral-containers.md) — Why are containers temporary? Will I lose work? | [Servers & HPC](background/servers-and-hpc.md) — AWS, GCP, cloud computing |
+| [Workspaces and Persistence](key-concepts/workspaces-persistence.md) — Where are my files? What persists? | [Linux Basics](background/linux-basics.md) — Any server/cloud work |
+| [Python Environments](key-concepts/python-environments.md) — Do I need venv/conda? | [Industry Parallels](background/industry-parallels.md) — Direct cloud platform preparation |
 
-| Topic | What It Answers |
-|-------|----------------|
-| [Containers and Images](key-concepts/containers-and-images.md) | Why do packages disappear? Why rebuild images? |
-| [Ephemeral Containers](key-concepts/ephemeral-containers.md) | Why are containers temporary? Will I lose work? |
-| [Workspaces and Persistence](key-concepts/workspaces-persistence.md) | Where are my files? What persists? |
-| [Python Environments](key-concepts/python-environments.md) | Do I need venv/conda? |
 
-**Read these:** When something confuses you, or before first use.
-
-### Educational Computing Context
-**Deeper knowledge for career development** — [Overview](background/) (~1 hour total)
-
-| Topic | Career Relevance |
-|-------|-----------------|
-| [Servers & HPC](background/servers-and-hpc.md) | AWS, GCP, cloud computing |
-| [Linux Basics](background/linux-basics.md) | Any server/cloud work |
-| [Containers & Docker](background/containers-and-docker.md) | Kubernetes, CI/CD, microservices |
-| [Industry Parallels](background/industry-parallels.md) | Direct cloud platform preparation |
-
-**Read these:** When you want to understand the technology deeply, or prepare for industry.
+See full overviews: [Key Concepts](key-concepts/) | [Background](background/)
 
 ---
 

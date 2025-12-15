@@ -1,5 +1,5 @@
 name: Documentation Request
-description: Request new documentation or report outdated docs
+description: Report outdated / unclear docs, or request new 
 title: "[DOCS] "
 labels: ["documentation"]
 body:
@@ -13,7 +13,7 @@ body:
     attributes:
       label: Hertie email
       description: Your @hertie-school.org or @students.hertie-school.org email
-      placeholder: firstname.lastname@students.hertie-school.org
+      placeholder: <user-id>@shertie-school.org
     validations:
       required: true
 
@@ -24,7 +24,7 @@ body:
       description: Are you requesting new docs or reporting an issue with existing docs?
       options:
         - New documentation
-        - Outdated or incorrect documentation
+        - Outdated, incorrect or unclear documentation
     validations:
       required: true
 

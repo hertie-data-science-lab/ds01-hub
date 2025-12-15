@@ -1,7 +1,7 @@
-name: Access Request
+name: Resource & Access Request
 description: Request additional resources (GPUs/MIGs/CPUs/Mem/PID-limits), group access, or permissions
-title: "[ACCESS] "
-labels: ["access-request"]
+title: "[RESOURCE-ACCESS] "
+labels: ["resource-access-request"]
 body:
   - type: markdown
     attributes:
@@ -13,7 +13,7 @@ body:
     attributes:
       label: Hertie email
       description: Your @hertie-school.org or @students.hertie-school.org email
-      placeholder: firstname.lastname@students.hertie-school.org
+      placeholder: <user-id>@shertie-school.org
     validations:
       required: true
 
@@ -39,10 +39,20 @@ body:
       label: What do you need?
       description: Be specific - software name + version, group name, folder access, etc.
       placeholder: |
-        e.g., "Please install PyTorch 2.0 with CUDA support"
+        e.g., "I need 2 additional unpartitioned-GPUs for my job"
         e.g., "I need access to the shared-data group"
     validations:
       required: true
+
+  - type: input
+    id: access_until
+    attributes:
+      label: Access needed until
+      description: Specify the date when you no longer need this access
+      placeholder: DD-MM-YYYY (e.g., 31-12-2025)
+    validations:
+      required: true
+      pattern: '^\d{2}-\d{2}-\d{4}$'
 
   - type: textarea
     id: why

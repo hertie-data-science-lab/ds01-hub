@@ -56,10 +56,10 @@ docs/
 3. [Atomic Commands](intermediate/atomic-commands.md) - Single-purpose fine-grained control
 
 **Practical Skills:**
-4. [CLI Flags & Options](intermediate/cli-flags.md) - Faster than interactive mode
-5. [Shell Aliases](intermediate/shell-aliases.md) - Custom command shortcuts
-6. [Bash Scripting](intermediate/scripting-bash.md) - Automate container workflows
-7. [Python Scripting](intermediate/scripting-python.md) - Programmatic container management
+1. [CLI Flags & Options](intermediate/cli-flags.md) - Faster than interactive mode
+2. [Shell Aliases](intermediate/shell-aliases.md) - Custom command shortcuts
+3. [Bash Scripting](intermediate/scripting-bash.md) - Automate container workflows
+4. [Python Scripting](intermediate/scripting-python.md) - Programmatic container management
 
 **Commands:** `container-create`, `container-start`, `container-stop`, `container-remove`, `image-update`, `image-delete`
 
@@ -72,14 +72,14 @@ docs/
 3. [Container States Deep Dive](intermediate/container-states.md) - Full lifecycle understanding
 
 **Terminal & Development:**
-4. [Terminal Workflows](advanced/terminal-workflows.md) - vim/tmux development patterns
-5. [Advanced SSH](advanced/ssh-advanced.md) - SSH tunneling, X11 forwarding, port mapping
-6. [Shell Aliases & Custom Commands](intermediate/shell-aliases.md) - Personalize your workflow
+1. [Terminal Workflows](advanced/terminal-workflows.md) - vim/tmux development patterns
+2. [Advanced SSH](advanced/ssh-advanced.md) - SSH tunneling, X11 forwarding, port mapping
+3. [Shell Aliases & Custom Commands](intermediate/shell-aliases.md) - Personalize your workflow
 
 **Specialized Workloads:**
-7. [Batch Jobs & Non-Interactive Execution](advanced/batch-jobs.md) - Training scripts, cron jobs
-8. [Multi-MIG GPU Training](advanced/multi-mig-training.md) - Parallel training on MIG instances
-9. [Efficiency Tips](advanced/efficiency-tips.md) - Performance optimization, resource tricks
+1. [Batch Jobs & Non-Interactive Execution](advanced/batch-jobs.md) - Training scripts, cron jobs
+2. [Multi-MIG GPU Training](advanced/multi-mig-training.md) - Parallel training on MIG instances
+3. [Efficiency Tips](advanced/efficiency-tips.md) - Performance optimization, resource tricks
 
 ---
 

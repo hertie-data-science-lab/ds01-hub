@@ -4,6 +4,8 @@
 
 ## Step 1: Connect via SSH
 
+> NB: requires you are connected via Hertie campus Wi-Fi or VPN connection. Contact IT service desk if you need VPN acess.
+
 From your laptop terminal:
 
 ```bash

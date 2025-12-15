@@ -12,7 +12,7 @@ The support hub for `ds01`, Hertie School Data Science Lab's GPU server for cont
 
 ---
 
-> **Prefer just to dive in?** [Quickstart](quickstart.md) walks you through everything in under 30 mins - from your first SSH connection to deploying a containerised ML workdload.
+> **Prefer just to dive in?** [Quickstart](./docs/quickstart.md) walks you through everything in under 30 mins - from your first SSH connection to deploying a containerised ML workdload.
 
 ---
 

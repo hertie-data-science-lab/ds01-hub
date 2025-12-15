@@ -6,7 +6,8 @@ on:
       - main
     paths:
       - 'docs/**'
-      - 'mkdocs.yml'
+      - 'build_docs.py'
+      - '_templates/**'
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
@@ -22,11 +23,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install MkDocs
-        run: pip install mkdocs
+      - name: Install dependencies
+        run: pip install markdown
 
       - name: Build documentation
-        run: mkdocs build
+        run: python build_docs.py
 
       - name: Checkout target repo
         uses: actions/checkout@v4

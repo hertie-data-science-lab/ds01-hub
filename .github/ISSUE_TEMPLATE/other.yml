@@ -13,7 +13,7 @@ body:
     attributes:
       label: Hertie email
       description: Your @hertie-school.org or @students.hertie-school.org email
-      placeholder: firstname.lastname@students.hertie-school.org
+      placeholder: <user-id>@shertie-school.org
     validations:
       required: true
 

@@ -1,8 +1,8 @@
 # DS01-Hub
 
-The support hub for `ds01`, Hertie School Data Science Lab's GPU server for containerised ML workloads.
+The support hub for `ds01` - Hertie Data Science Lab's GPU server for containerised ML workloads.
 
-> **This is v1.0** — we welcome all feedback/ideas - big or small. If something's confusing, missing, or could be better, raise an issue ticket!
+> **This is v1.0** — we welcome all bug reports, feedback & reature fequests - big or small. If something's confusing, missing, or could be better, please support us by raising an issue ticket.
 
 ---
 
@@ -12,7 +12,7 @@ The support hub for `ds01`, Hertie School Data Science Lab's GPU server for cont
 
 ---
 
-> **Prefer just to dive in?** [Quickstart](./docs/quickstart.md) walks you through everything in under 30 mins - from your first SSH connection to deploying a containerised ML workdload.
+> **Prefer to dive in?** [Quickstart](./docs/quickstart.md) walks you through everything in under 30 mins - from first SSH connection to deploying a containerised ML work load.
 
 ---
 
@@ -34,10 +34,10 @@ docs/
 ### Click "New Issue" to:
 
 - **Report a bug** — something's broken, erroring, or not working as expected
-- **Request access** — need resources (GPU time, MIGs), group access, or software installed
-- **Request documentation** — need a guide for something not yet documented
-- **Report a status issue** — think the server might be down?
-- **Share feedback** — have ideas to improve ds01? We want to hear them
+- **Request access** — need resources (GPU time, MIGs), group access, or software installed (specify your access end date)
+- **Request documentation** — lack of clarity in existing docs / need a guide for something not yet documented
+- **Report a status issue** — think the server might be down (also email h.baker@hertie-school.org)
+- **Request new functionality / share feedback** — have ideas to improve ds01? We want to hear them (categorize as feature request, improvement, workflow, etc.)
 - **Ask a question** — you're stuck and need guidance
 - **Book a consultation** — want hands-on help, office hours, or technical support
 

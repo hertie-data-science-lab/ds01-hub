@@ -13,7 +13,7 @@ body:
     attributes:
       label: Hertie email
       description: Your @hertie-school.org or @students.hertie-school.org email
-      placeholder: firstname.lastname@students.hertie-school.org
+      placeholder: <user-id>@shertie-school.org
     validations:
       required: true
 
@@ -23,7 +23,7 @@ body:
       label: Describe your problem or goal
       description: What are you trying to accomplish? What's blocking you?
       placeholder: |
-        I'm working on my thesis and need help setting up a deep learning pipeline...
+        I'm setting up a distributed training job but unsure about GPU allocation...
         I keep running into memory errors when training my model...
     validations:
       required: true

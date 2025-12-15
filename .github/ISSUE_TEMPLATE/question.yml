@@ -13,7 +13,7 @@ body:
     attributes:
       label: Hertie email
       description: Your @hertie-school.org or @students.hertie-school.org email
-      placeholder: firstname.lastname@students.hertie-school.org
+      placeholder: <user-id>@shertie-school.org
     validations:
       required: true
 
@@ -55,7 +55,7 @@ body:
     id: context
     attributes:
       label: Any relevant context
-      description: What are you working on? What's your end goal?
+      description: What are you working on? 
       placeholder: I'm trying to run a deep learning model for my thesis...
     validations:
       required: false

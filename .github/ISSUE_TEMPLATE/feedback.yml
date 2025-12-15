@@ -1,6 +1,6 @@
-name: Feedback / Suggestion
+name: Feature Request / Feedback / Suggestion
 description: Share ideas to improve ds01 infrastructure
-title: "[FEEDBACK] "
+title: "[FEATURE-FEEDBACK] "
 labels: ["feedback", "enhancement"]
 body:
   - type: markdown
@@ -13,7 +13,20 @@ body:
     attributes:
       label: Hertie email
       description: Your @hertie-school.org or @students.hertie-school.org email
-      placeholder: firstname.lastname@students.hertie-school.org
+      placeholder: initial.lastname@students.hertie-school.org
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feedback_type
+    attributes:
+      label: Type of feedback
+      description: What category does your suggestion fall under?
+      options:
+        - "Feature Request"
+        - "Improvement / Enhancement"
+        - "Workflow / Process"
+        - "Other / General Feedback"
     validations:
       required: true
 

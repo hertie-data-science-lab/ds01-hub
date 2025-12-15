@@ -1,0 +1,54 @@
+name: Deploy Docs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ds01-hub
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install MkDocs
+        run: pip install mkdocs
+
+      - name: Build documentation
+        run: mkdocs build
+
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          repository: hertie-data-science-lab/hertie-data-science-lab.github.io
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          path: target-repo
+
+      - name: Deploy to target repo
+        run: |
+          # Remove old ds01 directory if it exists
+          rm -rf target-repo/ds01
+
+          # Copy built site to ds01 directory
+          cp -r site target-repo/ds01
+
+          # Commit and push
+          cd target-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ds01
+          git diff --staged --quiet || git commit -m "docs: update DS01 documentation
+
+          Auto-deployed from ds01-hub@${{ github.sha }}"
+          git push

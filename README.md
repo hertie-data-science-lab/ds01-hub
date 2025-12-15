@@ -1,8 +1,8 @@
 # DS01-Hub
 
-The support hub for ds01, Hertie School Data Science Lab's GPU server for containerised ML workloads.
+The support hub for `ds01`, Hertie School Data Science Lab's GPU server for containerised ML workloads.
 
-> **This is v1.0** — we welcome all feedback/ideas. big or small. If something's confusing, missing, or could be better, raise an issue ticket!
+> **This is v1.0** — we welcome all feedback/ideas - big or small. If something's confusing, missing, or could be better, raise an issue ticket!
 
 ---
 
@@ -12,7 +12,7 @@ The support hub for ds01, Hertie School Data Science Lab's GPU server for contai
 
 ---
 
-> **Prefer just to dive in?** [quickstart](quickstart.md) walks you through everything: from SSHing into the server for the first time, to deploying your first containerised project - all in under 30 mins.
+> **Prefer just to dive in?** [Quickstart](quickstart.md) walks you through everything: from SSHing into the server for the first time, to deploying your first containerised project - all in under 30 mins.
 
 ---
 

@@ -9,35 +9,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Teams notification
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          ISSUE_LABELS: ${{ toJson(github.event.issue.labels) }}
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
         run: |
-          # Extract first label or default to "Issue"
-          LABEL=$(echo '${{ toJson(github.event.issue.labels) }}' | jq -r '.[0].name // "Issue"')
+          LABEL=$(echo "$ISSUE_LABELS" | jq -r '.[0].name // "Issue"')
 
-          curl -H "Content-Type: application/json" -d '{
-            "@type": "MessageCard",
-            "@context": "http://schema.org/extensions",
-            "themeColor": "0076D7",
-            "summary": "New issue in ds01-hub",
-            "sections": [{
-              "activityTitle": "[${{ github.event.issue.title }}](${{ github.event.issue.html_url }})",
-              "facts": [{
-                "name": "Type",
-                "value": "'"${LABEL}"'"
-              }, {
-                "name": "Opened by",
-                "value": "${{ github.event.issue.user.login }}"
+          PAYLOAD=$(jq -n \
+            --arg title "$ISSUE_TITLE" \
+            --arg url "$ISSUE_URL" \
+            --arg label "$LABEL" \
+            --arg author "$ISSUE_AUTHOR" \
+            '{
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "themeColor": "0076D7",
+              "summary": "New issue in ds01-hub",
+              "sections": [{
+                "activityTitle": "[\($title)](\($url))",
+                "facts": [
+                  {"name": "Type", "value": $label},
+                  {"name": "Opened by", "value": $author}
+                ],
+                "markdown": true
               }],
-              "markdown": true
-            }],
-            "potentialAction": [{
-              "@type": "OpenUri",
-              "name": "View Issue",
-              "targets": [{
-                "os": "default",
-                "uri": "${{ github.event.issue.html_url }}"
+              "potentialAction": [{
+                "@type": "OpenUri",
+                "name": "View Issue",
+                "targets": [{"os": "default", "uri": $url}]
               }]
-            }]
-          }' ${{ secrets.TEAMS_WEBHOOK_URL }}
+            }')
+
+          curl -sf -H "Content-Type: application/json" -d "$PAYLOAD" "$TEAMS_WEBHOOK_URL"
 
 # ============================================================
 # SETUP INSTRUCTIONS FOR TEAMS WEBHOOK

@@ -97,5 +97,5 @@ For details on installing packages and environment management:
 
 ## Next Steps
 
-- → [SSH Setup](ssh-setup.md)
+- → [SSH Setup](../advanced/ssh-setup.md)
 - → [Daily Usage Patterns](../core-guides/daily-workflow.md)

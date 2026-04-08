@@ -45,7 +45,7 @@ Add to `~/.ssh/config`:
 ```
 Host ds01-container
     HostName 10.1.23.20
-    User <student-id>@students.hertie-school.org
+    User <your-username>@hertie-school.lan
     RemoteCommand docker exec -it <project-name>._.<user-id> bash
     RequestTTY yes
 ```

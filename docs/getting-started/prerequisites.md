@@ -28,7 +28,7 @@ If `docker` not shown, contact DSL administrator.
 ## Connecting
 
 ```bash
-ssh <student-id>@students.hertie-school.org@10.1.23.20
+ssh <your-username>@hertie-school.lan@10.1.23.20
 ```
 
 You may see:

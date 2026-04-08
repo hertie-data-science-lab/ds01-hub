@@ -41,9 +41,11 @@ Create `~/.ssh/config`:
 ```
 Host ds01
     HostName 10.1.23.20
-    User <student-id>@students.hertie-school.org
+    User <your-username>@hertie-school.lan
     IdentityFile ~/.ssh/id_ed25519
 ```
+
+Replace `<your-username>` with your Hertie username (e.g. `212345` for students, `j.smith` for staff). Your email domain (e.g. `@students.hertie-school.org`, `@phd.hertie-school.org`) also works — it resolves to `@hertie-school.lan` automatically.
 
 **Usage:**
 ```bash
@@ -52,7 +54,7 @@ ssh ds01  # Instead of the full format below
 
 **Without SSH config:**
 ```bash
-ssh <student-id>@students.hertie-school.org@10.1.23.20
+ssh <your-username>@hertie-school.lan@10.1.23.20
 ```
 
 ## Next Steps

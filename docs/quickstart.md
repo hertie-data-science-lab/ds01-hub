@@ -4,13 +4,23 @@
 
 ## Step 1: Connect via SSH
 
-> NB: requires you are connected via Hertie campus Wi-Fi or VPN connection. Contact IT service desk if you need VPN acess.
+> NB: requires you are connected via Hertie campus Wi-Fi or VPN connection. Contact IT service desk if you need VPN access.
 
 From your laptop terminal:
 
 ```bash
-ssh <student-id>@students.hertie-school.org@10.1.23.20
+ssh <your-username>@hertie-school.lan@10.1.23.20
 ```
+
+Your username depends on your account type:
+
+| Account type | Username format | Example |
+|---|---|---|
+| Master's student | `<student-id>@hertie-school.lan` | `212345@hertie-school.lan` |
+| PhD student | `<student-id>@hertie-school.lan` | `197968@hertie-school.lan` |
+| Staff / faculty | `<firstname>.<lastname>@hertie-school.lan` | `j.smith@hertie-school.lan` |
+
+> **Note:** `@hertie-school.lan` is the canonical internal domain and works for all account types. You can also use your email domain (e.g. `@students.hertie-school.org`, `@phd.hertie-school.org`, or `@hertie-school.org` for staff) — these resolve to `@hertie-school.lan` automatically.
 
 If you don't have SSH keys set up, you'll be prompted for your usual Hertie Microsoft password.
 

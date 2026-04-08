@@ -25,7 +25,7 @@ jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 
 # 3. On laptop: Create SSH tunnel (new terminal)
 ssh -L 8888:localhost:8888 ds01
-# Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
+# Without SSH keys: ssh -L 8888:localhost:8888 <your-username>@hertie-school.lan@10.1.23.20
 
 # 4. Open browser: http://localhost:8888
 # Copy token from step 2
@@ -96,7 +96,7 @@ jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 
 ```bash
 ssh -L 8888:localhost:8888 ds01
-# Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
+# Without SSH keys: ssh -L 8888:localhost:8888 <your-username>@hertie-school.lan@10.1.23.20
 ```
 
 **What this does:** Forwards port 8888 from DS01 to your laptop.
@@ -354,7 +354,7 @@ jupyter lab --ip=0.0.0.0 --port=8889 --no-browser
 
 # Update SSH tunnel
 ssh -L 8889:localhost:8889 ds01
-# Without SSH keys: ssh -L 8889:localhost:8889 <student-id>@students.hertie-school.org@10.1.23.20
+# Without SSH keys: ssh -L 8889:localhost:8889 <your-username>@hertie-school.lan@10.1.23.20
 
 # Access via http://localhost:8889
 ```
@@ -567,7 +567,7 @@ autossh -M 0 -L 8888:localhost:8888 ds01
 ```
 Host ds01-jupyter
     HostName 10.1.23.20
-    User <student-id>@students.hertie-school.org
+    User <your-username>@hertie-school.lan
     LocalForward 8888 localhost:8888
     ServerAliveInterval 60
     ServerAliveCountMax 3

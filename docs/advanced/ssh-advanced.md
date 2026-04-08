@@ -11,7 +11,7 @@ Create `~/.ssh/config` on your laptop:
 ```
 Host ds01
     HostName 10.1.23.20
-    User <student-id>@students.hertie-school.org
+    User <your-username>@hertie-school.lan
     IdentityFile ~/.ssh/id_ed25519
     ForwardAgent yes
 ```
@@ -23,7 +23,7 @@ ssh ds01
 
 Without SSH config, use the full format:
 ```bash
-ssh <student-id>@students.hertie-school.org@10.1.23.20
+ssh <your-username>@hertie-school.lan@10.1.23.20
 ```
 
 ---
@@ -44,7 +44,7 @@ ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
 
 ```bash
 ssh-copy-id ds01
-# Without SSH config: ssh-copy-id <student-id>@students.hertie-school.org@10.1.23.20
+# Without SSH config: ssh-copy-id <your-username>@hertie-school.lan@10.1.23.20
 ```
 
 Or manually:
@@ -74,7 +74,7 @@ This lets you use your local key for Git inside DS01.
 ```bash
 # Forward port 8888
 ssh -L 8888:localhost:8888 ds01
-# Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
+# Without SSH keys: ssh -L 8888:localhost:8888 <your-username>@hertie-school.lan@10.1.23.20
 
 # Access at http://localhost:8888
 ```
@@ -99,7 +99,7 @@ ssh -L 8888:localhost:8888 -L 6006:localhost:6006 ds01
 ```
 Host ds01
     HostName 10.1.23.20
-    User <student-id>@students.hertie-school.org
+    User <your-username>@hertie-school.lan
     LocalForward 8888 localhost:8888
     LocalForward 6006 localhost:6006
 ```
@@ -115,7 +115,7 @@ Add to `~/.ssh/config`:
 ```
 Host ds01
     HostName 10.1.23.20
-    User <student-id>@students.hertie-school.org
+    User <your-username>@hertie-school.lan
     ControlMaster auto
     ControlPath ~/.ssh/sockets/%r@%h-%p
     ControlPersist 600
@@ -218,7 +218,7 @@ rsync -avz ds01:~/workspace/project/models/ ./models/
 ```
 Host ds01
     HostName 10.1.23.20
-    User <student-id>@students.hertie-school.org
+    User <your-username>@hertie-school.lan
     ForwardAgent yes
 ```
 
@@ -231,7 +231,7 @@ Host ds01
 ```bash
 # Check SSH is running
 ssh -v ds01
-# Without SSH config: ssh -v <student-id>@students.hertie-school.org@10.1.23.20
+# Without SSH config: ssh -v <your-username>@hertie-school.lan@10.1.23.20
 ```
 
 ### Permission Denied

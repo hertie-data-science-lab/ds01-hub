@@ -462,7 +462,7 @@ No devices found
    ```bash
    # On your laptop
    ssh -L 8888:localhost:8888 ds01
-   # Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
+   # Without SSH keys: ssh -L 8888:localhost:8888 <your-username>@hertie-school.lan@10.1.23.20
 
    # Then access: http://localhost:8888
    ```

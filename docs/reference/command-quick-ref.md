@@ -289,7 +289,7 @@ jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
 
 # On laptop - Create SSH tunnel
 ssh -L 8888:localhost:8888 ds01
-# Without SSH keys: ssh -L 8888:localhost:8888 <student-id>@students.hertie-school.org@10.1.23.20
+# Without SSH keys: ssh -L 8888:localhost:8888 <your-username>@hertie-school.lan@10.1.23.20
 
 # Open browser
 http://localhost:8888

@@ -23,8 +23,10 @@ body:
       label: Type of request
       description: What category does your request fall under?
       options:
-        - "GPU / MIG allocation"
-        - "CPU / Memory increase"
+        - "VPN access"
+        - "GPU / MIG limitincrease"
+        - "CPU limit increase"
+        - "Memory limit increase"
         - "PID limit increase"
         - "Software installation"
         - "Group access"
@@ -51,7 +53,7 @@ body:
       description: Specify the date when you no longer need this access
       placeholder: DD-MM-YYYY (e.g., 31-12-2025)
     validations:
-      required: true
+      required: false
       pattern: '^\d{2}-\d{2}-\d{4}$'
 
   - type: textarea

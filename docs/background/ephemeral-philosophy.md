@@ -217,22 +217,22 @@ Dana needs GPU → available immediately
 **False!** Let's break down what you actually care about:
 
 **What you NEED to keep:**
-- ✅ Code you wrote → Saved in `/workspace`
-- ✅ Data you downloaded → Saved in `/workspace`
-- ✅ Models you trained → Saved in `/workspace/models/`
-- ✅ Experiment results → Saved in `/workspace/results/`
-- ✅ Environment setup → Saved in Docker image
+- ✓ Code you wrote → Saved in `/workspace`
+- ✓ Data you downloaded → Saved in `/workspace`
+- ✓ Models you trained → Saved in `/workspace/models/`
+- ✓ Experiment results → Saved in `/workspace/results/`
+- ✓ Environment setup → Saved in Docker image
 
 **What you DON'T need:**
-- ❌ The specific running container instance
-- ❌ The specific GPU (any GPU works)
-- ❌ RAM state (reload from checkpoint)
+- ✗ The specific running container instance
+- ✗ The specific GPU (any GPU works)
+- ✗ RAM state (reload from checkpoint)
 
 **Reality:** You lose nothing important. Everything valuable persists.
 
 ### "What if I have a long-running job?"
 
-> **⚠️ Contact DSL First**
+> **Contact DSL First**
 >
 > The workarounds below (`.keep-alive`, `nohup`, etc.) are available but should be **last resorts** as they can disrupt the system for other users by holding GPUs longer than necessary.
 >

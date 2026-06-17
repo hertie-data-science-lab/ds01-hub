@@ -19,24 +19,24 @@ Understanding stateless/stateful separation is critical for cloud computing. Thi
 
 ## What's Persistent vs Ephemeral
 
-### Persistent (Always Safe) ✅
+### Persistent (Always Safe) ✓
 
 | Location | What It Is | Survives Container Removal? |
 |----------|-----------|---------------------------|
-| `~/workspace/<project>/` | Your code, data, results | ✅ Yes |
-| `~/dockerfiles/` | Image blueprints | ✅ Yes |
-| Docker images | Environment blueprints | ✅ Yes |
-| `~/.ssh/` | SSH keys | ✅ Yes |
+| `~/workspace/<project>/` | Your code, data, results | ✓ Yes |
+| `~/dockerfiles/` | Image blueprints | ✓ Yes |
+| Docker images | Environment blueprints | ✓ Yes |
+| `~/.ssh/` | SSH keys | ✓ Yes |
 
-### Ephemeral (Temporary) ❌
+### Ephemeral (Temporary) ✗
 
 | Location | What It Is | Survives Container Removal? |
 |----------|-----------|---------------------------|
-| Container instance | Running container | ❌ No |
-| `/tmp` (in container) | Temporary files | ❌ No |
-| `/home/<user>` (in container, outside `/workspace`) | Container home dir | ❌ No |
-| Container processes | Running Python, Jupyter, etc. | ❌ No |
-| GPU allocation | Assigned GPU | ❌ No |
+| Container instance | Running container | ✗ No |
+| `/tmp` (in container) | Temporary files | ✗ No |
+| `/home/<user>` (in container, outside `/workspace`) | Container home dir | ✗ No |
+| Container processes | Running Python, Jupyter, etc. | ✗ No |
+| GPU allocation | Assigned GPU | ✗ No |
 
 ---
 
@@ -130,7 +130,7 @@ container-create my-container --workspace ~/other/path # Custom location
 │  │  └── train.py                  │    │
 │  │                                │    │
 │  │  /tmp/  ← NOT mounted          │    │
-│  │  └── temp.txt  ❌ LOST         │    │
+│  │  └── temp.txt  ✗ LOST         │    │
 │  └────────────────────────────────┘    │
 └─────────────────────────────────────────┘
 ```
@@ -231,13 +231,13 @@ cache_dir = '/workspace/.cache'
 **Bad:**
 ```python
 # DON'T save to /tmp
-torch.save(model.state_dict(), '/tmp/model.pt')  # ❌ LOST on container removal
+torch.save(model.state_dict(), '/tmp/model.pt')  # ✗ LOST on container removal
 
 # DON'T save to home (outside workspace)
-torch.save(model.state_dict(), '~/model.pt')  # ❌ LOST
+torch.save(model.state_dict(), '~/model.pt')  # ✗ LOST
 
 # DON'T save to root
-torch.save(model.state_dict(), '/model.pt')  # ❌ LOST
+torch.save(model.state_dict(), '/model.pt')  # ✗ LOST
 ```
 
 ### Environment Variables for Common Paths
@@ -314,10 +314,10 @@ cat file.txt                          # "Hello" - file persists!
 - Container instance still exists (stopped state)
 
 **Your files:**
-- ✅ Workspace files: Safe
-- ✅ Image: Safe
-- ❌ Running processes: Terminated
-- ❌ Unsaved work (RAM): Lost
+- ✓ Workspace files: Safe
+- ✓ Image: Safe
+- ✗ Running processes: Terminated
+- ✗ Unsaved work (RAM): Lost
 
 **Recovery:**
 ```bash
@@ -338,9 +338,9 @@ ls /workspace
 - GPU released
 
 **Your files:**
-- ✅ Workspace files: Safe
-- ✅ Image: Safe
-- ❌ Container instance: Deleted
+- ✓ Workspace files: Safe
+- ✓ Image: Safe
+- ✗ Container instance: Deleted
 
 **Recovery:**
 ```bash
@@ -357,9 +357,9 @@ container-deploy my-project
 - Containers from this image can't be created
 
 **Your files:**
-- ✅ Workspace files: Safe
-- ❌ Image: Deleted
-- ❌ Packages installed: Need to reinstall
+- ✓ Workspace files: Safe
+- ✗ Image: Deleted
+- ✗ Packages installed: Need to reinstall
 
 **Recovery:**
 ```bash
@@ -379,9 +379,9 @@ container-deploy my-project --framework pytorch
 - Your code, data, results LOST
 
 **Your files:**
-- ❌ Workspace files: DELETED
-- ✅ Image: Safe (can recreate environment)
-- ❌ Data: Lost (unless in Git or backups)
+- ✗ Workspace files: DELETED
+- ✓ Image: Safe (can recreate environment)
+- ✗ Data: Lost (unless in Git or backups)
 
 **Prevention:**
 ```bash
@@ -420,13 +420,13 @@ git push -u origin main
 - Reproducibility
 
 **What to commit:**
-- ✅ Source code (`src/`)
-- ✅ Notebooks (`notebooks/`)
-- ✅ Documentation (`README.md`)
-- ✅ Configuration (`requirements.txt`, configs)
-- ❌ Data files (too large)
-- ❌ Model weights (too large)
-- ❌ Results (generated)
+- ✓ Source code (`src/`)
+- ✓ Notebooks (`notebooks/`)
+- ✓ Documentation (`README.md`)
+- ✓ Configuration (`requirements.txt`, configs)
+- ✗ Data files (too large)
+- ✗ Model weights (too large)
+- ✗ Results (generated)
 
 ### 2. Data Storage
 
@@ -612,7 +612,7 @@ docker image prune
 
 ## Best Practices Summary
 
-### ✅ Do This
+### ✓ Do This
 
 1. **Save everything to `/workspace`**
 2. **Use Git for code** (push regularly)
@@ -621,7 +621,7 @@ docker image prune
 5. **Clean up old data** periodically
 6. **Use experiment tracking** (W&B, MLflow)
 
-### ❌ Avoid This
+### ✗ Avoid This
 
 1. **Don't save to `/tmp` or `~` (outside workspace)**
 2. **Don't commit large files** to Git
@@ -636,7 +636,7 @@ docker image prune
 ### Understand Containers
 
 **Learn how containers work:**
-- → [Containers Explained](containers-explained.md)
+- → [Containers Explained](containers-and-docker.md)
 
 ### Learn Daily Workflow
 

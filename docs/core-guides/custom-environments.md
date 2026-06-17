@@ -27,7 +27,7 @@ Simplest, most robust:
 ```
 Keep `requirements.txt` file up to date with any new pkg requirements, then use `image update` CLI to scan that and update.
 
-DS01 has developed this CLI for you that handles all of the below on your behalf. 
+DS01 has developed this CLI for you that handles all of the below on your behalf.
 
 The below, is just what is being done under the hood, or if you want more granular control.
 ```

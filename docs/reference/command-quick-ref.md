@@ -602,7 +602,7 @@ ls /opt/ds01-infra/docs-user/
 
 ## Related Documentation
 
-- → [Getting Started](../getting-started/first-time.md)
+- → [Getting Started](../getting-started/first-time-setup.md)
 
 - → [Daily Workflow](../core-guides/daily-workflow.md)
 

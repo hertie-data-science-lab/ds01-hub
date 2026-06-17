@@ -636,7 +636,7 @@ docker image prune
 ### Understand Containers
 
 **Learn how containers work:**
-- → [Containers Explained](containers-explained.md)
+- → [Containers Explained](containers-and-docker.md)
 
 ### Learn Daily Workflow
 

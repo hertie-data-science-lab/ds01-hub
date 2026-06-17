@@ -147,6 +147,6 @@ Many others possible - depends on your workflow
 
 ## Next Steps
 
-- [Shell Aliases](shell-aliases.md) - Command shortcuts
-- [Scripting (Bash)](scripting-bash.md) - Automate workflows
-- [CLI Flags](cli-flags.md) - All available flags
+- [Shell Aliases](../intermediate/shell-aliases.md) - Command shortcuts
+- [Scripting (Bash)](../intermediate/scripting-bash.md) - Automate workflows
+- [CLI Flags](../intermediate/cli-flags.md) - All available flags

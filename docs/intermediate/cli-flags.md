@@ -232,6 +232,6 @@ container retire $PROJECT --force
 
 - → [Container States](container-states.md) - Understand full lifecycle
 
-- → [Scripting Guide](scripting.md) - Automate with bash scripts
+- → [Scripting Guide](scripting-bash.md) - Automate with bash scripts
 
-- → [Efficiency Tips](efficiency-tips.md) - More shortcuts
+- → [Efficiency Tips](../advanced/efficiency-tips.md) - More shortcuts

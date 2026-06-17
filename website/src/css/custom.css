@@ -1,0 +1,59 @@
+/* DS01 docs theme: clean blue palette. Rebrandable via the --ifm-color-primary-* vars. */
+
+:root {
+  --ifm-color-primary: #2563eb;
+  --ifm-color-primary-dark: #1d4ed8;
+  --ifm-color-primary-darker: #1e40af;
+  --ifm-color-primary-darkest: #1e3a8a;
+  --ifm-color-primary-light: #3b82f6;
+  --ifm-color-primary-lighter: #60a5fa;
+  --ifm-color-primary-lightest: #93c5fd;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  --ifm-color-primary-darker: #2563eb;
+  --ifm-color-primary-darkest: #1d4ed8;
+  --ifm-color-primary-light: #93c5fd;
+  --ifm-color-primary-lighter: #bfdbfe;
+  --ifm-color-primary-lightest: #dbeafe;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Centre Mermaid diagrams (theme-mermaid emits this wrapper). */
+.docusaurus-mermaid-container {
+  display: flex;
+  justify-content: center;
+}
+
+.docusaurus-mermaid-container > svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Landing-page pillar cards. */
+.pillarGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.pillarCard {
+  display: block;
+  padding: 1.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  color: inherit;
+}
+
+.pillarCard:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: inherit;
+}

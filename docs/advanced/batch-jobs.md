@@ -292,4 +292,4 @@ echo "  $CHECKPOINT_DIR/"
 
 - → [Docker Direct](docker-direct.md) - Docker commands
 
-- → [Scripting](../intermediate/scripting.md) - Automation patterns
+- → [Scripting](../intermediate/scripting-bash.md) - Automation patterns

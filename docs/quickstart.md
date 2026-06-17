@@ -138,7 +138,7 @@ See [Index & Learning Paths](index.md) for entry points, or jump right in:
 
 **I want to...**
 
-- → [Set up DS01 for the first time](getting-started/first-time.md) - Run `user setup`
+- → [Set up DS01 for the first time](getting-started/first-time-setup.md) - Run `user setup`
 
 - → [First Container Guide](getting-started/first-container.md) for step-by-step
 

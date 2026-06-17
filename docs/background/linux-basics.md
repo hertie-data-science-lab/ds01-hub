@@ -720,7 +720,7 @@ ls -a                       # Shows .bashrc
 ### Learn More
 
 **Container workflows:**
-- → [Containers Explained](containers-explained.md)
+- → [Containers Explained](containers-and-docker.md)
 
 **DS01 usage:**
 - → [Daily Usage Patterns](../core-guides/daily-workflow.md)

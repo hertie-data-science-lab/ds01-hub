@@ -33,27 +33,3 @@
   max-width: 100%;
   height: auto;
 }
-
-/* Landing-page pillar cards. */
-.pillarGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-  margin: 2rem 0;
-}
-
-.pillarCard {
-  display: block;
-  padding: 1.5rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 12px;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-  color: inherit;
-}
-
-.pillarCard:hover {
-  border-color: var(--ifm-color-primary);
-  transform: translateY(-2px);
-  text-decoration: none;
-  color: inherit;
-}

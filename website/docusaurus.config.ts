@@ -71,7 +71,7 @@ const config: Config = {
       items: [
         {
           href: 'https://hertie-data-science-lab.github.io/ds01-infra/',
-          label: 'Full docs (admin/dev) ↗',
+          label: 'Full documentation',
           position: 'right',
         },
         {

@@ -19,7 +19,7 @@ The support hub for `ds01` - Hertie Data Science Lab's GPU server for containeri
 
 ## Documentation
 
-📖 **[hertie-data-science-lab.github.io/ds01](https://hertie-data-science-lab.github.io/ds01/)** — the
+**[hertie-data-science-lab.github.io/ds01](https://hertie-data-science-lab.github.io/ds01/)** — the
 searchable documentation site (getting started, core guides, intermediate &
 advanced workflows, key concepts, reference, and troubleshooting).
 

@@ -7,28 +7,26 @@ The support hub for `ds01` - Hertie Data Science Lab's GPU server for containeri
 ---
 
 ## What you can do here
-1) click the [`docs`](https://github.com/hertie-data-science-lab/ds01-hub/tree/main/docs) dir to read the latest user-facing documentation
+1) **Read the docs:** the full, searchable user guide is hosted at
+   **[hertie-data-science-lab.github.io/ds01](https://hertie-data-science-lab.github.io/ds01/)**
 2) click the [`issues`](https://github.com/hertie-data-science-lab/ds01-hub/issues) tab to raise an issue to DSL (see below)
 
 ---
 
-> **Prefer to dive in?** [Quickstart](./docs/quickstart.md) walks you through everything in under 30 mins - from first SSH connection to deploying a containerised ML work load.
+> **Prefer to dive in?** The [Quickstart](https://hertie-data-science-lab.github.io/ds01/quickstart) walks you through everything in under 30 mins - from first SSH connection to deploying a containerised ML workload.
 
 ---
 
-## Documentation directory
+## Documentation
 
-Click [here](https://github.com/hertie-data-science-lab/ds01-hub/tree/main/docs) for user-facing documentation
-```
-docs/
-├── getting-started/    Start here 
-├── guides/             Task-focused how-tos (practical)
-├── intermediate/       Atomic commands, CLI flags, scripting 
-├── advanced/           Docker direct, terminal workflows, batch jobs
-├── concepts/           Understanding DS01's design (theory, skippable)
-├── reference/          Command quick reference
-└── troubleshooting/    Fix problems
-```
+📖 **[hertie-data-science-lab.github.io/ds01](https://hertie-data-science-lab.github.io/ds01/)** — the
+searchable documentation site (getting started, core guides, intermediate &
+advanced workflows, key concepts, reference, and troubleshooting).
+
+> Docs are authored in [`ds01-infra/docs-user`](https://github.com/hertie-data-science-lab/ds01-infra/tree/main/docs-user)
+> and mirrored to [`docs/`](https://github.com/hertie-data-science-lab/ds01-hub/tree/main/docs) here for
+> GitHub browsing. Admin & developer docs live on the
+> [full documentation site](https://hertie-data-science-lab.github.io/ds01-infra/).
 
 ## Raising an issue ticket
 ### Click "New Issue" to:

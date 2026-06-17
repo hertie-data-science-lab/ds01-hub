@@ -1,9 +1,5 @@
 # DS01 User Documentation
 
-:::tip[In a hurry?]
-Follow the **[30-minute Quickstart](quickstart.md)** — connect via SSH, set up your keys, and deploy your first GPU container.
-:::
-
 **New here? Pick a path:**
 
 | [**Deploy in ~30 minutes →**](quickstart.md) | [**Explore the full guide →**](getting-started/) |
@@ -36,10 +32,12 @@ docs/
 
 ## Suggested Learning Paths
 
-### Path 1: Beginner (Students, First-Time Users)
+### Path 1: Beginner
 **"I just want to work on my thesis"**
 
-> **In a hurry?** Try the [Quickstart](quickstart.md) for a condensed intro (~30 min).
+:::tip[In a hurry?]
+Follow the **[30-minute Quickstart](quickstart.md)** — connect via SSH, set up your keys, and deploy your first GPU container.
+:::
 
 **Essential (do these first):**
 1. [Prerequisites](getting-started/prerequisites.md) - Check what you need
@@ -59,7 +57,7 @@ docs/
 
 **Pro tip:** Use `--guided` and `--concepts` flags while learning, they explain each step.
 
-### Path 2: Intermediate (Want More Control)
+### Path 2: Intermediate
 **"I want more control and efficiency"** - you're comfortable with containers and want to automate repetitive tasks or understand system internals.
 
 **Core Understanding:**
@@ -75,7 +73,7 @@ docs/
 
 **Commands:** `container-create`, `container-start`, `container-stop`, `container-remove`, `image-update`, `image-delete`
 
-### Path 3: Advanced (Terminal & DevOps Native)
+### Path 3: Advanced
 **"I prefer Docker commands and terminal workflows"** - you're comfortable with Linux/Docker, want maximum flexibility, or have specialized workload needs.
 
 **Docker & Container Mastery:**

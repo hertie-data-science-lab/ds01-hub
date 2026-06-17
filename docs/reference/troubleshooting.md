@@ -103,7 +103,7 @@ Error: Container failed to start
    touch ~/workspace/<project-name>/.keep-alive
    ```
 
-   > **⚠️ Contact DSL First:** The `.keep-alive` workaround is available but should be a **last resort** as it can disrupt the system for other users. Please [open an issue on DS01 Hub](https://github.com/hertie-data-science-lab/ds01-hub/issues) first to find a better solution together.
+   > **Contact DSL First:** The `.keep-alive` workaround is available but should be a **last resort** as it can disrupt the system for other users. Please [open an issue on DS01 Hub](https://github.com/hertie-data-science-lab/ds01-hub/issues) first to find a better solution together.
 
 4. **Restart container:**
    ```bash
@@ -839,7 +839,7 @@ Permission denied (publickey)
 - → [Workspaces & Persistence](../background/workspaces-and-persistence.md)
 
 **Learn best practices:**
-→ 
+→
 - → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 
 **Command reference:**

@@ -74,7 +74,7 @@ Phase 4/4: Custom packages... ✓
 ✓ Image built: ds01-your-username/my-first-project:latest
 ```
 
-**What this means:** A Docker image is like a blueprint for your computing environment. It contains Python, CUDA drivers, ML frameworks, and all your packages. 
+**What this means:** A Docker image is like a blueprint for your computing environment. It contains Python, CUDA drivers, ML frameworks, and all your packages.
 
 **Step 4: Container Deployment**
 ```
@@ -356,12 +356,12 @@ GPU count: 1
 
 | Location | Persistent? | Notes |
 |----------|-------------|-------|
-| `~/workspace/` | ✅ Yes | Always safe, even after `container-retire` |
-| `~/dockerfiles/` | ✅ Yes | Image blueprints |
-| Docker images | ✅ Yes | Can recreate containers |
-| Container instance | ❌ No | Removed with `container-retire` |
-| Files in `/tmp` | ❌ No | Inside container, not workspace |
-| GPU allocation | ❌ No | Released when container stops |
+| `~/workspace/` | ✓ Yes | Always safe, even after `container-retire` |
+| `~/dockerfiles/` | ✓ Yes | Image blueprints |
+| Docker images | ✓ Yes | Can recreate containers |
+| Container instance | ✗ No | Removed with `container-retire` |
+| Files in `/tmp` | ✗ No | Inside container, not workspace |
+| GPU allocation | ✗ No | Released when container stops |
 
 **Golden rule:** Save everything important in `/workspace` (inside container) = `~/workspace/<project>/` (on host).
 

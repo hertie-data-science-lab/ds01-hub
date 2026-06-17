@@ -382,7 +382,7 @@ pip install jupyterlab-execute-time
 **Via Jupyter UI:**
 ```
 Settings → Enable Extension Manager
-Extensions tab → Search → Install 
+Extensions tab → Search → Install
 ```
 
 **Recommended extensions:**
@@ -602,7 +602,7 @@ project launch my-project
 
 ---
 
-## Best Practices: Save Checkpoints 
+## Best Practices: Save Checkpoints
 In case you loose ssh connection / container crashes. Remember: containers are disposable, your files in workspace are persistent. This way you persist progress.
 
 ```python

@@ -67,4 +67,4 @@ container-deploy new-project
 
 ## Next Steps
 
-- → [Ephemeral Containers](ephemeral-containers.md)
+- → [Ephemeral Containers](../key-concepts/ephemeral-containers.md)

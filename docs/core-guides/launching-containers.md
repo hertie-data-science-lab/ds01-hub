@@ -531,4 +531,4 @@ dashboard
 
 **Advanced container management:**
 
-- → [Container Management Reference](../reference/container-commands.md)
+- → [Container Management Reference](../reference/commands/container-commands.md)

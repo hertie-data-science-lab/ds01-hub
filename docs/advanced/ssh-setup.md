@@ -60,4 +60,4 @@ ssh <your-username>@hertie-school.lan@10.1.23.20
 ## Next Steps
 
 - → [First-Time Setup](../getting-started/first-time-setup.md)
-- → [VSCode Remote](vscode-remote.md)
+- → [VSCode Remote](../core-guides/vscode-remote.md)

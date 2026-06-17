@@ -902,7 +902,7 @@ trap "container-remove $CONTAINER_NAME --stop --force" EXIT
 
 **Automate workflows:**
 
-- → [Scripting Guide](scripting.md) - Write scripts with atomic commands
+- → [Scripting Guide](scripting-bash.md) - Write scripts with atomic commands
 
 **Go deeper:**
 

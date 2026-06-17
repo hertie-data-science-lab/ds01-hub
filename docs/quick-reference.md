@@ -1,6 +1,6 @@
 # Quick Reference
 
-One-page cheat sheet for DS01 commands. This covers the most common workflows; for the complete list of all available commands and options, see the [Command Reference](reference/commands/).
+One-page cheat sheet for DS01 commands. This covers the most common workflows; for the complete list of all available commands and options, see the [Command Reference](reference/command-reference.md).
 
 ---
 
@@ -271,4 +271,4 @@ docker stats --no-stream                 # Single snapshot
 
 ---
 
-**Detailed docs:** See [Command Reference](reference/commands/) | [Troubleshooting](troubleshooting/)
+**Detailed docs:** See [Command Reference](reference/command-reference.md) | [Troubleshooting](troubleshooting/)

@@ -1,5 +1,9 @@
 # DS01 User Documentation
 
+:::tip[In a hurry?]
+Follow the **[30-minute Quickstart](quickstart.md)** — connect via SSH, set up your keys, and deploy your first GPU container.
+:::
+
 **New here? Pick a path:**
 
 | [**Deploy in ~30 minutes →**](quickstart.md) | [**Explore the full guide →**](getting-started/) |
@@ -122,44 +126,3 @@ Step-by-step instructions for common tasks:
 - [VSCode Remote](core-guides/vscode-remote.md) - Remote development
 
 [All guides →](core-guides/)
-
----
-
-## Reference
-
-Quick lookups:
-
-- **Commands:** [Container](reference/commands/container-commands.md) | [Image](reference/commands/image-commands.md) | [Project](reference/commands/project-commands.md) | [System](reference/commands/system-commands.md)
-- [File Locations](reference/file-locations.md) - Where things are stored
-- [Glossary](reference/glossary.md) - Key terms defined
-
-[All reference →](reference/)
-
----
-
-## Troubleshooting
-
-Find your problem:
-
-- [Container Issues](troubleshooting/container-issues.md) - Won't start, stopped unexpectedly
-- [GPU Issues](troubleshooting/gpu-issues.md) - Not available, CUDA out of memory
-- [Image Issues](troubleshooting/image-issues.md) - Build fails, package not found
-- [Common Errors](troubleshooting/common-errors.md) - Files, permissions, network
-
-[All troubleshooting →](troubleshooting/)
-
----
-
-## Quick Links
-
-| I want to... | Go to... |
-|--------------|----------|
-| Start my first container | [First Container](getting-started/first-container.md) |
-| See all commands | [Quick Reference](quick-reference.md) |
-| Understand why packages disappear | [Containers and Images](key-concepts/containers-and-images.md) |
-| Understand why containers are temporary | [Ephemeral Containers](key-concepts/ephemeral-containers.md) |
-| Build a custom image | [Custom Images](core-guides/custom-images.md) |
-| Run Jupyter | [Jupyter Setup](core-guides/jupyter.md) |
-| Fix an error | [Troubleshooting](troubleshooting/) |
-| Learn industry practices | [Industry Parallels](background/industry-parallels.md) |
-| Learn Linux commands | [Linux Basics](background/linux-basics.md) |

@@ -70,7 +70,7 @@ screen -r training
 
 DS01 auto-stops containers that are idle (low GPU activity). Timeout varies by user (typically **30min-2h**) and is dynamically adjusted. Run `check-limits` to see your current limits.
 
-> **⚠️ Contact DSL First**
+> **Contact DSL First**
 >
 > The workarounds below (`.keep-alive`, `nohup`, etc.) are available but should be **last resorts** as they can disrupt the system for other users by holding GPUs longer than necessary.
 >
@@ -127,7 +127,7 @@ docker unpause <project-name>._.$(id -u)
 - Testing before checkpoints
 
 **When NOT to use pause:**
-- Long breaks (use `container-stop` instead) 
+- Long breaks (use `container-stop` instead)
 - Freeing GPU for others (pause keeps GPU allocated)
 
 ---

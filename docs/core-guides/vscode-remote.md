@@ -33,7 +33,7 @@ First, [set up SSH](../advanced/ssh-setup.md) if you haven't already. You need `
 
 ## Working with Containers
 
-> **⚠️ Container must be running first.** Start your container via terminal before connecting:
+> **Container must be running first.** Start your container via terminal before connecting:
 > ```bash
 > ssh ds01
 > container-deploy <project-name> --background

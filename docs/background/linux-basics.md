@@ -163,7 +163,7 @@ mv *.csv data/                              # Move all CSV files
 
 ### `rm` - Remove Files
 
-**⚠️ WARNING: No trash/recycle bin! Deletions are permanent.**
+**WARNING: No trash/recycle bin! Deletions are permanent.**
 
 ```bash
 rm file.txt                                 # Delete file
@@ -726,7 +726,7 @@ ls -a                       # Shows .bashrc
 - → [Daily Usage Patterns](../core-guides/daily-workflow.md)
 
 **Advanced topics:**
-→ 
+→
 
 ---
 

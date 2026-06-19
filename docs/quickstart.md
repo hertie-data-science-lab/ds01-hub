@@ -64,7 +64,7 @@ project-launch --guided
 This interactive GUI will: 
 - Scan available projects
 - Build an executable Docker image from the project's Dockerfile (or otherwise first define a Dockerfile)
-- Deploy a container instance of the image onto a GPU/MIG
+- Deploy a container instance of the image onto a GPU
 - Either attach the terminal to running container, or start in background
 
 ---

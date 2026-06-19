@@ -88,8 +88,7 @@ Follow the **[30-minute Quickstart](quickstart.md)** — connect via SSH, set up
 
 **Specialized Workloads:**
 1. [Batch Jobs & Non-Interactive Execution](advanced/batch-jobs.md) - Training scripts, cron jobs
-2. [Multi-MIG GPU Training](advanced/multi-mig-training.md) - Parallel training on MIG instances
-3. [Efficiency Tips](advanced/efficiency-tips.md) - Performance optimization, resource tricks
+2. [Efficiency Tips](advanced/efficiency-tips.md) - Performance optimization, resource tricks
 
 ---
 

@@ -47,8 +47,14 @@ Specialised processor for parallel computing, essential for ML training. DS01 us
 **CUDA**
 NVIDIA's parallel computing platform. Required for GPU-accelerated ML frameworks.
 
+**GPU-Slot**
+The unit DS01 allocates. Today (MIG disabled) one slot = one full GPU. If MIG were enabled, a slot could be a single MIG instance.
+
+**GPU-Equivalent (gpueq)**
+The fair-share quota unit — a floating-point compute fraction. A full GPU is `1.0`; a MIG instance is `compute_slices / 7`. With MIG off, gpueq equals the slot count.
+
 **MIG (Multi-Instance GPU)**
-Technology that partitions a single GPU into multiple isolated instances. Allows GPU sharing among users.
+NVIDIA technology that partitions a single GPU into isolated instances. **Currently disabled on DS01** (the server runs 4 full A100 GPUs); the allocator is MIG-ready should it be enabled.
 
 **nvidia-smi**
 Command-line tool for monitoring GPU usage. Run inside containers.
@@ -120,7 +126,9 @@ Forwarding a port through SSH. Used for accessing Jupyter from your laptop.
 | Deploy | Create + start |
 | Retire | Stop + remove |
 | GPU | Graphics processor for ML |
-| MIG | GPU partitioning |
+| GPU-slot | Allocatable GPU unit (full GPU, or MIG instance) |
+| GPU-equivalent | Fair-share GPU quota (float; full GPU = 1.0) |
+| MIG | GPU partitioning (currently disabled) |
 | Quota | Your resource limits |
 
 ---

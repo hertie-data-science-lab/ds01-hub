@@ -31,7 +31,7 @@ This command shows your current limits and resource usage. Typical limits:
 
 **System enforcement:**
 
-- **GPU allocation (gpu_allocator.py):** When you request a container, the allocator checks your current usage against your limits. Already at your GPU cap? Request denied. The allocator also tracks which physical GPU (or MIG slice) each container uses.
+- **GPU allocation (gpu_allocator.py):** When you request a container, the allocator checks your current usage against your limits. Already at your GPU cap? Request denied. The allocator also tracks which GPU-slot (a full GPU, or a MIG slice if enabled) each container uses.
 
 - **Memory limits (systemd cgroups):** Every container runs inside a cgroup with hard memory limits. Request 64GB, use 65GB = OOM killer terminates your process. This isn't punitive - it's protecting other users' containers from your memory leak.
 

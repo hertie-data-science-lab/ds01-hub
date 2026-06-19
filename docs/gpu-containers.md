@@ -2,6 +2,8 @@
 
 This guide explains how GPU access works in DS01 and what to expect when running containers with GPU.
 
+> **Current state:** MIG is disabled — the server runs 4 full A100-40GB GPUs, so one GPU-slot = one full GPU. Quotas are counted in GPU-equivalents (a full GPU = 1.0).
+
 ## Quick Summary
 
 | Container Type | GPU? | Lifecycle |
@@ -123,7 +125,7 @@ container retire training-run
 When you request a GPU container (via any method), DS01:
 
 1. **Checks your quota** - You have a maximum number of GPUs based on your group
-2. **Allocates a specific GPU** - You get a dedicated MIG instance, not "all GPUs"
+2. **Allocates a specific GPU** - You get a dedicated GPU-slot (a full GPU today, or a MIG instance if MIG is enabled), not "all GPUs"
 3. **Tracks your container** - For quota enforcement and cleanup
 4. **Enforces limits** - Idle timeout and max runtime
 
@@ -179,8 +181,8 @@ touch /workspace/.keep-alive
 ### Q: Can I have multiple GPU containers?
 
 **A:** Yes, up to your group limit:
-- **Students**: 1-2 MIG instances total
-- **Researchers/Faculty**: 2+ MIG instances (varies)
+- **Students**: up to 2 GPU-slots total (2.0 GPU-equivalents)
+- **Researchers / Faculty**: up to 4 GPU-slots (varies by group)
 - **Admins**: Unlimited
 
 ### Q: What happens to my work when container stops?
@@ -191,7 +193,7 @@ touch /workspace/.keep-alive
 
 ### Q: Why was my --gpus all rewritten?
 
-**A:** DS01 allocates you a specific GPU/MIG instance instead of "all GPUs":
+**A:** DS01 allocates you a specific GPU-slot (a full GPU, or a MIG instance if enabled) instead of "all GPUs":
 - Ensures fair resource sharing
 - Enables quota tracking
 - Prevents GPU hoarding

@@ -109,9 +109,8 @@ Key settings:
 
 Dev containers use the same GPU allocation system as CLI containers:
 
-- **MIG instances** by default (shared GPU slices)
-- **Full GPU** if your quota allows and you request it
-- Same quotas and limits apply
+- **One GPU-slot** by default (a full GPU today; a MIG instance if MIG is enabled)
+- Same GPU-equivalent quotas and limits apply
 
 ### Dynamic Allocation
 
@@ -203,12 +202,12 @@ $ container ls
 1. my-thesis
    Status: Running
    Image:  ds01-1000/my-thesis
-   GPU:    Allocated (MIG 1g.10gb)
+   GPU:    Allocated (full GPU)
 
 2. llm-finetuning (dev container)
    Status: Running
    Image:  aime/pytorch:2.4-cuda12.4
-   GPU:    Allocated (MIG 1g.10gb)
+   GPU:    Allocated (full GPU)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Total: 2 container(s)

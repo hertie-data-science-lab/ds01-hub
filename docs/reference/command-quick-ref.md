@@ -160,7 +160,6 @@ nvidia-smi
 
 # GPU utilisation dashboard
 gpu-utilisation-monitor
-mig-utilisation-monitor
 
 # Continuous monitoring
 watch -n 1 nvidia-smi

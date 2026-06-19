@@ -131,8 +131,8 @@ container-create <project-name> [image] [OPTIONS]
 | Option | Description |
 |--------|-------------|
 | `--cpu-only` | CPU-only container (no GPU) |
-| `--num-migs=N` | Request N MIG partitions (default: 1) |
-| `--prefer-full` | Prefer full GPU over MIG partitions |
+| `--num-gpus=N` | Request N GPU-slots (default: 1) |
+| `--prefer-full` | Prefer a full GPU over MIG partitions (only meaningful if MIG is enabled) |
 | `-w, --workspace` | Custom workspace directory |
 | `-d, --data` | Additional data directory to mount |
 | `--dry-run` | Preview without executing |
@@ -325,8 +325,8 @@ container-list --detailed   # Show detailed info
 **Example output:**
 ```
 NAME            STATUS      GPU     UPTIME
-my-project      Running     0:1     2h 34m
-experiment-1    Running     0:2     45m
+my-project      Running     0       2h 34m
+experiment-1    Running     1       45m
 ```
 
 ---

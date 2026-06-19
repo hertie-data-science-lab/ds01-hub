@@ -33,12 +33,6 @@
 | [Complete Dockerfile Guide](dockerfile-complete-guide.md) | Build optimisation, layer caching |
 | [SSH Advanced](ssh-advanced.md) | Config files, port forwarding |
 
-### Specialised
-
-| Guide | What You'll Learn |
-|-------|-------------------|
-| [Multi-MIG Training](multi-mig-training.md) | Distributed GPU training |
-
 ---
 
 ## The Key Difference
@@ -69,6 +63,3 @@ docker logs my-project._.$(id -u)
 
 **Remote access:**
 1. [SSH Advanced](ssh-advanced.md)
-
-**Specialised:**
-1. [Multi-MIG Training](multi-mig-training.md)

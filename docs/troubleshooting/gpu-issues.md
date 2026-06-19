@@ -196,7 +196,7 @@ No devices found
 3. **Request more GPUs (via container-create):**
    ```bash
    container-retire my-project
-   container-create my-project --num-migs 2
+   container-create my-project --num-gpus 2
    container-run my-project
    ```
 

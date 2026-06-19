@@ -780,10 +780,10 @@ dashboard [SECTION] [OPTIONS]
 - `--json` - JSON output for scripting
 
 **Sections:**
-- `gpu` - GPU/MIG utilization diagram
+- `gpu` - GPU utilization diagram
 - `cpu` - CPU usage by user diagram
 - `system` - CPU, Memory, Disk bars
-- `mig-config` - MIG partition configuration
+- `mig-config` - MIG partition configuration (only relevant when MIG is enabled)
 - `containers` - All containers with stats
 - `users` - Per-user resource summary
 - `temp` - GPU temperatures and power

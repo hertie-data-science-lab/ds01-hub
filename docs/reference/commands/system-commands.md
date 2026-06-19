@@ -47,10 +47,10 @@ View GPU availability, container status, and system resources.
 **Modular Sections:**
 | Section | Description |
 |---------|-------------|
-| `gpu` | GPU/MIG utilization diagram |
+| `gpu` | GPU utilization diagram |
 | `cpu` | CPU usage by user diagram |
 | `system` | CPU, Memory, Disk bars |
-| `mig-config` | MIG partition configuration |
+| `mig-config` | MIG partition configuration (only relevant when MIG is enabled) |
 | `containers` | All containers with stats |
 | `users` | Per-user resource summary |
 | `temp` | GPU temperatures and power |
@@ -69,7 +69,7 @@ dashboard --watch            # Live monitoring
 dashboard --json             # JSON output for scripting
 
 # Individual sections
-dashboard gpu                # GPU/MIG utilization
+dashboard gpu                # GPU utilization
 dashboard cpu                # CPU usage by user
 dashboard system             # System resources
 dashboard containers         # All containers
@@ -120,14 +120,14 @@ check-limits
 **Example output:**
 ```
 === Your Resource Limits ===
-Max GPUs:       2
+Max GPU-equivalents: 2.0
 Max Containers: 3
 Memory/Container: 64GB
 Max Runtime:    24h (varies by user)
 Idle Timeout:   0.5h (varies by user)
 
 === Current Usage ===
-GPUs:       1 / 2
+GPU-equivalents: 1.0 / 2.0
 Containers: 2 / 3
 ```
 

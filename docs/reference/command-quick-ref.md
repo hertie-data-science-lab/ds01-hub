@@ -594,7 +594,7 @@ commands
 ds01-health-check
 
 # Documentation
-ls /opt/ds01-infra/docs-user/
+ls /opt/ds01-infra/docs/user/
 ```
 
 ---

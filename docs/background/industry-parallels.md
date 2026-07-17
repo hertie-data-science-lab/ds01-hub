@@ -116,7 +116,7 @@ EXPOSE 8888
 
 **DS01 quotas:**
 ```yaml
-# config/resource-limits.yaml
+# config/runtime/resource-limits.yaml
 defaults:
   max_gpus: 2
   max_cpus: 16

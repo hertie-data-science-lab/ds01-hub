@@ -549,9 +549,9 @@ bash: container-deploy: Permission denied
    /opt/ds01-infra/scripts/user/container-deploy.sh my-project
    ```
 
-3. **Ask admin to update symlinks:**
+3. **Ask admin to redeploy commands:**
    ```bash
-   sudo /opt/ds01-infra/scripts/system/deploy-commands.sh
+   sudo deploy
    ```
 
 ---

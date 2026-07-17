@@ -49,7 +49,7 @@ Custom image definitions. Edit these to change your environment.
 ```
 /opt/ds01-infra/                    # DS01 installation
 ├── scripts/user/                   # User commands
-├── config/resource-limits.yaml     # System limits
+├── config/runtime/resource-limits.yaml  # System limits
 └── docs/user/                     # User documentation
 
 /var/lib/ds01/                      # State files

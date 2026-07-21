@@ -2,6 +2,18 @@
 
 ---
 
+:::warning[Step 0: Prerequisites]
+
+Before you can begin the quickstart below, you must request permission to access ds01 from Hertie IT. To do this:
+
+1. Raise a ticket requesting ds01 access from the DSL [here](https://github.com/hertie-data-science-lab/ds01-hub).
+2. Once raised, email h.baker@hertie-school.org (CC datasciencelab@hertie-school.org) and include a link to the raised ticket.
+3. The DSL will send you a confirmation email. Use it to raise a ticket with the IT Service Desk (link on Moodle) requesting access to the ds01 GPU server.
+
+Once IT have granted permission, you'll be able to follow the steps below.
+
+:::
+
 ## Step 1: Connect via SSH
 
 > NB: requires you are connected via Hertie campus Wi-Fi or VPN connection. Contact IT service desk if you need VPN access.
@@ -75,7 +87,22 @@ This interactive GUI will:
 
 ## Step 3: Start Working
 
-After setup completes, you'll be inside a container. Check that GPU is available:
+### Attach Terminal/IDE to Running Container
+
+If you are comfortable with working from the terminal `project launch` will offer you the option to directly attach your terminal to the deployed container (or add `--open` flag to the launch command).
+
+If you are more comfortable working in an IDE you will need the following 3 extensions in your IDE (here, presuming VS Code)
+- SSH Remote
+- Dev Containers
+- Container Tools
+
+Once installed: Cmd + Shift + P to open the Command Pallete, and type `Dev Containers: Attach to Running Container...`. This will open up a new window attached to the running container!
+
+*NB: this ^^^ is all walked through by `user setup` CLI.*
+
+---
+
+Once inside a container, check that GPU is available:
 
 ```bash
 nvidia-smi
@@ -98,22 +125,7 @@ git clone your-repo
 
 # Start running scripts in your project directory!
 ```
-*NB: `/workspace` inside the container is your project directory on the host (`~/workspace/<project-name>/`). This is a bind mount; your files persist even after retiring the container.* 
-
----
-
-### Step 3.5: Attach Terminal/IDE to Running Container
-
-If you are comfortable with working from the terminal `project launch` will offer you the option to directly attach your terminal to the deployed container (or add `--open` flag to the launch command).
-
-If you are more comfortable working in an IDE you will need the following 3 extensions in your IDE (here, presuming VS Code)
-- SSH Remote
-- Dev Containers 
-- Container Tools 
-
-Once installed: Cmd + Shift + P to open the Command Pallete, and type `Dev Containers: Attach to Running Container...`. This will open up a new window attached to the running container!
-
-*NB: this ^^^ is all walked through by `user setup` CLI.*
+*NB: `/workspace` inside the container is your project directory on the host (`~/workspace/<project-name>/`). This is a bind mount; your files persist even after retiring the container.*
 
 ## Step 4: Exit and Retire Container
 

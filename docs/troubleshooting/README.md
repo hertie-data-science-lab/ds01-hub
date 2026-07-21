@@ -19,7 +19,7 @@ Find your problem below and jump to the solution.
 |---------|-------|
 | "No GPUs available" | [gpu-issues.md#no-gpus](gpu-issues.md#no-gpus) |
 | "CUDA out of memory" | [gpu-issues.md#cuda-oom](gpu-issues.md#cuda-oom) |
-| nvidia-smi not found | [gpu-issues.md#nvidia-smi-not-found](gpu-issues.md#nvidia-smi-not-found) |
+| nvidia-smi not found | [gpu-issues.md#no-devices](gpu-issues.md#no-devices) |
 | GPU not detected in PyTorch/TensorFlow | [gpu-issues.md#framework-detection](gpu-issues.md#framework-detection) |
 
 ### Image Problems

@@ -155,7 +155,7 @@ container retire my-project
 - Not version-controlled - can't track changes
 - Image bloat - auto-cleanup may remove dangling layers
 
-### Option 2: Use `image-update` (Recommended)
+### Option 2: Use `image-update` (Recommended) {#option-2-use-image-update}
 
 **Best Approach:**
 

@@ -414,6 +414,24 @@ container-stats my-project
 
 ---
 
+### container-exit
+
+**Information about exiting containers** (L2 atomic)
+
+**Syntax:**
+```bash
+container-exit [--guided]
+```
+
+Informational command (not an action) explaining how to leave a container.
+
+**Key points:**
+- Type `exit` or press Ctrl+D to leave a container
+- The container **keeps running** after you exit; your processes continue in the background
+- Use `container-retire` to fully stop the container and free its GPU
+
+---
+
 ## Image Management Commands
 
 ### image-create

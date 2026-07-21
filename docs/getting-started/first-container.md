@@ -1,6 +1,6 @@
 # First Container
 
-Deploy your first container in <30 minutes.
+[Deploy your first container in &lt;30 minutes.](../quickstart.md)
 
 ---
 

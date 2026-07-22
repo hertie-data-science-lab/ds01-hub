@@ -23,7 +23,7 @@ body:
       label: Type of request
       description: What category does your request fall under?
       options:
-        - "VPN access"
+        - "ds01 GPU Server Access"
         - "GPU / MIG limitincrease"
         - "CPU limit increase"
         - "Memory limit increase"

@@ -6,18 +6,14 @@
 
 Before you can begin the quickstart below, you must request permission to access ds01 from Hertie IT. To do this:
 
-1. Raise a ticket requesting ds01 access from the DSL [here](https://github.com/hertie-data-science-lab/ds01-hub). *(under `issues` > `New issue` > `Resource & Access request` > `ds01 GPU Server Access`)*
-2. Once raised, email h.baker@hertie-school.org (CC datasciencelab@hertie-school.org) and include a link to the raised ticket.
-3. The DSL will send you a confirmation email. Use it to raise a ticket with the IT Service Desk (link on Moodle) requesting access to the ds01 GPU server.
+1. **Raise a DSL ticket**: Request ds01 access from the DSL [here](https://github.com/hertie-data-science-lab/ds01-hub). *(under `issues` > `New issue` > `Resource & Access request` > `ds01 GPU Server Access`)*
+2. **Email DSL**: Once a ticket has been raised, email h.baker@hertie-school.org (CC datasciencelab@hertie-school.org) and include a link to the raised ticket.
+3. **Raise an IT Service Desk ticket**: The DSL will send you a confirmation email. Use it to raise a ticket with the IT Service Desk (link on Moodle) requesting access to the ds01 GPU server.
 
 *Be sure to include an end date for access requirements in both tickets - if you do not know this end date in advance, make a best guess with some headroom, and access can be extended in future as required.*
 
 Once IT have granted permission, you'll be able to follow the steps below.
 
-:::
-
-:::danger
-We are working to streamline this process, but for the time being these three steps are required.
 :::
 
 ## Step 1: Connect via SSH

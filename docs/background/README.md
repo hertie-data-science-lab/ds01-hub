@@ -27,37 +27,37 @@ These docs provide broader computing education that goes beyond DS01. They expla
 
 These topics build foundational knowledge that transfers to any computing environment.
 
-#### [Servers & High-Performance Computing](servers-and-hpc.md) — 10 min
+#### [Servers & High-Performance Computing](servers-and-hpc.md) - 10 min
 >What servers are, how shared computing works, HPC concepts, resource scheduling.
 
-#### [Linux Command Line](linux-basics.md) — 15 min
+#### [Linux Command Line](linux-basics.md) - 15 min
 >Essential commands, file system navigation, permissions, shell scripting basics.
 
 ### Container Technology
 
 Understanding Docker deeply helps you work with any container platform.
 
-#### [Containers & Docker](containers-and-docker.md) — 12 min
+#### [Containers & Docker](containers-and-docker.md) - 12 min
 >What containers are, how Docker works, images vs containers, layers, isolation. Relevant for Kubernetes, Docker Compose, CI/CD pipelines, and microservices architecture.
 
-#### [Workspaces & Persistence](workspaces-and-persistence.md) — 5 min
+#### [Workspaces & Persistence](workspaces-and-persistence.md) - 5 min
 >Stateless vs stateful, volume mounts, persistent storage patterns.
 
 ### DS01 Design Philosophy
 
 Understand *why* DS01 works this way and how it prepares you for industry.
 
-#### [Ephemeral Container Philosophy](ephemeral-philosophy.md) — 5 min
+#### [Ephemeral Container Philosophy](ephemeral-philosophy.md) - 5 min
 >Why containers are temporary, benefits of stateless design, resource efficiency.
 
-#### [Resource Management](resource-management.md) — 5 min
+#### [Resource Management](resource-management.md) - 5 min
 >Fair sharing, quotas, cgroups, scheduling.
 
 ### Industry Context
 
 See how DS01 maps to production systems.
 
-#### [Industry Parallels](industry-parallels.md) — 10 min
+#### [Industry Parallels](industry-parallels.md) - 10 min
 >How DS01 compares to AWS, GCP, Kubernetes, HPC systems.
 
 

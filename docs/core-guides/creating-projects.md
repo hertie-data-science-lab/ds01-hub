@@ -494,3 +494,4 @@ project launch my-thesis --open
 - → [VS Code Remote](vscode-remote.md)
 - → [Containers and Images](../key-concepts/containers-and-images.md)
 - → [Workspaces and Persistence](../key-concepts/workspaces-persistence.md)
+- → [Shared Projects](collaboration.md#shared-projects) - for multi-user work on the same project

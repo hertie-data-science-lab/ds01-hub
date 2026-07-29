@@ -4,7 +4,7 @@
 
 | [**Deploy in ~30 minutes →**](quickstart.md) | [**Explore the full guide →**](getting-started/) |
 |:---|:---|
-| Get straight to a running GPU container: connect via SSH, set up your keys, and deploy your first containerised project. | Work through the docs properly — setup, key concepts, daily workflow, then intermediate and advanced topics at your own pace. |
+| Get straight to a running GPU container: connect via SSH, set up your keys, and deploy your first containerised project. | Work through the docs properly - setup, key concepts, daily workflow, then intermediate and advanced topics at your own pace. |
 
 ---
 
@@ -36,7 +36,7 @@ docs/
 **"I just want to work on my thesis"**
 
 :::tip[In a hurry?]
-Follow the **[30-minute Quickstart](quickstart.md)** — connect via SSH, set up your keys, and deploy your first GPU container.
+Follow the **[30-minute Quickstart](quickstart.md)** - connect via SSH, set up your keys, and deploy your first GPU container.
 :::
 
 **Essential (do these first):**
@@ -101,10 +101,10 @@ DS01 has two types of conceptual documentation with different purposes:
 | Key Concepts | Background Knowledge |
 |---|---|
 | **~20 min total** | **~1+ hour total** |
-| [Containers and Images](key-concepts/containers-and-images.md) — Why do packages disappear? Why rebuild images? | [Containers & Docker](background/containers-and-docker.md) — Kubernetes, CI/CD, microservices |
-| [Ephemeral Containers](key-concepts/ephemeral-containers.md) — Why are containers temporary? Will I lose work? | [Servers & HPC](background/servers-and-hpc.md) — AWS, GCP, cloud computing |
-| [Workspaces and Persistence](key-concepts/workspaces-persistence.md) — Where are my files? What persists? | [Linux Basics](background/linux-basics.md) — Any server/cloud work |
-| [Python Environments](key-concepts/python-environments.md) — Do I need venv/conda? | [Industry Parallels](background/industry-parallels.md) — Direct cloud platform preparation |
+| [Containers and Images](key-concepts/containers-and-images.md) - Why do packages disappear? Why rebuild images? | [Containers & Docker](background/containers-and-docker.md) - Kubernetes, CI/CD, microservices |
+| [Ephemeral Containers](key-concepts/ephemeral-containers.md) - Why are containers temporary? Will I lose work? | [Servers & HPC](background/servers-and-hpc.md) - AWS, GCP, cloud computing |
+| [Workspaces and Persistence](key-concepts/workspaces-persistence.md) - Where are my files? What persists? | [Linux Basics](background/linux-basics.md) - Any server/cloud work |
+| [Python Environments](key-concepts/python-environments.md) - Do I need venv/conda? | [Industry Parallels](background/industry-parallels.md) - Direct cloud platform preparation |
 
 
 See full overviews: [Key Concepts](key-concepts/) | [Background](background/)

@@ -25,21 +25,28 @@ container-deploy my-project
 
 ## Sharing Data
 
-For ongoing collaboration on the **same files** — a shared codebase, a common dataset,
-joint results — ask an admin for a **shared project**.
+For ongoing collaboration on the **same files** - a shared codebase, a common dataset,
+joint results - ask an admin for a **shared project**.
 
 ### Shared projects
 
 A shared project lives at `/home/shared/<name>` and works just like your own
-`~/workspace/<project>`, except several people have read/write access to it — both on the
+`~/workspace/<project>`, except several people have read/write access to it - both on the
 host and inside their containers.
 
-**Getting one** — ask an admin to create it with the members:
+**Getting one** - ask an admin to create it with the members:
 
 ```bash
 # (an admin runs this)
 sudo shared-workspace create pragmata-workspace \
     h.baker@hertie-school.lan d.dimmery@hertie-school.lan l.ruiz@hertie-school.lan
+```
+
+**Finding one** - any member can list shared projects without sudo:
+
+```bash
+shared-workspace list                        # every shared project + member counts
+shared-workspace list pragmata-workspace     # who's a member of one
 ```
 
 **Working in it** (any member):
@@ -49,14 +56,14 @@ cd /home/shared/pragmata-workspace
 git status            # it's an ordinary git repo - edit, commit, push as usual
 ```
 
-**Using it in a container** — mount it as your workspace when you launch:
+**Using it in a container** - mount it as your workspace when you launch:
 
 ```bash
 container-deploy pragmata --workspace /home/shared/pragmata-workspace
 # inside the container it appears at /workspace, read/write
 ```
 
-Any file a member creates is automatically read/write for the other members — no need to
+Any file a member creates is automatically read/write for the other members - no need to
 fix permissions by hand. To add or remove a collaborator later, an admin runs
 `shared-workspace add-member <name> <user>` or `remove-member <name> <user>`.
 

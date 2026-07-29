@@ -34,7 +34,7 @@ Your username depends on your account type:
 | PhD student | `<student-id>@hertie-school.lan` | `197968@hertie-school.lan` |
 | Staff / faculty | `<firstname>.<lastname>@hertie-school.lan` | `j.smith@hertie-school.lan` |
 
-> **Note:** `@hertie-school.lan` is the canonical internal domain and works for all account types. You can also use your email domain (e.g. `@students.hertie-school.org`, `@phd.hertie-school.org`, or `@hertie-school.org` for staff) — these resolve to `@hertie-school.lan` automatically.
+> **Note:** `@hertie-school.lan` is the canonical internal domain and works for all account types. You can also use your email domain (e.g. `@students.hertie-school.org`, `@phd.hertie-school.org`, or `@hertie-school.org` for staff) - these resolve to `@hertie-school.lan` automatically.
 
 If you don't have SSH keys set up, you'll be prompted for your usual Hertie Microsoft password.
 

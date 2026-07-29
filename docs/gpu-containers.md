@@ -2,7 +2,7 @@
 
 This guide explains how GPU access works in DS01 and what to expect when running containers with GPU.
 
-> **Current state:** MIG is disabled — the server runs 4 full A100-40GB GPUs, so one GPU-slot = one full GPU. Quotas are counted in GPU-equivalents (a full GPU = 1.0).
+> **Current state:** MIG is disabled - the server runs 4 full A100-40GB GPUs, so one GPU-slot = one full GPU. Quotas are counted in GPU-equivalents (a full GPU = 1.0).
 
 ## Quick Summary
 

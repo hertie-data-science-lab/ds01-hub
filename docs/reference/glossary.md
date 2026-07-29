@@ -51,7 +51,7 @@ NVIDIA's parallel computing platform. Required for GPU-accelerated ML frameworks
 The unit DS01 allocates. Today (MIG disabled) one slot = one full GPU. If MIG were enabled, a slot could be a single MIG instance.
 
 **GPU-Equivalent (gpueq)**
-The fair-share quota unit — a floating-point compute fraction. A full GPU is `1.0`; a MIG instance is `compute_slices / 7`. With MIG off, gpueq equals the slot count.
+The fair-share quota unit - a floating-point compute fraction. A full GPU is `1.0`; a MIG instance is `compute_slices / 7`. With MIG off, gpueq equals the slot count.
 
 **MIG (Multi-Instance GPU)**
 NVIDIA technology that partitions a single GPU into isolated instances. **Currently disabled on DS01** (the server runs 4 full A100 GPUs); the allocator is MIG-ready should it be enabled.

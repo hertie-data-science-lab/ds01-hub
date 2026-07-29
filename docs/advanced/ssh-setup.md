@@ -45,7 +45,7 @@ Host ds01
     IdentityFile ~/.ssh/id_ed25519
 ```
 
-Replace `<your-username>` with your Hertie username (e.g. `212345` for students, `j.smith` for staff). Your email domain (e.g. `@students.hertie-school.org`, `@phd.hertie-school.org`) also works — it resolves to `@hertie-school.lan` automatically.
+Replace `<your-username>` with your Hertie username (e.g. `212345` for students, `j.smith` for staff). Your email domain (e.g. `@students.hertie-school.org`, `@phd.hertie-school.org`) also works - it resolves to `@hertie-school.lan` automatically.
 
 **Usage:**
 ```bash

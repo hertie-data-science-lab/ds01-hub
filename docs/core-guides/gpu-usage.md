@@ -4,7 +4,7 @@ Practical guide to GPU usage on DS01.
 
 ## Requesting GPUs
 
-*NB: GPU quotas vary by group — run `check-limits` to see yours. Researchers and faculty have larger GPU-equivalent quotas than the student default.*
+*NB: GPU quotas vary by group - run `check-limits` to see yours. Researchers and faculty have larger GPU-equivalent quotas than the student default.*
 
 ```bash
 # Request 1 GPU (default)

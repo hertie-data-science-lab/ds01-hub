@@ -25,7 +25,40 @@ container-deploy my-project
 
 ## Sharing Data
 
-DS01 will be developing collaborative shared-access directories for data-sharing.
+For ongoing collaboration on the **same files** — a shared codebase, a common dataset,
+joint results — ask an admin for a **shared project**.
+
+### Shared projects
+
+A shared project lives at `/home/shared/<name>` and works just like your own
+`~/workspace/<project>`, except several people have read/write access to it — both on the
+host and inside their containers.
+
+**Getting one** — ask an admin to create it with the members:
+
+```bash
+# (an admin runs this)
+sudo shared-workspace create pragmata-workspace \
+    h.baker@hertie-school.lan d.dimmery@hertie-school.lan l.ruiz@hertie-school.lan
+```
+
+**Working in it** (any member):
+
+```bash
+cd /home/shared/pragmata-workspace
+git status            # it's an ordinary git repo - edit, commit, push as usual
+```
+
+**Using it in a container** — mount it as your workspace when you launch:
+
+```bash
+container-deploy pragmata --workspace /home/shared/pragmata-workspace
+# inside the container it appears at /workspace, read/write
+```
+
+Any file a member creates is automatically read/write for the other members — no need to
+fix permissions by hand. To add or remove a collaborator later, an admin runs
+`shared-workspace add-member <name> <user>` or `remove-member <name> <user>`.
 
 ## Reproducibility
 

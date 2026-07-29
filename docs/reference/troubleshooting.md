@@ -551,7 +551,7 @@ bash: container-deploy: Permission denied
 
 3. **Ask admin to redeploy commands:**
    ```bash
-   sudo deploy
+   sudo ds01-apply
    ```
 
 ---

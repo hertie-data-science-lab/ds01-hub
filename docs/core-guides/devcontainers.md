@@ -126,7 +126,7 @@ devcontainer.json                    At container launch
                                      "Give me an available GPU"
                                             │
                                             ▼
-                                     Rewrites to: --gpus device=GPU-abc123
+                                     Rewrites to: --gpus "device=GPU-abc123"
 ```
 
 This means:

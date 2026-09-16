@@ -23,6 +23,7 @@ Nothing here prints an address; this repo is PUBLIC and so is the run log.
 
 from __future__ import annotations
 
+import html
 import json
 import os
 import subprocess
@@ -106,16 +107,23 @@ def due_rung(issue: dict, now: datetime) -> tuple[str, str] | None:
 
 
 def compose(issue: dict, phrase: str) -> tuple[str, str]:
-    """The subject and body of one reminder. URL first, because the only useful next action
-    is to open the ticket."""
+    """The subject and HTML body of one reminder.
+
+    HTML, not text, so the ticket is a link the reader can press rather than a URL they have
+    to select - this mail exists to get somebody back to the ticket. Nothing is rendered
+    from the ticket itself, so there is no markdown to handle: the title is the only
+    attacker-supplied value and it is escaped."""
     kind = (issue.get("labels") or [{}])[0].get("name", "Issue")
     subject = f"[ds01-hub #{issue['number']}] {phrase} - {kind}"
+    url = html.escape(issue["html_url"], quote=True)
     body = (
-        f"{issue['html_url']}\n\n"
-        f"{issue['title']}\n"
-        f"Opened by {issue['user']['login']} on {issue['created_at'][:10]}.\n\n"
-        f"This ticket is {phrase.replace('still open after ', 'now ')} old and is still open.\n\n"
-        f"{CLOSING}\n"
+        f'<p><a href="{url}">{html.escape(issue["html_url"])}</a></p>\n'
+        f"<p><strong>{html.escape(issue['title'])}</strong><br>\n"
+        f"Opened by {html.escape(issue['user']['login'])} "
+        f"on {html.escape(issue['created_at'][:10])}.</p>\n"
+        f"<p>This ticket is {html.escape(phrase.replace('still open after ', 'now '))} old "
+        f"and is still open.</p>\n"
+        f"<p><em>{html.escape(CLOSING)}</em></p>\n"
     )
     return subject, body
 
@@ -126,7 +134,10 @@ def send(subject: str, body: str) -> bool:
     person who filed the ticket."""
     return (
         subprocess.run(
-            [sys.executable, str(MAILER), subject], input=body, text=True, check=False
+            [sys.executable, str(MAILER), "--html", subject],
+            input=body,
+            text=True,
+            check=False,
         ).returncode
         == 0
     )

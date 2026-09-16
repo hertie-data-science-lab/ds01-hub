@@ -3,11 +3,11 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 // Public end-user documentation site for DS01. Single docs instance over the
-// docs/ tree, which is synced from ds01-infra/docs-user/ by the
+// docs/ tree, which is synced from ds01-infra/docs/user/ by the
 // sync-docs-to-hub workflow (ds01-infra). Content is NOT authored here.
 //
 // Production URL: https://hertie-data-science-lab.github.io/ds01/
-// "Edit this page" points at the source of truth in ds01-infra/docs-user/.
+// "Edit this page" points at the source of truth in ds01-infra/docs/user/.
 
 const config: Config = {
   title: 'DS01 User Guide',
@@ -39,9 +39,9 @@ const config: Config = {
           path: '../docs',
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
-          // Source of truth is ds01-infra/docs-user (this docs/ tree is synced).
+          // Source of truth is ds01-infra/docs/user (this docs/ tree is synced).
           editUrl:
-            'https://github.com/hertie-data-science-lab/ds01-infra/edit/main/docs-user/',
+            'https://github.com/hertie-data-science-lab/ds01-infra/edit/main/docs/user/',
           // docs/ has both README.md and index.md at root -> route collision.
           // Keep index.md as the landing; README.md is for GitHub browsing.
           exclude: ['README.md'],

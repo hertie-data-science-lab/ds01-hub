@@ -1,0 +1,124 @@
+name: Notify on new ticket
+
+# Tells a human that a ticket was filed. Two channels, deliberately: mail through
+# Microsoft Graph (`.github/scripts/notify_ticket.py`, which also strips the opener's
+# address out of the public issue) and an Adaptive Card in Teams.
+#
+# This replaces teams-notify.yml, which POSTed a legacy MessageCard to an Office 365
+# connector Microsoft has since retired - it failed with curl exit 22 on every ticket.
+#
+# `issues: [opened]` and NOTHING ELSE. The Graph certificate is a repository secret in a
+# PUBLIC repo; a `pull_request_target` trigger here would hand it to code from any fork.
+# Do not add one.
+
+on:
+  issues:
+    types: [opened]
+
+# Only for the redaction PATCH in notify_ticket.py.
+# `permissions:` REPLACES the default token scopes rather than adding to them, so
+# contents: read has to be spelled out or actions/checkout cannot read the repo. A
+# public repo hides this - it clones anonymously - and it breaks the day the repo
+# turns private.
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  notify:
+    name: Mail the lab and post to Teams
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ds01-hub
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install mailer dependency
+        run: pip install cryptography
+
+      - name: Mail the ticket and redact the address
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRAPH_TENANT_ID: ${{ secrets.GRAPH_TENANT_ID }}
+          GRAPH_CLIENT_ID: ${{ secrets.GRAPH_CLIENT_ID }}
+          # The PEM itself, not a path: a secret in Actions is a value. The mailer refuses
+          # to run with GRAPH_CLIENT_CERT_FILE set as well, so only ever set this one.
+          GRAPH_CLIENT_CERT: ${{ secrets.GRAPH_CLIENT_CERT }}
+          GRAPH_SENDER: ${{ secrets.GRAPH_SENDER }}
+          # h.baker is the recipient; the datasciencelab mailbox is the archive and is
+          # copied on everything. `--cc <opener>` in the script ADDS to this rather than
+          # replacing it, so acknowledging the opener cannot drop the archive.
+          DSL_ALERT_TO: h.baker@hertie-school.org
+          DSL_ALERT_CC: datasciencelab@hertie-school.org
+        run: python .github/scripts/notify_ticket.py
+
+      - name: Post to Teams
+        # Runs even when the mail step failed: a channel that is up should still say a
+        # ticket arrived.
+        if: always()
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          ISSUE_LABELS: ${{ toJson(github.event.issue.labels) }}
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+        run: |
+          # An unset secret arrives as an empty string and a half-configured one as a
+          # placeholder; either way curl fails and the run goes red for a channel nobody
+          # asked for. That is what silently killed three other Teams channels in
+          # ds01-infra, so no URL means no step, not a failure.
+          case "$TEAMS_WEBHOOK_URL" in
+            https://*) ;;
+            *) echo "TEAMS_WEBHOOK_URL is not an https:// URL - skipping Teams"; exit 0 ;;
+          esac
+
+          LABEL=$(echo "$ISSUE_LABELS" | jq -r '.[0].name // "Issue"')
+
+          # An Adaptive Card in the Power Automate Workflows envelope. The retired
+          # connector's MessageCard is NOT accepted by a Workflows webhook.
+          PAYLOAD=$(jq -n \
+            --arg title "$ISSUE_TITLE" \
+            --arg url "$ISSUE_URL" \
+            --arg label "$LABEL" \
+            --arg author "$ISSUE_AUTHOR" \
+            '{
+              type: "message",
+              attachments: [{
+                contentType: "application/vnd.microsoft.card.adaptive",
+                contentUrl: null,
+                content: {
+                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                  type: "AdaptiveCard",
+                  version: "1.4",
+                  body: [
+                    {type: "TextBlock", text: "New ds01-hub ticket", weight: "Bolder", size: "Medium"},
+                    {type: "TextBlock", text: $title, wrap: true},
+                    {type: "FactSet", facts: [
+                      {title: "Type", value: $label},
+                      {title: "Opened by", value: $author}
+                    ]}
+                  ],
+                  actions: [
+                    {type: "Action.OpenUrl", title: "View ticket", url: $url}
+                  ]
+                }
+              }]
+            }')
+
+          curl -sSf -H "Content-Type: application/json" -d "$PAYLOAD" "$TEAMS_WEBHOOK_URL"
+
+# Secrets this needs. The four GRAPH_* are ORG secrets on hertie-data-science-lab with
+# visibility `selected`, scoped to ds01-hub and ds01-infra only - the org has 30-odd
+# repos and most are public, so `all` would hand the mail credential to every one of
+# them. An org secret reads through `secrets.` exactly like a repository one:
+#   GRAPH_TENANT_ID, GRAPH_CLIENT_ID, GRAPH_SENDER   the lab's Entra app and its mailbox
+#   GRAPH_CLIENT_CERT                                the certificate PEM AND its key, as
+#                                                    `cat cert.cer key.pem` produces
+#   TEAMS_WEBHOOK_URL                                optional; a Power Automate "When a
+#                                                    Teams webhook request is received"
+#                                                    flow URL. Leave it unset to run the
+#                                                    mail channel alone.

@@ -13,10 +13,15 @@ jobs:
       - name: Assign issue to maintainer
         uses: actions/github-script@v7
         with:
+          # The login has to be exactly right and it has to be someone with access here.
+          # GitHub does not error on an assignee it cannot apply - it drops it, returns
+          # 201 and leaves `assignees` empty, so the run stays green and the notification
+          # is simply lost. This said `henrybaker` (a real but unrelated account) until
+          # ticket #28 turned up unassigned with a passing workflow run beside it.
           script: |
             await github.rest.issues.addAssignees({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              assignees: ['henrybaker']
+              assignees: ['henrycgbaker']
             });

@@ -1,0 +1,55 @@
+name: Follow up on open tickets
+
+# Mails the lab about tickets still open after 48 hours and after 7 days. The reminder goes
+# to the lab, never to the opener: they were told when they filed it that the ticket is the
+# record, and chasing somebody about their own unanswered request helps nobody.
+#
+# Each rung labels the ticket when it mails, so a ticket is reminded about once per rung no
+# matter how often this runs. That is what makes an unreliable trigger safe here.
+#
+# :17 past, not the hour, and every third hour rather than hourly: GitHub drops the
+# scheduled fires it finds contended - the top of the hour worst of all - and a reminder
+# about a two-day-old ticket does not need to be punctual. A missed fire is delivered by the
+# next one; nothing is lost, it is only late.
+
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+
+# issues: write is for the rung labels, which are the idempotency record.
+# `permissions:` REPLACES the default token scopes rather than adding to them, so
+# contents: read has to be spelled out or actions/checkout cannot read the repo. A
+# public repo hides this - it clones anonymously - and it breaks the day the repo
+# turns private.
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  followup:
+    name: Mail the lab about stale tickets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ds01-hub
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install mailer dependency
+        run: pip install cryptography
+
+      - name: Mail the lab about tickets past 48h and 7d
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRAPH_TENANT_ID: ${{ secrets.GRAPH_TENANT_ID }}
+          GRAPH_CLIENT_ID: ${{ secrets.GRAPH_CLIENT_ID }}
+          GRAPH_CLIENT_CERT: ${{ secrets.GRAPH_CLIENT_CERT }}
+          GRAPH_SENDER: ${{ secrets.GRAPH_SENDER }}
+          # No --cc anywhere in this path: the lab hears, the opener does not.
+          DSL_ALERT_TO: h.baker@hertie-school.org
+          DSL_ALERT_CC: datasciencelab@hertie-school.org
+        run: python .github/scripts/followup_tickets.py

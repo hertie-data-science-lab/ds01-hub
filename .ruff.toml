@@ -1,0 +1,12 @@
+# Mirrors ds01-infra's [tool.ruff] settings, and must keep mirroring them.
+#
+# `.github/scripts/dsl-alert-mail.py` is vendored verbatim from ds01-infra, where the line
+# length is 100. Under ruff's default of 88 a formatter run here rewraps it, so the two
+# copies drift on the next commit that touches it and the "vendored verbatim" claim in its
+# docstring quietly stops being true. Matching the setting is what keeps `diff` empty.
+line-length = 100
+target-version = "py310"
+
+[lint]
+select = ["E", "F", "I", "UP", "W"]
+ignore = ["E501"]  # Line length handled by the formatter

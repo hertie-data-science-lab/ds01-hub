@@ -106,7 +106,10 @@ jobs:
 
           curl -sSf -H "Content-Type: application/json" -d "$PAYLOAD" "$TEAMS_WEBHOOK_URL"
 
-# Secrets this needs, all repository-level:
+# Secrets this needs. The four GRAPH_* are ORG secrets on hertie-data-science-lab with
+# visibility `selected`, scoped to ds01-hub and ds01-infra only - the org has 30-odd
+# repos and most are public, so `all` would hand the mail credential to every one of
+# them. An org secret reads through `secrets.` exactly like a repository one:
 #   GRAPH_TENANT_ID, GRAPH_CLIENT_ID, GRAPH_SENDER   the lab's Entra app and its mailbox
 #   GRAPH_CLIENT_CERT                                the certificate PEM AND its key, as
 #                                                    `cat cert.cer key.pem` produces

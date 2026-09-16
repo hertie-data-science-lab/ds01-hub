@@ -83,9 +83,7 @@ def field_value(body: str, label: str) -> str | None:
         if match.group("label").strip().casefold() != label.casefold():
             continue
         following = _HEADING.search(body, match.end())
-        value = body[
-            match.end() : following.start() if following else len(body)
-        ].strip()
+        value = body[match.end() : following.start() if following else len(body)].strip()
         return None if not value or value == _NO_RESPONSE else value
     return None
 
@@ -182,9 +180,7 @@ def main() -> int:
     subject = compose_subject(number, labels, author)
     if not send_mail(subject, compose_body(issue["html_url"], body), address):
         # Deliberately no redaction on this path: see the module docstring.
-        log(
-            "mail failed - the ticket body is left untouched so the address is not lost"
-        )
+        log("mail failed - the ticket body is left untouched so the address is not lost")
         return 1
 
     if not address:

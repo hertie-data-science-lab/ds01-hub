@@ -54,13 +54,7 @@ ACCESS_REQUEST = (
 
 # announcement.yml is admin-only and has no address field at all.
 ANNOUNCEMENT = (
-    "### Announcement type\n"
-    "\n"
-    "Scheduled Maintenance\n"
-    "\n"
-    "### When?\n"
-    "\n"
-    "Dec 5, 2026, 6pm-8pm CET\n"
+    "### Announcement type\n\nScheduled Maintenance\n\n### When?\n\nDec 5, 2026, 6pm-8pm CET\n"
 )
 
 
@@ -88,9 +82,7 @@ def test_an_empty_field_yields_none():
 
 
 def test_a_body_that_is_not_a_form_yields_none():
-    assert (
-        extract_email("ssh is broken, mail me at a.student@hertie-school.org") is None
-    )
+    assert extract_email("ssh is broken, mail me at a.student@hertie-school.org") is None
 
 
 @pytest.mark.parametrize(
@@ -103,9 +95,7 @@ def test_a_body_that_is_not_a_form_yields_none():
     ],
 )
 def test_tolerates_how_people_actually_type_an_address(value, expected):
-    assert (
-        extract_email(f"### Hertie email\n\n{value}\n\n### Topic\n\nGPUs\n") == expected
-    )
+    assert extract_email(f"### Hertie email\n\n{value}\n\n### Topic\n\nGPUs\n") == expected
 
 
 def test_a_field_with_no_address_in_it_yields_none():
@@ -115,8 +105,7 @@ def test_a_field_with_no_address_in_it_yields_none():
 def test_only_the_email_field_is_searched():
     """A traceback or a config paste must not become the Cc recipient."""
     body = (
-        "### Hertie email\n\nn/a\n\n"
-        "### Error message / output\n\nSMTP to ops@example.com refused\n"
+        "### Hertie email\n\nn/a\n\n### Error message / output\n\nSMTP to ops@example.com refused\n"
     )
     assert extract_email(body) is None
 

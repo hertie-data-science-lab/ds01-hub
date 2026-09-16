@@ -1,7 +1,7 @@
 name: Deploy Docs to GitHub Pages
 
 # Builds the Docusaurus end-user site under website/ and deploys it into the org
-# Pages repo at /ds01/. Content in docs/ is synced from ds01-infra/docs-user by
+# Pages repo at /ds01/. Content in docs/ is synced from ds01-infra/docs/user by
 # the sync-docs-to-hub workflow; a sync push (or a website/ change) triggers a
 # rebuild + deploy. PRs run build-only as a correctness gate.
 #

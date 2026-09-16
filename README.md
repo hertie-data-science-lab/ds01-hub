@@ -23,7 +23,7 @@ The support hub for `ds01` - Hertie Data Science Lab's GPU server for containeri
 searchable documentation site (getting started, core guides, intermediate &
 advanced workflows, key concepts, reference, and troubleshooting).
 
-> Docs are authored in [`ds01-infra/docs-user`](https://github.com/hertie-data-science-lab/ds01-infra/tree/main/docs-user)
+> Docs are authored in [`ds01-infra/docs/user`](https://github.com/hertie-data-science-lab/ds01-infra/tree/main/docs/user)
 > and mirrored to [`docs/`](https://github.com/hertie-data-science-lab/ds01-hub/tree/main/docs) here for
 > GitHub browsing. Admin & developer docs live on the
 > [full documentation site](https://hertie-data-science-lab.github.io/ds01-infra/).

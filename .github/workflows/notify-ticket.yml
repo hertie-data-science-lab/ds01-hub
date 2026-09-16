@@ -16,7 +16,12 @@ on:
     types: [opened]
 
 # Only for the redaction PATCH in notify_ticket.py.
+# `permissions:` REPLACES the default token scopes rather than adding to them, so
+# contents: read has to be spelled out or actions/checkout cannot read the repo. A
+# public repo hides this - it clones anonymously - and it breaks the day the repo
+# turns private.
 permissions:
+  contents: read
   issues: write
 
 jobs:

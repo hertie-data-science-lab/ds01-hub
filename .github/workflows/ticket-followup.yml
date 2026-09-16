@@ -18,7 +18,12 @@ on:
   workflow_dispatch:
 
 # issues: write is for the rung labels, which are the idempotency record.
+# `permissions:` REPLACES the default token scopes rather than adding to them, so
+# contents: read has to be spelled out or actions/checkout cannot read the repo. A
+# public repo hides this - it clones anonymously - and it breaks the day the repo
+# turns private.
 permissions:
+  contents: read
   issues: write
 
 jobs:

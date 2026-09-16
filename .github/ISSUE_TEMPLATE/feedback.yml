@@ -8,11 +8,13 @@ body:
       value: |
         Have an idea to improve ds01? We'd love to hear it! Big or small, all suggestions are welcome.
 
+        **This tracker is public.** Don't paste passwords, tokens, or personal data - yours or anyone else's. Your Hertie email is the exception: it's removed from the ticket automatically once it reaches the lab.
+
   - type: input
     id: email
     attributes:
       label: Hertie email
-      description: Your @hertie-school.org or @students.hertie-school.org email
+      description: Your @hertie-school.org or @students.hertie-school.org email. Used only to copy you on this ticket, then removed from the public issue.
       placeholder: initial.lastname@students.hertie-school.org
     validations:
       required: true

@@ -8,12 +8,14 @@ body:
       value: |
         Need new documentation, or found something outdated? Let us know!
 
+        **This tracker is public.** Don't paste passwords, tokens, or personal data - yours or anyone else's. Your Hertie email is the exception: it's removed from the ticket automatically once it reaches the lab.
+
   - type: input
     id: email
     attributes:
       label: Hertie email
-      description: Your @hertie-school.org or @students.hertie-school.org email
-      placeholder: <user-id>@shertie-school.org
+      description: Your @hertie-school.org or @students.hertie-school.org email. Used only to copy you on this ticket, then removed from the public issue.
+      placeholder: <user-id>@hertie-school.org
     validations:
       required: true
 

@@ -1,5 +1,6 @@
+# No blank issues, and no contact_links either: every route to the lab is a ticket.
+# The mailto: entry that used to sit here bypassed the tracker, so urgent requests left
+# no record, could not be assigned, and were invisible to anyone but one inbox. Opening a
+# ticket now mails the lab immediately (.github/workflows/notify-ticket.yml), so the fast
+# path and the recorded path are the same path.
 blank_issues_enabled: false
-contact_links:
-  - name: Urgent / Emergency
-    url: mailto:h.baker@hertie-school.org
-    about: For urgent issues affecting your ability to work, email directly instead of opening an issue.

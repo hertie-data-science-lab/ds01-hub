@@ -90,8 +90,11 @@ def test_a_fully_labelled_ticket_is_silent(mod):
 
 
 def test_the_body_leads_with_the_ticket_url(mod):
+    # The link is the first thing in the mail, whatever the body format: the only useful
+    # next action is to open the ticket.
     _subject, body = mod.compose(ticket(48, labels=["bug"]), "still open after 48 hours")
-    assert body.splitlines()[0] == "https://github.com/o/r/issues/1"
+    assert body.splitlines()[0].startswith("<p><a href=")
+    assert "https://github.com/o/r/issues/1" in body.splitlines()[0]
 
 
 def test_the_subject_carries_the_number_and_the_rung(mod):
@@ -114,3 +117,29 @@ def test_the_body_says_replies_are_not_tracked(mod):
 
 def test_age_is_measured_from_githubs_clock_not_the_runners(mod):
     assert mod.age_seconds(ticket(48), NOW) == pytest.approx(48 * 3600)
+
+
+# ------------------------------------------------------------------------ HTML bodies
+
+
+def test_the_reminder_links_the_ticket_rather_than_printing_a_url(mod):
+    _subject, body = mod.compose(ticket(48, labels=["bug"]), "still open after 48 hours")
+    assert '<a href="https://github.com/o/r/issues/1">' in body
+
+
+def test_a_title_cannot_inject_html(mod):
+    # The title is whatever a stranger typed into a public form, and it lands in a mail
+    # client that will render what it is given.
+    hostile = ticket(48)
+    hostile["title"] = '<script>alert("x")</script> & "quoted"'
+    _subject, body = mod.compose(hostile, "still open after 48 hours")
+    assert "<script>" not in body
+    assert "&lt;script&gt;" in body
+    assert "&amp;" in body
+
+
+def test_the_login_is_escaped_too(mod):
+    odd = ticket(48)
+    odd["user"]["login"] = "a<b>c"
+    _subject, body = mod.compose(odd, "still open after 48 hours")
+    assert "<b>" not in body

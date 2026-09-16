@@ -1,0 +1,38 @@
+name: CI
+
+# The notifier decides what counts as a student's email address on a PUBLIC repo and then
+# rewrites the issue body. Until this existed its tests ran only on the author's laptop:
+# the sole workflow here was path-filtered to website/ and docs/, so a pull request touching
+# nothing but .github/scripts/ reported no checks at all and merged green on an empty set.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Lint and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        # cryptography is the mailer's only dependency; ruff is pinned nowhere else in this
+        # repo, so the version that runs here is the version .ruff.toml is written against.
+        run: pip install pytest cryptography ruff
+
+      - name: Ruff
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Tests
+        run: pytest tests/ -q

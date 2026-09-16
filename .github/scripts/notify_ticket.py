@@ -25,6 +25,7 @@ masked (`a***@domain`) or reduced to "found"/"not found" wherever it would other
 
 from __future__ import annotations
 
+import html
 import json
 import os
 import re
@@ -33,6 +34,8 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
+
+API = "https://api.github.com"
 
 # The mailer is vendored alongside this script; see its docstring for where it comes from.
 MAILER = Path(__file__).resolve().parent / "dsl-alert-mail.py"
@@ -117,15 +120,60 @@ def compose_subject(number: int, labels: list[str], author: str) -> str:
     return f"[ds01-hub #{number}] {labels[0] if labels else 'Issue'} - {author}"
 
 
+def render_markdown(body: str, repo: str, token: str) -> str | None:
+    """The issue body as HTML, rendered by GitHub itself, or None if that fails.
+
+    GitHub renders it rather than this script, for two reasons. An issue form body is
+    GitHub-Flavoured Markdown - `### heading`, fenced code, task lists, autolinked #refs -
+    and reimplementing a subset here would render some tickets correctly and others
+    misleadingly. And the endpoint SANITISES: the body is whatever a stranger typed into a
+    public form, and it arrives in a mail client that will happily run what it is given.
+
+    None on any failure, and the caller falls back to plain text. A mail that reads like
+    raw markdown is a cosmetic problem; a mail that never arrives is the actual fault."""
+    request = urllib.request.Request(
+        f"{API}/markdown",
+        data=json.dumps({"text": body, "mode": "gfm", "context": repo}).encode(),
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            return response.read().decode()
+    except (urllib.error.HTTPError, OSError, UnicodeDecodeError) as exc:
+        code = getattr(exc, "code", exc.__class__.__name__)
+        log(f"markdown render failed ({code}) - falling back to plain text")
+        return None
+
+
 def compose_body(url: str, issue_body: str) -> str:
-    """URL first, ticket text, then the closing line.
+    """The plain-text mail: URL first, ticket text, then the closing line.
 
     The URL leads because this mail is a pointer: the reader's next action is to open the
     ticket, and it should be the first thing under the subject on a phone."""
     return f"{url}\n\n{(issue_body or '').strip()}\n\n{CLOSING}\n"
 
 
-def send_mail(subject: str, body: str, cc: str | None) -> bool:
+def compose_html(url: str, rendered: str) -> str:
+    """The HTML mail: the same shape, around GitHub's rendering of the ticket.
+
+    No stylesheet and no layout. This is read in Outlook, in a phone client and in a shared
+    mailbox, and the one thing every one of them agrees on is a plain document. The only
+    rule kept from the text version is that the link comes first."""
+    link = html.escape(url, quote=True)
+    return (
+        f'<p><a href="{link}">{html.escape(url)}</a></p>\n'
+        f"<hr>\n{rendered}\n<hr>\n"
+        f"<p><em>{html.escape(CLOSING)}</em></p>\n"
+    )
+
+
+def send_mail(subject: str, body: str, cc: str | None, *, as_html: bool = False) -> bool:
     """Hand the mail to the vendored mailer. True if it reported success.
 
     The body goes on stdin, per the mailer's contract. `--cc` has to go on argv, which on a
@@ -134,6 +182,8 @@ def send_mail(subject: str, body: str, cc: str | None) -> bool:
 
     `--cc` ADDS to DSL_ALERT_CC, so copying the opener cannot displace the archive mailbox."""
     command = [sys.executable, str(MAILER)]
+    if as_html:
+        command.append("--html")
     if cc:
         command += ["--cc", cc]
     command.append(subject)
@@ -143,7 +193,7 @@ def send_mail(subject: str, body: str, cc: str | None) -> bool:
 def patch_issue_body(repo: str, number: int, body: str, token: str) -> bool:
     """PATCH the redacted body back onto the issue. True if GitHub accepted it."""
     request = urllib.request.Request(
-        f"https://api.github.com/repos/{repo}/issues/{number}",
+        f"{API}/repos/{repo}/issues/{number}",
         data=json.dumps({"body": body}).encode(),
         headers={
             "Authorization": f"Bearer {token}",
@@ -178,19 +228,25 @@ def main() -> int:
     log(f"ticket #{number}: address {mask(address) if address else 'not found'}")
 
     subject = compose_subject(number, labels, author)
-    if not send_mail(subject, compose_body(issue["html_url"], body), address):
+    repo = os.environ["GITHUB_REPOSITORY"]
+    token = os.environ["GITHUB_TOKEN"]
+
+    # HTML when GitHub will render it for us, plain text when it will not. The body of an
+    # issue form is markdown, so as text it reads as `### Hertie email` rather than a
+    # heading - legible, but plainly a machine's idea of a mail.
+    rendered = render_markdown(body, repo, token)
+    if rendered is None:
+        sent = send_mail(subject, compose_body(issue["html_url"], body), address)
+    else:
+        sent = send_mail(subject, compose_html(issue["html_url"], rendered), address, as_html=True)
+    if not sent:
         # Deliberately no redaction on this path: see the module docstring.
         log("mail failed - the ticket body is left untouched so the address is not lost")
         return 1
 
     if not address:
         return 0
-    patched = patch_issue_body(
-        os.environ["GITHUB_REPOSITORY"],
-        number,
-        redact(body, address),
-        os.environ["GITHUB_TOKEN"],
-    )
+    patched = patch_issue_body(repo, number, redact(body, address), token)
     # A failed redaction leaves an address on a public issue: red the run so someone looks.
     return 0 if patched else 1
 

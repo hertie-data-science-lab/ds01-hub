@@ -19,14 +19,18 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / ".github" / "scripts"))
 
+import notify_ticket
 from notify_ticket import (
     REDACTED,
     compose_body,
+    compose_html,
     compose_subject,
     extract_email,
     field_value,
     mask,
     redact,
+    render_markdown,
+    send_mail,
 )
 
 # The rendered shape of access_request.yml, verbatim apart from the address.
@@ -160,3 +164,67 @@ def test_body_leads_with_the_url_and_closes_with_the_notice():
 
 def test_mask_keeps_one_character_of_the_local_part():
     assert mask("a.student@hertie-school.org") == "a***@hertie-school.org"
+
+
+# ------------------------------------------------------------------------ HTML bodies
+
+
+def test_the_html_body_leads_with_the_ticket_link():
+    out = compose_html("https://github.com/o/r/issues/7", "<h3>Hertie email</h3>")
+    assert (
+        out.splitlines()[0]
+        == '<p><a href="https://github.com/o/r/issues/7">https://github.com/o/r/issues/7</a></p>'
+    )
+
+
+def test_the_html_body_carries_githubs_rendering_verbatim():
+    # GitHub sanitises; re-escaping its output here would show readers escaped tags.
+    out = compose_html("https://x/1", "<h3>Heading</h3>\n<p>text</p>")
+    assert "<h3>Heading</h3>" in out
+
+
+def test_the_closing_line_survives_in_html():
+    out = compose_html("https://x/1", "<p>x</p>")
+    assert "Reply on the ticket" in out
+
+
+def test_a_failed_render_returns_none_rather_than_raising(monkeypatch):
+    # The caller falls back to plain text. A mail that reads like raw markdown is cosmetic;
+    # a mail that never arrives is the actual fault.
+    def boom(*_args, **_kwargs):
+        raise OSError("no network")
+
+    monkeypatch.setattr(notify_ticket.urllib.request, "urlopen", boom)
+    assert render_markdown("### x", "o/r", "tok") is None
+
+
+def test_a_rendered_body_is_sent_as_html(monkeypatch):
+    captured = {}
+
+    def fake_run(command, **kwargs):
+        captured["command"] = command
+
+        class R:
+            returncode = 0
+
+        return R()
+
+    monkeypatch.setattr(notify_ticket.subprocess, "run", fake_run)
+    assert send_mail("subj", "<p>b</p>", None, as_html=True) is True
+    assert "--html" in captured["command"]
+
+
+def test_a_plain_body_is_not_sent_as_html(monkeypatch):
+    captured = {}
+
+    def fake_run(command, **kwargs):
+        captured["command"] = command
+
+        class R:
+            returncode = 0
+
+        return R()
+
+    monkeypatch.setattr(notify_ticket.subprocess, "run", fake_run)
+    assert send_mail("subj", "plain", None) is True
+    assert "--html" not in captured["command"]

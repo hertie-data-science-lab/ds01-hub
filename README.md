@@ -2,7 +2,7 @@
 
 The support hub for `ds01` - Hertie Data Science Lab's GPU server for containerised ML workloads.
 
-> **This is v1.0** — we welcome all bug reports, feedback & reature fequests - big or small. If something's confusing, missing, or could be better, please support us by raising an issue ticket.
+> **This is v1.0** — we welcome all bug reports, feedback & feature requests - big or small. If something's confusing, missing, or could be better, please support us by raising an issue ticket.
 
 ---
 
@@ -34,7 +34,7 @@ advanced workflows, key concepts, reference, and troubleshooting).
 - **Report a bug** — something's broken, erroring, or not working as expected
 - **Request access** — need resources (GPU time, MIGs), group access, or software installed (specify your access end date)
 - **Request documentation** — lack of clarity in existing docs / need a guide for something not yet documented
-- **Report a status issue** — think the server might be down (also email h.baker@hertie-school.org)
+- **Report a status issue** — think the server might be down or misbehaving
 - **Request new functionality / share feedback** — have ideas to improve ds01? We want to hear them (categorize as feature request, improvement, workflow, etc.)
 - **Ask a question** — you're stuck and need guidance
 - **Book a consultation** — want hands-on help, office hours, or technical support
@@ -43,7 +43,8 @@ advanced workflows, key concepts, reference, and troubleshooting).
 ### How to file a good issue
 
 1. **Click "New Issue"** and choose the appropriate template
-2. **Fill in required fields** — especially your Hertie email so we can follow up
+2. **Fill in required fields** — your Hertie email is used only to copy you on this
+   ticket's notifications, and is removed from the public ticket once it reaches us
 3. **Paste terminal output** — use code blocks:
 
    ````
@@ -67,4 +68,9 @@ Have a question that might help others? Want to share tips or chat with other ds
 
 ## Response times
 
-We check issues regularly but this is not a 24/7 helpdesk. For urgent issues affecting your ability to work, email directly: **h.baker@hertie-school.org**
+We check issues regularly but this is not a 24/7 helpdesk.
+
+Opening a ticket emails the lab straight away and copies you in, so there is no faster
+route to us than "New Issue" — including for urgent problems. The ticket is the record:
+we answer there, and replies to the notification email are not tracked.
+

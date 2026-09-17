@@ -53,9 +53,14 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from ticket_mail import CLOSING, FOLLOWUP_LABELS, compose_subject
-
-API = "https://api.github.com"
+from ticket_mail import (
+    API,
+    CLOSING,
+    FOLLOWUP_LABELS,
+    compose_subject,
+    github_api,
+    newest_comment,
+)
 
 # The mailer is vendored alongside this script; see its docstring for where it comes from.
 MAILER = Path(__file__).resolve().parent / "dsl-alert-mail.py"
@@ -133,24 +138,6 @@ def redact(body: str, address: str) -> str:
     return re.sub(re.escape(address), REDACTED, body, flags=re.IGNORECASE)
 
 
-def _api(method: str, url: str, token: str, payload: dict | None = None):
-    data = json.dumps(payload).encode() if payload is not None else None
-    request = urllib.request.Request(
-        url,
-        data=data,
-        headers={
-            "Authorization": f"Bearer {token}",
-            "Accept": "application/vnd.github+json",
-            "X-GitHub-Api-Version": "2022-11-28",
-            **({"Content-Type": "application/json"} if data else {}),
-        },
-        method=method,
-    )
-    with urllib.request.urlopen(request, timeout=20) as response:
-        raw = response.read()
-    return json.loads(raw) if raw else None
-
-
 def first_revision_body(repo: str, number: int, token: str) -> str | None:
     """The issue body as it was FIRST submitted, out of GitHub's edit history, or None.
 
@@ -178,7 +165,7 @@ def first_revision_body(repo: str, number: int, token: str) -> str | None:
       }
     """
     try:
-        result = _api(
+        result = github_api(
             "POST",
             f"{API}/graphql",
             token,
@@ -303,7 +290,7 @@ def mail_rendered(
 def patch_issue_body(repo: str, number: int, body: str, token: str) -> bool:
     """PATCH the redacted body back onto the issue. True if GitHub accepted it."""
     try:
-        _api("PATCH", f"{API}/repos/{repo}/issues/{number}", token, {"body": body})
+        github_api("PATCH", f"{API}/repos/{repo}/issues/{number}", token, {"body": body})
         log("issue body redacted")
         return True
     except urllib.error.HTTPError as exc:
@@ -324,7 +311,7 @@ def reset_followup_rungs(repo: str, number: int, token: str) -> None:
     is the ordinary case - most tickets never reach a rung."""
     for name in FOLLOWUP_LABELS:
         try:
-            _api(
+            github_api(
                 "DELETE",
                 f"{API}/repos/{repo}/issues/{number}/labels/{urllib.parse.quote(name)}",
                 token,
@@ -393,18 +380,13 @@ def handle_backfill(number: int, repo: str, token: str) -> int:
     Sends into whatever thread the ticket's subject names now. A ticket whose opening mail
     went out under an older subject will therefore start a fresh thread rather than join the
     old one, which is a cosmetic price paid once."""
-    issue = _api("GET", f"{API}/repos/{repo}/issues/{number}", token)
-    count = (issue or {}).get("comments") or 0
-    if not count:
+    issue = github_api("GET", f"{API}/repos/{repo}/issues/{number}", token)
+    newest = newest_comment(repo, number, (issue or {}).get("comments") or 0, token)
+    if newest is None:
         log(f"#{number} has no comments to mail")
         return 1
-    query = urllib.parse.urlencode({"per_page": 1, "page": count})
-    newest = _api("GET", f"{API}/repos/{repo}/issues/{number}/comments?{query}", token) or []
-    if not newest:
-        log(f"#{number}: could not read its newest comment")
-        return 1
     log(f"backfilling the newest comment on #{number}")
-    return handle_comment(issue, newest[-1], repo, token)
+    return handle_comment(issue, newest, repo, token)
 
 
 def main() -> int:

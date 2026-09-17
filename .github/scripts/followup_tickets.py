@@ -34,21 +34,24 @@ Nothing here prints an address; this repo is PUBLIC and so is the run log.
 from __future__ import annotations
 
 import html
-import json
 import os
 import subprocess
 import sys
 import urllib.error
 import urllib.parse
-import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
 
-from ticket_mail import CLOSING, FOLLOWUP_LABELS, compose_subject
+from ticket_mail import (
+    API,
+    CLOSING,
+    FOLLOWUP_LABELS,
+    compose_subject,
+    github_api,
+    newest_comment,
+)
 
 MAILER = Path(__file__).resolve().parent / "dsl-alert-mail.py"
-
-API = "https://api.github.com"
 
 _LABEL_48H, _LABEL_7D = FOLLOWUP_LABELS
 
@@ -64,24 +67,6 @@ def log(msg: str) -> None:
     print(msg, flush=True)
 
 
-def _request(method: str, url: str, token: str, payload: dict | None = None):
-    data = json.dumps(payload).encode() if payload is not None else None
-    request = urllib.request.Request(
-        url,
-        data=data,
-        headers={
-            "Authorization": f"Bearer {token}",
-            "Accept": "application/vnd.github+json",
-            "X-GitHub-Api-Version": "2022-11-28",
-            **({"Content-Type": "application/json"} if data else {}),
-        },
-        method=method,
-    )
-    with urllib.request.urlopen(request, timeout=20) as response:
-        raw = response.read()
-    return json.loads(raw) if raw else None
-
-
 def _timestamp(value: str) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
@@ -95,7 +80,7 @@ def open_tickets(repo: str, token: str) -> list[dict]:
     page = 1
     while True:
         query = urllib.parse.urlencode({"state": "open", "per_page": 100, "page": page})
-        batch = _request("GET", f"{API}/repos/{repo}/issues?{query}", token) or []
+        batch = github_api("GET", f"{API}/repos/{repo}/issues?{query}", token) or []
         tickets += [issue for issue in batch if "pull_request" not in issue]
         if len(batch) < 100:
             return tickets
@@ -112,17 +97,10 @@ def last_activity(issue: dict, repo: str, token: str) -> datetime:
     GitHub's clock throughout, never the runner's: a runner that queued for twenty minutes
     would otherwise read every ticket as twenty minutes quieter than it is."""
     created = _timestamp(issue["created_at"])
-    count = issue.get("comments") or 0
-    if not count:
+    newest = newest_comment(repo, issue["number"], issue.get("comments") or 0, token)
+    if newest is None:
         return created
-    query = urllib.parse.urlencode({"per_page": 1, "page": count})
-    newest = (
-        _request("GET", f"{API}/repos/{repo}/issues/{issue['number']}/comments?{query}", token)
-        or []
-    )
-    if not newest:
-        return created
-    return max(created, _timestamp(newest[-1]["created_at"]))
+    return max(created, _timestamp(newest["created_at"]))
 
 
 def due_rung(issue: dict, idle: float) -> tuple[str, str] | None:
@@ -180,7 +158,7 @@ def label(repo: str, number: int, name: str, token: str) -> bool:
     """Record that this rung was mailed. Applied only AFTER a successful send, so a failed
     mail is retried on the next run instead of being silently marked done."""
     try:
-        _request("POST", f"{API}/repos/{repo}/issues/{number}/labels", token, {"labels": [name]})
+        github_api("POST", f"{API}/repos/{repo}/issues/{number}/labels", token, {"labels": [name]})
         return True
     except (urllib.error.HTTPError, OSError) as exc:
         code = getattr(exc, "code", exc.__class__.__name__)
@@ -196,11 +174,17 @@ def main() -> int:
     tickets = open_tickets(repo, token)
     log(f"{len(tickets)} open ticket(s)")
 
+    quietest = min(threshold for threshold, _label, _phrase in FOLLOWUP_RUNGS)
     mailed = failed = 0
     for issue in sorted(tickets, key=lambda i: i["number"]):
-        # Cheap rejection first: a ticket younger than the quietest rung cannot be due one,
-        # and asking GitHub for its newest comment would be a request per ticket per run.
-        if (now - _timestamp(issue["created_at"])).total_seconds() < FOLLOWUP_RUNGS[-1][0]:
+        # Cheap rejections first, both from the issue payload already in hand: asking
+        # GitHub for a ticket's newest comment is a request per ticket per run, and a
+        # ticket that cannot be due a rung must not cost one. A ticket carrying every
+        # rung's label has nothing left to say for as long as it stays open.
+        labels = {label["name"] for label in issue.get("labels") or []}
+        if labels.issuperset(FOLLOWUP_LABELS):
+            continue
+        if (now - _timestamp(issue["created_at"])).total_seconds() < quietest:
             continue
         idle = (now - last_activity(issue, repo, token)).total_seconds()
         rung = due_rung(issue, idle)

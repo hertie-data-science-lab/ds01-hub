@@ -260,7 +260,7 @@ def test_the_first_revision_is_the_one_read(monkeypatch):
     # The newest revision is the redaction itself, and its address field says so.
     monkeypatch.setattr(
         notify_ticket,
-        "_api",
+        "github_api",
         lambda *_a, **_k: _edits(
             ("2026-09-17T11:54:24Z", SCRUBBED), ("2026-09-17T11:54:10Z", ORIGINAL)
         ),
@@ -271,14 +271,14 @@ def test_the_first_revision_is_the_one_read(monkeypatch):
 
 
 def test_a_ticket_that_was_never_edited_has_no_earlier_revision(monkeypatch):
-    monkeypatch.setattr(notify_ticket, "_api", lambda *_a, **_k: _edits())
+    monkeypatch.setattr(notify_ticket, "github_api", lambda *_a, **_k: _edits())
     assert first_revision_body("o/r", 32, "tok") is None
 
 
 def test_a_revision_without_a_readable_body_is_skipped(monkeypatch):
     # `diff` is null for a viewer without push access; the caller must mail the lab anyway.
     monkeypatch.setattr(
-        notify_ticket, "_api", lambda *_a, **_k: _edits(("2026-09-17T11:54:10Z", None))
+        notify_ticket, "github_api", lambda *_a, **_k: _edits(("2026-09-17T11:54:10Z", None))
     )
     assert first_revision_body("o/r", 32, "tok") is None
 
@@ -287,7 +287,7 @@ def test_a_failed_history_lookup_returns_none_rather_than_raising(monkeypatch):
     def boom(*_args, **_kwargs):
         raise OSError("no network")
 
-    monkeypatch.setattr(notify_ticket, "_api", boom)
+    monkeypatch.setattr(notify_ticket, "github_api", boom)
     assert first_revision_body("o/r", 32, "tok") is None
 
 
@@ -297,21 +297,21 @@ def test_a_live_address_is_used_without_asking_for_history(monkeypatch):
     def fail(*_args, **_kwargs):
         raise AssertionError("history must not be read when the body still has the address")
 
-    monkeypatch.setattr(notify_ticket, "_api", fail)
+    monkeypatch.setattr(notify_ticket, "github_api", fail)
     assert opener_address("o/r", 32, ORIGINAL, "tok") == "a.student@students.hertie-school.org"
 
 
 def test_a_redacted_body_falls_back_to_history(monkeypatch):
     monkeypatch.setattr(
         notify_ticket,
-        "_api",
+        "github_api",
         lambda *_a, **_k: _edits(("2026-09-17T11:54:10Z", ORIGINAL)),
     )
     assert opener_address("o/r", 32, SCRUBBED, "tok") == "a.student@students.hertie-school.org"
 
 
 def test_an_unrecoverable_address_is_none_not_an_error(monkeypatch):
-    monkeypatch.setattr(notify_ticket, "_api", lambda *_a, **_k: _edits())
+    monkeypatch.setattr(notify_ticket, "github_api", lambda *_a, **_k: _edits())
     assert opener_address("o/r", 32, SCRUBBED, "tok") is None
 
 
@@ -352,7 +352,7 @@ def mailed(monkeypatch):
         return _edits(("2026-09-17T11:54:10Z", ORIGINAL))
 
     monkeypatch.setattr(notify_ticket, "mail_rendered", fake_mail)
-    monkeypatch.setattr(notify_ticket, "_api", fake_api)
+    monkeypatch.setattr(notify_ticket, "github_api", fake_api)
     return sent
 
 
@@ -395,7 +395,7 @@ def test_a_missing_rung_label_is_not_an_error(monkeypatch):
     def not_found(*_args, **_kwargs):
         raise notify_ticket.urllib.error.HTTPError("u", 404, "Not Found", {}, None)
 
-    monkeypatch.setattr(notify_ticket, "_api", not_found)
+    monkeypatch.setattr(notify_ticket, "github_api", not_found)
     notify_ticket.reset_followup_rungs("o/r", 32, "tok")
 
 
@@ -409,17 +409,17 @@ def test_a_backfill_mails_the_newest_comment(monkeypatch, mailed):
             return None
         if url.endswith("/issues/32"):
             return {**issue(), "comments": 3}
-        if "/comments?" in url:
-            return [comment()]
         return _edits(("2026-09-17T11:54:10Z", ORIGINAL))
 
-    monkeypatch.setattr(notify_ticket, "_api", fake_api)
+    monkeypatch.setattr(notify_ticket, "github_api", fake_api)
+    monkeypatch.setattr(notify_ticket, "newest_comment", lambda *_a, **_k: comment())
     assert notify_ticket.handle_backfill(32, "o/r", "tok") == 0
     assert mailed["subject"] == "[ds01-hub #32] [QUESTION] VPN off campus - drees"
 
 
 def test_a_backfill_of_a_ticket_with_no_comments_fails_loudly(monkeypatch, mailed):
-    monkeypatch.setattr(notify_ticket, "_api", lambda *_a, **_k: {**issue(), "comments": 0})
+    monkeypatch.setattr(notify_ticket, "github_api", lambda *_a, **_k: {**issue(), "comments": 0})
+    monkeypatch.setattr(notify_ticket, "newest_comment", lambda *_a, **_k: None)
     assert notify_ticket.handle_backfill(32, "o/r", "tok") == 1
     assert "subject" not in mailed
 

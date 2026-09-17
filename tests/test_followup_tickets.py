@@ -125,36 +125,54 @@ def test_a_fully_labelled_ticket_is_silent(mod):
 
 
 def test_a_ticket_with_no_comments_is_measured_from_when_it_was_filed(mod, monkeypatch):
-    def fail(*_args, **_kwargs):
-        raise AssertionError("a ticket with no comments must not cost a request")
-
-    monkeypatch.setattr(mod, "_request", fail)
+    monkeypatch.setattr(mod, "newest_comment", lambda *_a, **_k: None)
     assert mod.last_activity(ticket(48), "o/r", "tok") == NOW - timedelta(hours=48)
 
 
 def test_a_commented_ticket_is_measured_from_its_newest_comment(mod, monkeypatch):
     replied = NOW - timedelta(hours=2)
-    monkeypatch.setattr(mod, "_request", lambda *_a, **_k: [{"created_at": stamp(replied)}])
+    monkeypatch.setattr(mod, "newest_comment", lambda *_a, **_k: {"created_at": stamp(replied)})
     assert mod.last_activity(ticket(24 * 30, comments=3), "o/r", "tok") == replied
 
 
-def test_only_the_newest_comment_is_asked_for(mod, monkeypatch):
-    # One request per ticket, not a page of history nothing reads.
-    seen = {}
-
-    def capture(_method, url, *_a, **_k):
-        seen["url"] = url
-        return [{"created_at": stamp(NOW)}]
-
-    monkeypatch.setattr(mod, "_request", capture)
-    mod.last_activity(ticket(24, comments=7), "o/r", "tok")
-    assert "per_page=1" in seen["url"]
-    assert "page=7" in seen["url"]
-
-
 def test_the_clock_is_githubs_not_the_runners(mod, monkeypatch):
-    monkeypatch.setattr(mod, "_request", lambda *_a, **_k: [])
+    monkeypatch.setattr(mod, "newest_comment", lambda *_a, **_k: None)
     assert mod.last_activity(ticket(48), "o/r", "tok") == NOW - timedelta(hours=48)
+
+
+# --------------------------------------------------------------- what a run bothers to ask
+
+
+def test_a_fully_escalated_ticket_is_not_asked_about_again(mod, monkeypatch):
+    """It stays open for months and has nothing left to say, so it must not cost a request
+    on every run of a three-hourly cron."""
+
+    def fail(*_args, **_kwargs):
+        raise AssertionError("a fully escalated ticket must not be asked about")
+
+    monkeypatch.setenv("GITHUB_REPOSITORY", "o/r")
+    monkeypatch.setenv("GITHUB_TOKEN", "tok")
+    stale = ticket(24 * 90, labels=["followed-up-48h", "followed-up-7d"], comments=4)
+    monkeypatch.setattr(mod, "open_tickets", lambda *_a, **_k: [stale])
+    monkeypatch.setattr(mod, "newest_comment", fail)
+    monkeypatch.setattr(mod, "send", fail)
+    assert mod.main() == 0
+
+
+def test_a_ticket_younger_than_every_rung_is_not_asked_about(mod, monkeypatch):
+    def fail(*_args, **_kwargs):
+        raise AssertionError("a fresh ticket must not be asked about")
+
+    # Against the real clock, because `main` reads it: a ticket pinned to this module's
+    # fixed NOW would age past the 48h rung as the calendar moved and fail some Tuesday.
+    fresh = ticket(2, comments=1)
+    fresh["created_at"] = stamp(datetime.now(UTC) - timedelta(hours=2))
+    monkeypatch.setenv("GITHUB_REPOSITORY", "o/r")
+    monkeypatch.setenv("GITHUB_TOKEN", "tok")
+    monkeypatch.setattr(mod, "open_tickets", lambda *_a, **_k: [fresh])
+    monkeypatch.setattr(mod, "newest_comment", fail)
+    monkeypatch.setattr(mod, "send", fail)
+    assert mod.main() == 0
 
 
 # ------------------------------------------------------------------------- the message

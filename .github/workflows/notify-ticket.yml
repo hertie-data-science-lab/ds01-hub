@@ -1,21 +1,44 @@
-name: Notify on new ticket
+name: Notify on ticket activity
 
-# Tells a human that a ticket was filed. Two channels, deliberately: mail through
-# Microsoft Graph (`.github/scripts/notify_ticket.py`, which also strips the opener's
+# Tells a human that a ticket was filed or replied to. Two channels, deliberately: mail
+# through Microsoft Graph (`.github/scripts/notify_ticket.py`, which also strips the opener's
 # address out of the public issue) and an Adaptive Card in Teams.
 #
 # This replaces teams-notify.yml, which POSTed a legacy MessageCard to an Office 365
 # connector Microsoft has since retired - it failed with curl exit 22 on every ticket.
 #
-# `issues: [opened]` and NOTHING ELSE. The Graph certificate is a repository secret in a
-# PUBLIC repo; a `pull_request_target` trigger here would hand it to code from any fork.
-# Do not add one.
+# Every mail this sends carries the TICKET's subject, not the event's, so a ticket is one
+# mail thread from "filed" through every reply - see `ticket_mail.compose_subject`. A
+# comment also strips the escalation labels, which is what re-arms `ticket-followup.yml`
+# against the new last-activity time.
+#
+# `issues: [opened]` and `issue_comment: [created]`, and NOTHING ELSE. The Graph certificate
+# is a repository secret in a PUBLIC repo, so the rule is that no trigger here may ever run
+# code that came from a fork. Both of these check out this repo's default branch and run it,
+# whoever wrote the issue or the comment, so neither can. `pull_request_target` DOES run
+# fork-authored code with secrets in scope - do not add one.
+#
+# `issue_comment` also fires for comments on pull requests. Those are not tickets, and the
+# job skips them; the checkout is the default branch either way, so this is tidiness rather
+# than containment.
 
 on:
   issues:
     types: [opened]
+  issue_comment:
+    types: [created]
+  # Mail a ticket's newest comment by hand. For a comment that predates this workflow, and
+  # for one whose mail failed - a comment event is gone once it has been missed, so nothing
+  # else can send it afterwards.
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: 'Ticket number whose newest comment should be mailed'
+        required: true
+        type: string
 
-# Only for the redaction PATCH in notify_ticket.py.
+# issues: write covers the redaction PATCH in notify_ticket.py and the escalation labels it
+# strips when a comment arrives.
 # `permissions:` REPLACES the default token scopes rather than adding to them, so
 # contents: read has to be spelled out or actions/checkout cannot read the repo. A
 # public repo hides this - it clones anonymously - and it breaks the day the repo
@@ -27,6 +50,10 @@ permissions:
 jobs:
   notify:
     name: Mail the lab and post to Teams
+    # A comment on a pull request is not ticket activity. `github.event.issue.pull_request`
+    # is absent on a real issue, on the `issues` event and on a manual run, so this passes
+    # all three.
+    if: ${{ !github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ds01-hub
@@ -40,7 +67,7 @@ jobs:
       - name: Install mailer dependency
         run: pip install cryptography
 
-      - name: Mail the ticket and redact the address
+      - name: Mail the ticket or comment, and redact the address
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GRAPH_TENANT_ID: ${{ secrets.GRAPH_TENANT_ID }}
@@ -54,12 +81,17 @@ jobs:
           # replacing it, so acknowledging the opener cannot drop the archive.
           DSL_ALERT_TO: h.baker@hertie-school.org
           DSL_ALERT_CC: datasciencelab@hertie-school.org
+          # Empty on every triggered run, which is what makes the script read the event
+          # instead.
+          BACKFILL_ISSUE: ${{ inputs.issue }}
         run: python .github/scripts/notify_ticket.py
 
       - name: Post to Teams
+        # New tickets only. A card per comment would turn the channel into a mail client,
+        # and the thread in the mailbox is already the running record.
         # Runs even when the mail step failed: a channel that is up should still say a
         # ticket arrived.
-        if: always()
+        if: always() && github.event_name == 'issues'
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_URL: ${{ github.event.issue.html_url }}

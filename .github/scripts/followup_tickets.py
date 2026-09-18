@@ -47,6 +47,7 @@ from ticket_mail import (
     CLOSING,
     FOLLOWUP_LABELS,
     compose_subject,
+    compose_thread_key,
     github_api,
     newest_comment,
 )
@@ -117,9 +118,11 @@ def compose(issue: dict, phrase: str) -> tuple[str, str]:
     """The subject and HTML body of one reminder.
 
     The subject is the TICKET's subject, identical to the one the opening mail and every
-    comment mail carries, so the reminder lands in that thread instead of starting a fresh
-    one per rung. What the reminder actually says therefore has to live in the body - see
-    `ticket_mail.compose_subject`.
+    comment mail carries. The ticket's thread key is what actually lands the reminder in
+    that conversation, but an identical subject is the fallback for a client that groups on
+    nothing else - so what the reminder actually SAYS lives in the body rather than the
+    subject, which would otherwise be a rung's subject and a thread of one. See
+    `ticket_mail.compose_thread_key`.
 
     HTML, not text, so the ticket is a link the reader can press rather than a URL they have
     to select - this mail exists to get somebody back to the ticket. Nothing is rendered
@@ -138,14 +141,14 @@ def compose(issue: dict, phrase: str) -> tuple[str, str]:
     return subject, body
 
 
-def send(subject: str, body: str) -> bool:
+def send(subject: str, body: str, thread: str) -> bool:
     """Hand one reminder to the vendored mailer. Recipients come entirely from the
     environment - no `--cc` here, because a reminder goes to the lab and never to the
-    person who filed the ticket. It shares the ticket's subject, so it joins the thread in
-    the lab's mailbox without being delivered to the opener at all."""
+    person who filed the ticket. It carries the ticket's thread key, so it joins that
+    conversation in the lab's mailbox without being delivered to the opener at all."""
     return (
         subprocess.run(
-            [sys.executable, str(MAILER), "--html", subject],
+            [sys.executable, str(MAILER), "--html", "--thread", thread, subject],
             input=body,
             text=True,
             check=False,
@@ -192,7 +195,7 @@ def main() -> int:
             continue
         name, phrase = rung
         subject, body = compose(issue, phrase)
-        if not send(subject, body):
+        if not send(subject, body, compose_thread_key(issue["number"])):
             log(f"  #{issue['number']}: mail failed - not labelled, will retry")
             failed += 1
             continue

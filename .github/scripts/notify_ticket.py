@@ -20,10 +20,10 @@ design:
      fails the run - a red run with the address still there is recoverable, the reverse is
      not.
 
-NEW COMMENT. The same mail, about the comment, to the same three places, under the same
-subject - so a ticket reads as ONE mail thread from "filed" to "closed" rather than an
-opening mail and then silence. See `ticket_mail.compose_subject`: the subject is the only
-thing holding that thread together.
+NEW COMMENT. The same mail, about the comment, to the same three places, in the same mail
+thread - so a ticket reads as ONE conversation from "filed" to "closed" rather than an
+opening mail and then silence. What holds it together is the ticket's thread key, which the
+mailer turns into the headers a client groups on; see `ticket_mail.compose_thread_key`.
 
 A comment also RESETS THE ESCALATION CLOCK, by stripping the rungs' labels off the ticket.
 `followup_tickets.py` measures from the last activity, and its labels are its record of
@@ -58,6 +58,7 @@ from ticket_mail import (
     CLOSING,
     FOLLOWUP_LABELS,
     compose_subject,
+    compose_thread_key,
     github_api,
     newest_comment,
 )
@@ -257,25 +258,38 @@ def compose_html(url: str, rendered: str, lead: str = "") -> str:
     )
 
 
-def send_mail(subject: str, body: str, cc: str | None, *, as_html: bool = False) -> bool:
+def send_mail(
+    subject: str, body: str, cc: str | None, thread: str, *, as_html: bool = False
+) -> bool:
     """Hand the mail to the vendored mailer. True if it reported success.
 
     The body goes on stdin, per the mailer's contract. `--cc` has to go on argv, which on a
     public runner is only acceptable because the runner is ephemeral and the mailer masks
     the address in everything it logs.
 
-    `--cc` ADDS to DSL_ALERT_CC, so copying the opener cannot displace the archive mailbox."""
+    `--cc` ADDS to DSL_ALERT_CC, so copying the opener cannot displace the archive mailbox.
+
+    `--thread` is what puts this mail in the ticket's conversation rather than a fresh one.
+    It is required rather than optional here: every mail this script sends is about a
+    ticket, so a caller that has no key to pass has not worked out which ticket it means."""
     command = [sys.executable, str(MAILER)]
     if as_html:
         command.append("--html")
     if cc:
         command += ["--cc", cc]
-    command.append(subject)
+    command += ["--thread", thread, subject]
     return subprocess.run(command, input=body, text=True, check=False).returncode == 0
 
 
 def mail_rendered(
-    subject: str, url: str, text: str, cc: str | None, repo: str, token: str, lead: str = ""
+    subject: str,
+    url: str,
+    text: str,
+    cc: str | None,
+    thread: str,
+    repo: str,
+    token: str,
+    lead: str = "",
 ) -> bool:
     """Send `text` as HTML when GitHub will render it, as plain text when it will not.
 
@@ -283,8 +297,8 @@ def mail_rendered(
     rather than a heading - legible, but plainly a machine's idea of a mail."""
     rendered = render_markdown(text, repo, token)
     if rendered is None:
-        return send_mail(subject, compose_body(url, text, lead), cc)
-    return send_mail(subject, compose_html(url, rendered, lead), cc, as_html=True)
+        return send_mail(subject, compose_body(url, text, lead), cc, thread)
+    return send_mail(subject, compose_html(url, rendered, lead), cc, thread, as_html=True)
 
 
 def patch_issue_body(repo: str, number: int, body: str, token: str) -> bool:
@@ -333,7 +347,8 @@ def handle_opened(issue: dict, repo: str, token: str) -> int:
     log(f"ticket #{number}: address {mask(address) if address else 'not found'}")
 
     subject = compose_subject(number, issue["title"], issue["user"]["login"])
-    if not mail_rendered(subject, issue["html_url"], body, address, repo, token):
+    thread = compose_thread_key(number)
+    if not mail_rendered(subject, issue["html_url"], body, address, thread, repo, token):
         # Deliberately no redaction on this path: see the module docstring.
         log("mail failed - the ticket body is left untouched so the address is not lost")
         return 1
@@ -357,9 +372,17 @@ def handle_comment(issue: dict, comment: dict, repo: str, token: str) -> int:
     log(f"comment on #{number} by {commenter}: address {mask(address) if address else 'not found'}")
 
     subject = compose_subject(number, issue["title"], issue["user"]["login"])
+    thread = compose_thread_key(number)
     lead = f"New comment from {commenter}"
     sent = mail_rendered(
-        subject, comment["html_url"], comment.get("body") or "", address, repo, token, lead
+        subject,
+        comment["html_url"],
+        comment.get("body") or "",
+        address,
+        thread,
+        repo,
+        token,
+        lead,
     )
 
     reset_followup_rungs(repo, number, token)
@@ -377,9 +400,9 @@ def handle_backfill(number: int, repo: str, token: str) -> int:
     record where the rest of the record is. And a comment mail that FAILS is not retried by
     anything - the event is gone - so this is the way to send it after the fault is fixed.
 
-    Sends into whatever thread the ticket's subject names now. A ticket whose opening mail
-    went out under an older subject will therefore start a fresh thread rather than join the
-    old one, which is a cosmetic price paid once."""
+    Sends into the ticket's thread like any other comment mail. A ticket whose earlier mail
+    predates threading carries none of the headers to join, so the backfilled comment starts
+    the conversation rather than continuing one - a cosmetic price paid once per old ticket."""
     issue = github_api("GET", f"{API}/repos/{repo}/issues/{number}", token)
     newest = newest_comment(repo, number, (issue or {}).get("comments") or 0, token)
     if newest is None:

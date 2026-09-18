@@ -199,6 +199,39 @@ def test_both_rungs_share_one_subject(mod):
     assert first == second
 
 
+def test_a_reminder_is_sent_into_the_tickets_thread(mod, monkeypatch):
+    # The subject is the fallback; this is what actually lands the reminder in the ticket's
+    # conversation rather than one thread per rung.
+    sent = {}
+    monkeypatch.setenv("GITHUB_REPOSITORY", "o/r")
+    monkeypatch.setenv("GITHUB_TOKEN", "tok")
+    monkeypatch.setattr(mod, "open_tickets", lambda *_a, **_k: [ticket(48, comments=0)])
+    monkeypatch.setattr(mod, "label", lambda *_a, **_k: True)
+    monkeypatch.setattr(
+        mod, "send", lambda subject, body, thread: sent.update(thread=thread) or True
+    )
+    assert mod.main() == 0
+    assert sent["thread"] == "ds01-hub-1"
+
+
+def test_the_thread_key_reaches_the_mailer_argv(mod, monkeypatch):
+    captured = {}
+
+    def fake_run(command, **_kwargs):
+        captured["command"] = command
+
+        class R:
+            returncode = 0
+
+        return R()
+
+    monkeypatch.setattr(mod.subprocess, "run", fake_run)
+    assert mod.send("subj", "<p>b</p>", "ds01-hub-1") is True
+    command = captured["command"]
+    assert command[command.index("--thread") + 1] == "ds01-hub-1"
+    assert command[-1] == "subj"
+
+
 def test_what_the_reminder_says_lives_in_the_body(mod):
     _subject, body = mod.compose(ticket(48), "no activity for 48 hours")
     assert "no activity for 48 hours" in body

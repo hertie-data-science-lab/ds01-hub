@@ -5,20 +5,22 @@ Imported by `notify_ticket.py` (new tickets, new comments) and `followup_tickets
 (escalations). It holds the two things the two scripts cannot be allowed to disagree about
 - the subject line and the rung labels - and the GitHub access they both need to do it.
 
-THREADING is why the subject lives here. Every mail about a ticket has to land in the same
+THREADING is why both of those live here. Every mail about a ticket has to land in the same
 conversation in the reader's mailbox, so that a ticket reads as one thread from "filed"
-through every reply to "still open after 7 days". Nothing sets `In-Reply-To` or `References`
-here: Graph refuses those headers on a message an application sends, and `internetMessageHeaders`
-takes custom `x-` headers only. Graph DOES expose `POST /messages/{id}/reply`, which threads
-properly, but replying needs the sent message's id - so a `Mail.Read` grant the lab's app
-registration does not have, somewhere to keep an id per ticket, and a change to the vendored
-mailer, whose canonical copy lives in ds01-infra. That was judged out of proportion to the
-problem. What is left is an IDENTICAL subject, which Exchange keys a conversation on and
-which Gmail and Apple Mail fall back to.
+through every reply to "still open after 7 days". Two things do that, and they have to agree
+across the two scripts or a ticket's mail splits in half:
 
-So `compose_subject` is load-bearing rather than cosmetic: change it in one caller and that
-caller's mail silently starts a second thread, in some clients and not others, with nothing
-in the logs to say so.
+  `compose_thread_key` is the thread. It goes to the mailer as `--thread`, which sends the
+  mail as MIME carrying the headers a client actually groups on - `Thread-Index` for Outlook
+  and Exchange, `References` for everything else. See the mailer's docstring for why that
+  needs a different transport at all.
+
+  `compose_subject` is the fallback, for a client that groups on the subject and nothing
+  else. It costs nothing to keep identical, so it is kept identical - which is also why the
+  escalation rungs say which rung they are in the BODY rather than the subject.
+
+Neither is cosmetic. Change either in one caller only and that caller's mail quietly starts a
+second thread, in some clients and not others, with nothing in the logs to say so.
 """
 
 from __future__ import annotations
@@ -40,7 +42,7 @@ FOLLOWUP_LABELS = ("followed-up-48h", "followed-up-7d")
 
 
 def compose_subject(number: int, title: str, author: str) -> str:
-    """`[ds01-hub #32] [QUESTION] Access off campus - DreesWo` - the thread key.
+    """`[ds01-hub #32] [QUESTION] Access off campus - DreesWo` - one ticket's subject.
 
     The number leads because it is what makes the subject unique: two tickets can share a
     title, and threading on the title alone would file them together. The title then says
@@ -50,6 +52,20 @@ def compose_subject(number: int, title: str, author: str) -> str:
     and nothing about the event - a subject carrying "new comment" or "7 days" would be a
     new subject, and so a new thread, which is exactly what this is here to prevent."""
     return f"[ds01-hub #{number}] {title} - {author}"
+
+
+def compose_thread_key(number: int) -> str:
+    """`ds01-hub-32` - the handle that puts every mail about one ticket in one conversation.
+
+    The issue number and nothing else. Two properties follow from that and both are the
+    point: it needs no state anywhere, and it cannot drift. The subject carries the title,
+    so editing a ticket's title changes its subject and splits a subject-keyed thread; the
+    key does not move, so the thread survives.
+
+    The mailer vets this as a plain token and sends unthreaded rather than compose a broken
+    message if it is not one - so a future caller that tries to build a key out of a title
+    will find its mail arriving unthreaded, not failing."""
+    return f"ds01-hub-{number}"
 
 
 def github_api(method: str, url: str, token: str, payload: dict | None = None):

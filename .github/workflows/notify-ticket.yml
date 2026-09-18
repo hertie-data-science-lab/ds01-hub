@@ -7,8 +7,8 @@ name: Notify on ticket activity
 # This replaces teams-notify.yml, which POSTed a legacy MessageCard to an Office 365
 # connector Microsoft has since retired - it failed with curl exit 22 on every ticket.
 #
-# Every mail this sends carries the TICKET's subject, not the event's, so a ticket is one
-# mail thread from "filed" through every reply - see `ticket_mail.compose_subject`. A
+# Every mail this sends carries the TICKET's thread key, not the event's, so a ticket is one
+# mail thread from "filed" through every reply - see `ticket_mail.compose_thread_key`. A
 # comment also strips the escalation labels, which is what re-arms `ticket-followup.yml`
 # against the new last-activity time.
 #

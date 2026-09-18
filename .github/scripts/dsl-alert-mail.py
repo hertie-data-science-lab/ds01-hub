@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""dsl-alert-mail.py [--html] [--to A,B] [--cc C,D] <subject> [body] - mail through Graph.
+"""dsl-alert-mail.py [--html] [--to A,B] [--cc C,D] [--thread KEY] <subject> [body] - mail through Graph.
 
 VENDORED COPY. The canonical version lives in `hertie-data-science-lab/ds01-infra` at
 `scripts/maintenance/dsl-alert-mail.py`; change it there first and copy the result here,
@@ -54,6 +54,24 @@ one PEM, so the two halves cannot drift apart. Entra never sees the private key.
 Provisioning steps are in docs/admin/maintenance.md. Body on stdin, not argv: `/proc` on
 this box is world-readable, so anything on a command line is visible in `ps`.
 
+`--thread KEY` is OPT-IN THREADING, for a caller whose mails are episodes of one story -
+the ticket notifier, where "filed", every comment and every escalation reminder belong in
+one conversation in the reader's mailbox. KEY is an opaque stable string naming that story
+(`ds01-hub-32`); every mail carrying the same KEY joins the same thread.
+
+It changes the transport, which is why it is a flag and not the default. Graph's JSON
+sendMail accepts `internetMessageHeaders` for custom `x-` headers only, so the headers a
+mail client actually threads on cannot be set that way. Its MIME form can set anything:
+same endpoint, `Content-Type: text/plain`, and a base64 RFC-5322 message as the body. See
+`build_mime` for which headers and why. Two consequences worth knowing before you use it:
+
+  1. The MIME form has no `saveToSentItems`, so a threaded mail IS kept in the sender
+     mailbox's Sent Items where an alert is not. Harmless at ticket volume; it does mean a
+     mailbox that is also on the Cc line keeps two copies.
+  2. A threaded send that Graph refuses, or a subject MIME will not carry, FALLS BACK to
+     the plain JSON send and says so. Threading is a courtesy; delivery is not. The one
+     thing this mailer must never do is go quiet because the nice version broke.
+
 Prints status codes and one-line outcomes only. Never a token, and never a response body -
 a Graph error body echoes the request back, recipient included.
 """
@@ -62,6 +80,10 @@ from __future__ import annotations
 
 import argparse
 import base64
+import email.message
+import email.policy
+import email.utils
+import hashlib
 import http.client
 import json
 import os
@@ -122,6 +144,19 @@ _MAX_SEND_ATTEMPTS = 2
 _RETRY_AFTER_DEFAULT = 5.0  # when the header is absent or unreadable
 _RETRY_AFTER_CAP = 60.0  # a header we cannot vet must not park the unit
 _TIMEOUT = 20
+
+# A thread key is interpolated into a Message-ID and two other headers, so it is vetted
+# rather than trusted: the callers build it from an issue number, and a caller that starts
+# building it from a title must be told no here instead of composing a broken message.
+_THREAD_KEY_RE = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
+
+# The 5 time bytes of a conversation index: a FILETIME shifted right by 24, big-endian
+# (MS-OXOMSG 2.2.1.3). Constant, and deliberately so - the bytes have to be IDENTICAL
+# across every mail in a thread, which rules out "now", and only the 16-byte GUID that
+# follows them decides which conversation a message belongs to (MS-OXOMSG 2.2.1.2). A real
+# date rather than zeros because zeros decode as 1601-01-01 and read as corruption in a
+# tool that bothers to look. This one is 2020-01-01T00:00:00Z.
+_THREAD_FILETIME = 132223104000000000
 
 
 @dataclass
@@ -423,7 +458,133 @@ def graph_token(cfg: Config) -> str | None:
     return token
 
 
-def send_mail(cfg: Config, token: str, subject: str, body: str, *, html: bool = False) -> bool:
+def _sender_domain(sender: str) -> str:
+    """The domain half of the sending address - what a Message-ID has to be issued under."""
+    _, _, domain = sender.rpartition("@")
+    return domain
+
+
+def thread_root_id(key: str, sender: str) -> str:
+    """`<ds01-hub-32@hertie-school.org>` - the id every mail in one thread points at.
+
+    It names NO REAL MESSAGE, and that is the design rather than a shortcut. The obvious
+    alternative - let the first mail's own Message-ID be the root and have later ones reply
+    to it - needs somewhere to remember that id per thread, and it breaks the moment a
+    caller sends its opening mail twice (a re-run, a backfill): two mails would go out
+    under one Message-ID and Gmail would silently show one of them. A root that is nobody's
+    Message-ID costs no storage, survives a repeat, and threads exactly as well - every
+    client here groups on a shared References chain, not on the parent being present. It is
+    what GitHub's own notification mail does."""
+    return f"<{key}@{_sender_domain(sender)}>"
+
+
+def thread_index(key: str) -> str:
+    """The `Thread-Index` header: 22 bytes, base64. What Outlook and Exchange thread on.
+
+    Exchange does not key a conversation on the subject when a conversation index is
+    present - it takes the index's 16-byte GUID and uses that (MS-OXOMSG 2.2.1.2), falling
+    back to a hash of the subject only when there is no usable index. Every `sendMail`
+    creates a draft, and a draft is stamped with a FRESH index, so mail sent this way
+    arrives carrying a different conversation for every message however identical the
+    subject. Supplying our own is what stops that.
+
+    The GUID is `sha256(key)` truncated, so it is derived from the key and nothing else:
+    no state to keep, and a thread survives its subject changing under it. Reply-level
+    child blocks are deliberately absent - they do not affect which conversation a message
+    lands in, and getting their delta encoding wrong is easier than getting it right."""
+    header = b"\x01" + (_THREAD_FILETIME >> 24).to_bytes(5, "big")
+    return base64.b64encode(header + hashlib.sha256(key.encode()).digest()[:16]).decode()
+
+
+def build_mime(cfg: Config, subject: str, body: str, *, html: bool, key: str) -> bytes:
+    """One RFC-5322 message, threaded, ready to be base64'd into a MIME sendMail.
+
+    `email.policy.SMTP` is what makes this safe to hand to Graph: CRLF endings, RFC-2047
+    encoding for a subject carrying an umlaut, and a transfer encoding chosen per body -
+    which matters because a body rendered from markdown routinely holds a single line
+    longer than the 998 bytes a message is allowed. It also REFUSES a header value with a
+    newline in it, which is the whole defence against a ticket title assembling headers of
+    its own; the caller turns that refusal into a fallback rather than a traceback.
+
+    `From` is the sending mailbox and cannot be anything else - Graph parses this into a
+    draft in that mailbox and rejects a message claiming to be from someone else."""
+    message = email.message.EmailMessage(policy=email.policy.SMTP)
+    message["From"] = cfg.sender
+    message["To"] = ", ".join(cfg.to)
+    if cfg.cc:
+        message["Cc"] = ", ".join(cfg.cc)
+    message["Subject"] = subject
+    message["Date"] = email.utils.formatdate()
+    # Unique per send. Only the References root is shared - see `thread_root_id`.
+    message["Message-ID"] = f"<{key}.{uuid.uuid4().hex}@{_sender_domain(cfg.sender)}>"
+    root = thread_root_id(key, cfg.sender)
+    message["In-Reply-To"] = root
+    message["References"] = root
+    # Thread-Topic is the conversation's name; Exchange falls back to hashing it when an
+    # index is missing, so the two agree rather than pulling in different directions.
+    message["Thread-Topic"] = subject
+    message["Thread-Index"] = thread_index(key)
+    message.set_content(body, subtype="html" if html else "plain")
+    return message.as_bytes()
+
+
+def _deliver(url: str, payload: bytes, headers: dict[str, str]) -> int:
+    """POST one prepared message, retrying once on a throttle. The final status, or 0.
+
+    Shared by the JSON and the MIME send so that a threaded mail is retried on exactly the
+    same terms as an alert - the retry rule is about Graph's mood, not about the payload.
+    The payload is built by the caller and reused verbatim across the retry, which keeps
+    one Message-ID on both attempts: a genuine double delivery is then something the
+    recipient's client can recognise and collapse."""
+    for attempt in range(1, _MAX_SEND_ATTEMPTS + 1):
+        status, _raw, response_headers = _post(url, payload, headers)
+        if status in (200, 202):
+            return status
+        if status in _RETRY_STATUSES and attempt < _MAX_SEND_ATTEMPTS:
+            # A throttle or a brief 5xx is Graph asking to be asked again, not a bad
+            # recipient. One more try, then report it.
+            wait = retry_after_seconds(response_headers)
+            log(f"send got {status}, retrying once in {wait:g}s")
+            time.sleep(wait)
+            continue
+        return status
+    return 0
+
+
+def _threaded_payload(cfg: Config, subject: str, body: str, *, html: bool, key: str):
+    """The base64 MIME body and its headers, or None if this mail cannot be threaded.
+
+    None is a routine answer, not an error: a thread key the caller mangled, a subject with
+    a newline in it, a sender that is not an address. Each of those would make a broken
+    message, and a broken message is worth less than an unthreaded one that arrives."""
+    if not _THREAD_KEY_RE.match(key):
+        log("thread key is not a plain token - sending unthreaded")
+        return None
+    if not _ADDRESS_RE.match(cfg.sender):
+        log("sender is not a plain address - sending unthreaded")
+        return None
+    try:
+        raw = build_mime(cfg, subject, body, html=html, key=key)
+    except (ValueError, UnicodeError) as exc:
+        # ValueError is what the email package raises for a header value carrying a
+        # newline, which is to say a subject that tried to be headers. Named, not swallowed.
+        log(
+            f"message could not be composed for threading "
+            f"({exc.__class__.__name__}) - sending unthreaded"
+        )
+        return None
+    return base64.b64encode(raw), {"Content-Type": "text/plain"}
+
+
+def send_mail(
+    cfg: Config,
+    token: str,
+    subject: str,
+    body: str,
+    *,
+    html: bool = False,
+    thread: str | None = None,
+) -> bool:
     """Send one message as `sender`, to everyone on `cfg.to`, copying `cfg.cc`.
 
     One POST however many recipients: the text is identical for all of them, and a
@@ -431,8 +592,25 @@ def send_mail(cfg: Config, token: str, subject: str, body: str, *, html: bool = 
 
     `html` sends `contentType: HTML`. The monthly report needs it - its heatmap and bar
     chart are ASCII, and only a `<pre>` keeps them aligned in a mail client that would
-    otherwise reflow them into noise."""
+    otherwise reflow them into noise.
+
+    `thread` sends the same mail as MIME instead, carrying the headers that put it in one
+    conversation with everything else under that key - see the module docstring. It is
+    tried FIRST and the JSON send is what it falls back to, so the worst a threading fault
+    can do is cost the thread. Nothing above this ever learns which one carried the mail."""
     url = f"{_GRAPH}/users/{urllib.parse.quote(cfg.sender)}/sendMail"
+    auth = {"Authorization": f"Bearer {token}"}
+
+    if thread is not None:
+        threaded = _threaded_payload(cfg, subject, body, html=html, key=thread)
+        if threaded is not None:
+            payload, content_type = threaded
+            status = _deliver(url, payload, auth | content_type)
+            if status in (200, 202):
+                log(f"alert mailed to {_masked(cfg.to)}{_cc_note(cfg)} ({status}, threaded)")
+                return True
+            log(f"threaded send failed ({status}) - resending unthreaded")
+
     message: dict = {
         "subject": subject,
         "body": {"contentType": "HTML" if html else "Text", "content": body},
@@ -446,25 +624,16 @@ def send_mail(cfg: Config, token: str, subject: str, body: str, *, html: bool = 
             # Nothing reads the shared mailbox's Sent Items, and an outage can mean one
             # alert per tick. A caller that wants the mailbox to KEEP a copy - the ticket
             # notifier, the monthly report - puts the mailbox on the Cc line instead.
+            # A threaded send cannot say this: MIME sendMail has no such parameter.
             "saveToSentItems": False,
         }
     ).encode()
-    headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
-    for attempt in range(1, _MAX_SEND_ATTEMPTS + 1):
-        status, _raw, response_headers = _post(url, payload, headers)
-        if status in (200, 202):
-            log(f"alert mailed to {_masked(cfg.to)}{_cc_note(cfg)} ({status})")
-            return True
-        if status in _RETRY_STATUSES and attempt < _MAX_SEND_ATTEMPTS:
-            # A throttle or a brief 5xx is Graph asking to be asked again, not a bad
-            # recipient. One more try, then report it.
-            wait = retry_after_seconds(response_headers)
-            log(f"send got {status}, retrying once in {wait:g}s")
-            time.sleep(wait)
-            continue
-        # Status only: a Graph error body echoes the message, recipient included.
-        log(f"send to {_masked(cfg.to)} failed ({status})")
-        return False
+    status = _deliver(url, payload, auth | {"Content-Type": "application/json"})
+    if status in (200, 202):
+        log(f"alert mailed to {_masked(cfg.to)}{_cc_note(cfg)} ({status})")
+        return True
+    # Status only: a Graph error body echoes the message, recipient included.
+    log(f"send to {_masked(cfg.to)} failed ({status})")
     return False
 
 
@@ -495,6 +664,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--html", action="store_true", help="send the body as HTML")
     parser.add_argument("--to", help=f"comma-separated, overrides {TO_ENV}")
     parser.add_argument("--cc", help=f"comma-separated, added to {CC_ENV}")
+    parser.add_argument("--thread", help="opaque stable key; mails sharing it form one thread")
     parser.add_argument("subject")
     # Body on stdin by default, not argv: /proc on the box is world-readable, so a journal
     # tail on a command line is a journal tail in `ps`.
@@ -517,7 +687,7 @@ def main(argv: list[str]) -> int:
         return 1
     if token is None:
         return 1
-    return 0 if send_mail(cfg, token, args.subject, body, html=args.html) else 1
+    return 0 if send_mail(cfg, token, args.subject, body, html=args.html, thread=args.thread) else 1
 
 
 if __name__ == "__main__":

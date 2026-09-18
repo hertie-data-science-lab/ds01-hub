@@ -214,7 +214,7 @@ def test_a_rendered_body_is_sent_as_html(monkeypatch):
         return R()
 
     monkeypatch.setattr(notify_ticket.subprocess, "run", fake_run)
-    assert send_mail("subj", "<p>b</p>", None, as_html=True) is True
+    assert send_mail("subj", "<p>b</p>", None, "ds01-hub-32", as_html=True) is True
     assert "--html" in captured["command"]
 
 
@@ -230,8 +230,29 @@ def test_a_plain_body_is_not_sent_as_html(monkeypatch):
         return R()
 
     monkeypatch.setattr(notify_ticket.subprocess, "run", fake_run)
-    assert send_mail("subj", "plain", None) is True
+    assert send_mail("subj", "plain", None, "ds01-hub-32") is True
     assert "--html" not in captured["command"]
+
+
+def test_the_mail_carries_the_tickets_thread_key(monkeypatch):
+    # Without this the mailer sends the old way and the ticket's mail splits into a thread
+    # per event - which is the whole fault this flag exists to fix.
+    captured = {}
+
+    def fake_run(command, **kwargs):
+        captured["command"] = command
+
+        class R:
+            returncode = 0
+
+        return R()
+
+    monkeypatch.setattr(notify_ticket.subprocess, "run", fake_run)
+    assert send_mail("subj", "plain", "someone@hertie-school.org", "ds01-hub-32") is True
+    command = captured["command"]
+    assert command[command.index("--thread") + 1] == "ds01-hub-32"
+    # The subject stays last, where the mailer's positional argument is.
+    assert command[-1] == "subj"
 
 
 # --------------------------------------------------------- recovering a redacted address
@@ -341,8 +362,8 @@ def mailed(monkeypatch):
     """Captures the one mail a path sends, and the labels it deletes."""
     sent = {"deleted": []}
 
-    def fake_mail(subject, url, text, cc, _repo, _token, lead=""):
-        sent.update(subject=subject, url=url, text=text, cc=cc, lead=lead)
+    def fake_mail(subject, url, text, cc, thread, _repo, _token, lead=""):
+        sent.update(subject=subject, url=url, text=text, cc=cc, thread=thread, lead=lead)
         return sent.get("succeeds", True)
 
     def fake_api(method, url, *_a, **_k):
@@ -359,6 +380,11 @@ def mailed(monkeypatch):
 def test_a_comment_mails_under_the_tickets_subject(mailed):
     notify_ticket.handle_comment(issue(), comment(), "o/r", "tok")
     assert mailed["subject"] == "[ds01-hub #32] [QUESTION] VPN off campus - drees"
+
+
+def test_a_comment_mails_into_the_tickets_thread(mailed):
+    notify_ticket.handle_comment(issue(), comment(), "o/r", "tok")
+    assert mailed["thread"] == "ds01-hub-32"
 
 
 def test_a_comment_copies_the_opener_recovered_from_history(mailed):
@@ -415,6 +441,7 @@ def test_a_backfill_mails_the_newest_comment(monkeypatch, mailed):
     monkeypatch.setattr(notify_ticket, "newest_comment", lambda *_a, **_k: comment())
     assert notify_ticket.handle_backfill(32, "o/r", "tok") == 0
     assert mailed["subject"] == "[ds01-hub #32] [QUESTION] VPN off campus - drees"
+    assert mailed["thread"] == "ds01-hub-32"
 
 
 def test_a_backfill_of_a_ticket_with_no_comments_fails_loudly(monkeypatch, mailed):
